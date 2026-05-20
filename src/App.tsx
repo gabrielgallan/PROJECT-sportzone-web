@@ -1,21 +1,20 @@
-import { Button } from "@/components/ui/button"
+import { HelmetProvider } from 'react-helmet-async'
+
+import { RouterProvider } from 'react-router-dom'
+import { ThemeProvider } from './components/theme-provider'
+import { router } from './router'
+
+import './index.css'
+import { Toaster } from './components/ui/sonner'
 
 export function App() {
-  return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
-  )
-}
+	return (
+		<HelmetProvider>
+			<ThemeProvider storageKey="sportzone-theme" defaultTheme="dark">
+				<Toaster />
 
-export default App
+				<RouterProvider router={router} />
+			</ThemeProvider>
+		</HelmetProvider>
+	)
+}

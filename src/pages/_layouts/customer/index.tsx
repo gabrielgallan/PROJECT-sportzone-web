@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom'
-import { Header } from '@/components/header'
+import { CustomerHeader } from './customer-header'
 
-export function AppLayout() {
+export function CustomerLayout() {
 	return (
 		<div className="space-y-4 py-4">
-			<Header />
+			<CustomerHeader />
 
 			<Outlet />
 		</div>

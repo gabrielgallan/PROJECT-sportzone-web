@@ -104,7 +104,7 @@ export function SignUp() {
 									<span>Sign up with Google</span>
 								</Button>
 
-								<Link to="/sign-in" className="font-medium text-sm underline hover:opacity-90">
+								<Link to="/auth/sign-in" className="font-medium text-sm underline hover:opacity-90">
 									Already have an account ?
 								</Link>
 							</div>

@@ -1,24 +1,35 @@
 import { createBrowserRouter } from 'react-router-dom'
-import { AppLayout } from './pages/_layouts/app'
+
+// Layouts
 import { AuthLayout } from './pages/_layouts/auth'
+import { CustomerLayout } from './pages/_layouts/customer'
+import { OrganizationLayout } from './pages/_layouts/org'
+
+// Pages
 import { NotFound } from './pages/404'
 import { SignIn } from './pages/auth/sign-in'
 import { SignUp } from './pages/auth/sign-up'
-import { Overview } from './pages/app/overview'
+import { Overview } from './pages/customer/overview'
+import { Dashboard } from './pages/org/dashboard'
 
 export const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <AppLayout />,
+		element: <AuthLayout />,
 		errorElement: <NotFound />,
-		children: [{ path: '/', element: <Overview /> }],
+		children: [
+			{ path: '/auth/sign-in', element: <SignIn /> },
+			{ path: '/auth/sign-up', element: <SignUp /> },
+		],
 	},
 	{
 		path: '/',
-		element: <AuthLayout />,
-		children: [
-			{ path: '/sign-in', element: <SignIn /> },
-			{ path: '/sign-up', element: <SignUp /> },
-		],
+		element: <CustomerLayout />,
+		children: [{ index: true, element: <Overview /> }],
+	},
+	{
+		path: '/',
+		element: <OrganizationLayout />,
+		children: [{ path: '/org/dashboard', element: <Dashboard /> }],
 	},
 ])

@@ -5,9 +5,7 @@ export function Dashboard() {
 	return (
 		<>
 			<PageTitle title="Dashboard" />
-			<div className="max-w-300 mx-auto space-y-8 mt-8">
-				<h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-
+			<div className="space-y-8">
 				<div className="grid gap-4 grid-cols-4">
 					<CardTest />
 					<CardTest />

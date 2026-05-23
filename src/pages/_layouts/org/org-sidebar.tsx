@@ -6,12 +6,23 @@ import {
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarGroupLabel,
+	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from '@/components/ui/sidebar'
-import { BadgeCheck, Bell, MapPin, Settings, Volleyball } from 'lucide-react'
+import {
+	AtSign,
+	Bell,
+	Box,
+	ChartArea,
+	GalleryVerticalEnd,
+	Plus,
+	Settings,
+	Tickets,
+} from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { OrganizationSwitcher, type Organziation } from './org-switcher'
 
 const user = {
 	name: 'Gabriel Gallan',
@@ -22,41 +33,66 @@ const user = {
 const sidebar = {
 	main: [
 		{
-			title: 'Overview',
-			url: '/',
-			icon: Volleyball,
+			title: 'Dashboard',
+			url: '#',
+			icon: ChartArea,
 		},
 		{
-			title: 'My Bookings',
-			url: '/bookings',
-			icon: BadgeCheck,
+			title: 'Courts',
+			url: '/#',
+			icon: Box,
 		},
 		{
-			title: 'Discover',
-			url: '/discover',
-			icon: MapPin,
+			title: 'Bookings',
+			url: '#',
+			icon: Tickets,
+		},
+		{
+			title: 'Members',
+			url: '#',
+			icon: AtSign,
 		},
 	],
 	secondary: [
 		{
 			title: 'Notifications',
-			url: '/notifications',
+			url: '#',
 			icon: Bell,
 		},
 		{
 			title: 'Settings',
-			url: '/settings',
+			url: '#',
 			icon: Settings,
 		},
 	],
 }
 
-export function CustomerSidebar() {
+const organizations: Organziation[] = [
+	{
+		name: 'Acme Inc',
+		logo: GalleryVerticalEnd,
+		role: 'member',
+	},
+]
+
+export function OrganizationSidebar() {
 	return (
 		<Sidebar>
+			<SidebarHeader className="space-y-2">
+				<OrganizationSwitcher organizations={organizations} />
+				<SidebarMenuItem className="flex items-center gap-2">
+					<SidebarMenuButton
+						tooltip="Register Court"
+						className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
+					>
+						<Plus />
+						<span className="font-semibold">Register Court</span>
+					</SidebarMenuButton>
+				</SidebarMenuItem>
+			</SidebarHeader>
 			<SidebarContent className="flex flex-col gap-5">
 				<SidebarGroup>
-					<SidebarGroupLabel>Bookings</SidebarGroupLabel>
+					<SidebarGroupLabel>Manage</SidebarGroupLabel>
 					<SidebarGroupContent>
 						<SidebarMenu className="flex flex-col gap-2">
 							{sidebar.main.map((item) => (
@@ -73,7 +109,7 @@ export function CustomerSidebar() {
 					</SidebarGroupContent>
 				</SidebarGroup>
 				<SidebarGroup>
-					<SidebarGroupLabel>Account</SidebarGroupLabel>
+					<SidebarGroupLabel>Organization</SidebarGroupLabel>
 					<SidebarGroupContent className="flex flex-col gap-2">
 						<SidebarMenu className="flex flex-col gap-2">
 							{sidebar.secondary.map((item) => (

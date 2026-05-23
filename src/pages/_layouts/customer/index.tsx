@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import { CustomerHeader } from './customer-header'
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { SidebarProvider } from '@/components/ui/sidebar'
 import { CustomerSidebar } from './customer-sidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
 

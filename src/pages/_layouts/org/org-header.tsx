@@ -1,11 +1,11 @@
 import { Slash, Volleyball } from 'lucide-react'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 
-interface CustomerHeaderProps {
+interface OrganizationHeaderProps {
 	pageTitle?: string
 }
 
-export function CustomerHeader({ pageTitle }: CustomerHeaderProps) {
+export function OrganizationHeader({ pageTitle }: OrganizationHeaderProps) {
 	return (
 		<header className="border-b p-4">
 			<div className="flex items-center justify-between gap-3">

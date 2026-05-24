@@ -11,6 +11,7 @@ import { SignIn } from './pages/auth/sign-in'
 import { SignUp } from './pages/auth/sign-up'
 import { Overview } from './pages/customer/overview'
 import { Dashboard } from './pages/org/dashboard'
+import { Discover } from './pages/customer/discover'
 
 export const router = createBrowserRouter([
 	{
@@ -25,7 +26,10 @@ export const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <CustomerLayout />,
-		children: [{ index: true, element: <Overview /> }],
+		children: [
+			{ index: true, element: <Overview /> },
+			{ path: 'discover', element: <Discover /> }
+		],
 	},
 	{
 		path: '/',

@@ -8,17 +8,13 @@ export function CustomerLayout() {
 	return (
 		<TooltipProvider>
 			<SidebarProvider>
-				<div className="flex min-h-screen w-full">
-					<CustomerSidebar />
+				<CustomerSidebar />
 
-					<div className="flex min-w-0 flex-1 flex-col">
+					<div className='w-full'>
 						<CustomerHeader />
 
-						<main className="flex-1 p-4">
-							<Outlet />
-						</main>
+						<Outlet />
 					</div>
-				</div>
 			</SidebarProvider>
 		</TooltipProvider>
 	)

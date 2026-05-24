@@ -6,47 +6,43 @@ import {
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarGroupLabel,
+	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
+	SidebarTrigger,
 } from '@/components/ui/sidebar'
-import { BadgeCheck, Bell, MapPin, Settings, Volleyball } from 'lucide-react'
+import { BadgeCheck, Bell, HelpCircle, MapPin, Settings, BringToFront } from 'lucide-react'
 import { Link } from 'react-router-dom'
-
-const user = {
-	name: 'Gabriel Gallan',
-	email: 'gabriel31@gmail.com',
-	avatar: 'https://github.com/gabrielgallan.png',
-}
 
 const sidebar = {
 	main: [
 		{
 			title: 'Overview',
 			url: '/',
-			icon: Volleyball,
-		},
-		{
-			title: 'My Bookings',
-			url: '/bookings',
-			icon: BadgeCheck,
+			icon: BringToFront,
 		},
 		{
 			title: 'Discover',
 			url: '/discover',
 			icon: MapPin,
 		},
+		{
+			title: 'My Bookings',
+			url: '/bookings',
+			icon: BadgeCheck,
+		},
 	],
 	secondary: [
-		{
-			title: 'Notifications',
-			url: '/notifications',
-			icon: Bell,
-		},
 		{
 			title: 'Settings',
 			url: '/settings',
 			icon: Settings,
+		},
+		{
+			title: 'Help',
+			url: '/help',
+			icon: HelpCircle,
 		},
 	],
 }
@@ -91,7 +87,6 @@ export function CustomerSidebar() {
 				</SidebarGroup>
 			</SidebarContent>
 			<SidebarFooter>
-				<ProfileMenu user={user} />
 			</SidebarFooter>
 		</Sidebar>
 	)

@@ -1,13 +1,10 @@
-import { Check, CheckCircle2, CircleCheckBig, MapPin, Star } from 'lucide-react'
+import { MapPin, Star } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import {
-	Card,
-	CardContent,
-} from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 
-interface CourtCardProps {
+interface DiscoverCourtCardProps {
 	name: string
 	sport: string
 	imageUrl: string
@@ -16,36 +13,28 @@ interface CourtCardProps {
 	distance: string
 }
 
-export function CourtCard({
+export function DiscoverCourtCard({
 	name,
 	sport,
 	imageUrl,
 	location,
 	rating,
 	distance,
-}: CourtCardProps) {
+}: DiscoverCourtCardProps) {
 	return (
-		<Card className="overflow-hidden p-0">
-			<div className="aspect-[16/9] overflow-hidden">
-				<img
-					src={imageUrl}
-					alt={name}
-					className="h-full w-full object-cover"
-				/>
+		<Card className="overflow-hidden p-0 gap-0">
+			<div className="aspect-video overflow-hidden">
+				<img src={imageUrl} alt={name} className="h-full w-full object-cover" />
 			</div>
 
 			<CardContent className="space-y-4 p-5">
 				<div className="space-y-2">
 					<div className="flex items-start justify-between gap-3">
 						<div>
-							<h3 className="text-lg font-semibold">
-								{name}
-							</h3>
+							<h3 className="text-lg font-semibold">{name}</h3>
 
 							<div className="mt-1 flex items-center gap-2">
-								<Badge variant="secondary">
-									{sport}
-								</Badge>
+								<Badge variant="secondary">{sport}</Badge>
 							</div>
 						</div>
 
@@ -65,7 +54,7 @@ export function CourtCard({
 				</div>
 
 				<Button className="w-full py-5 hover:opacity-80 cursor-pointer">
-					<span className='font-semibold'>Book now</span>
+					<span className="font-semibold">Book now</span>
 				</Button>
 			</CardContent>
 		</Card>

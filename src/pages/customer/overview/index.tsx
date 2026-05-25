@@ -1,6 +1,14 @@
 import { PageTitle } from '@/components/page-title'
+import { HeaderContext } from '@/contexts/header-context'
+import { useContext, useEffect } from 'react'
 
 export function Overview() {
+	const { onPageChange } = useContext(HeaderContext)
+
+	useEffect(() => {
+		onPageChange('Overview')
+	}, [onPageChange])
+
 	return (
 		<>
 			<PageTitle title="Overview" />

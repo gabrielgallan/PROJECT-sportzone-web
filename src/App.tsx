@@ -6,6 +6,7 @@ import { router } from './router'
 
 import './index.css'
 import { Toaster } from './components/ui/sonner'
+import { HeaderContextProvider } from './contexts/header-context'
 
 export function App() {
 	return (
@@ -13,7 +14,9 @@ export function App() {
 			<ThemeProvider storageKey="sportzone-theme" defaultTheme="dark">
 				<Toaster />
 
-				<RouterProvider router={router} />
+				<HeaderContextProvider>
+					<RouterProvider router={router} />
+				</HeaderContextProvider>
 			</ThemeProvider>
 		</HelmetProvider>
 	)

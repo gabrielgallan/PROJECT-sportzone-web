@@ -12,6 +12,7 @@ import { SignUp } from './pages/auth/sign-up'
 import { Overview } from './pages/customer/overview'
 import { Dashboard } from './pages/org/dashboard'
 import { Discover } from './pages/customer/discover'
+import { Bookings } from './pages/customer/bookings'
 
 export const router = createBrowserRouter([
 	{
@@ -19,8 +20,8 @@ export const router = createBrowserRouter([
 		element: <AuthLayout />,
 		errorElement: <NotFound />,
 		children: [
-			{ path: '/auth/sign-in', element: <SignIn /> },
-			{ path: '/auth/sign-up', element: <SignUp /> },
+			{ path: 'auth/sign-in', element: <SignIn /> },
+			{ path: 'auth/sign-up', element: <SignUp /> },
 		],
 	},
 	{
@@ -28,12 +29,13 @@ export const router = createBrowserRouter([
 		element: <CustomerLayout />,
 		children: [
 			{ index: true, element: <Overview /> },
-			{ path: 'discover', element: <Discover /> }
+			{ path: 'discover', element: <Discover /> },
+			{ path: 'bookings', element: <Bookings /> },
 		],
 	},
 	{
 		path: '/',
 		element: <OrganizationLayout />,
-		children: [{ path: '/org/dashboard', element: <Dashboard /> }],
+		children: [{ path: 'orgs/dashboard', element: <Dashboard /> }],
 	},
 ])

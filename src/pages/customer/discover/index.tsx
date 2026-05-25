@@ -1,127 +1,128 @@
 import { PageTitle } from '@/components/page-title'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { LocateIcon, Search, X } from 'lucide-react'
-import { CourtCard } from './court-card'
+import { DiscoverCourtCard } from './discover-court-card'
 import { Pagination } from '@/components/pagination'
+import { DiscoverCourtFilters } from './discover-court-filters'
+import { useContext, useEffect } from 'react'
+import { HeaderContext } from '@/contexts/header-context'
 
-const courts = [
-    {
-        id: '1',
-        name: 'Gallan Court',
-        sport: 'Soccer',
-        imageUrl: 'https://plus.unsplash.com/premium_photo-1664303119944-4cf5302bb701?q=80&w=840&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        location: 'Estrada do Campo Limpo, 6903',
-        rating: 4.5,
-        distance: '12'
-    },
-    {
-        id: '2',
-        name: 'Gallan Court',
-        sport: 'Soccer',
-        imageUrl: 'https://plus.unsplash.com/premium_photo-1684713510655-e6e31536168d?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        location: 'Estrada do Campo Limpo, 6903',
-        rating: 4.5,
-        distance: '12'
-    },
-    {
-        id: '3',
-        name: 'Gallan Court',
-        sport: 'Soccer',
-        imageUrl: 'https://plus.unsplash.com/premium_photo-1663039984787-b11d7240f592?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        location: 'Estrada do Campo Limpo, 6903',
-        rating: 4.5,
-        distance: '12'
-    },
-    {
-        id: '1',
-        name: 'Gallan Court',
-        sport: 'Soccer',
-        imageUrl: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        location: 'Estrada do Campo Limpo, 6903',
-        rating: 4.5,
-        distance: '12'
-    },
-    {
-        id: '2',
-        name: 'Gallan Court',
-        sport: 'Soccer',
-        imageUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        location: 'Estrada do Campo Limpo, 6903',
-        rating: 4.5,
-        distance: '12'
-    },
-    {
-        id: '3',
-        name: 'Gallan Court',
-        sport: 'Soccer',
-        imageUrl: 'https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        location: 'Estrada do Campo Limpo, 6903',
-        rating: 4.5,
-        distance: '12'
-    },
+export const courts = [
+	{
+		id: '1',
+		name: 'Arena Paulista',
+		sport: 'Soccer',
+		imageUrl:
+			'https://plus.unsplash.com/premium_photo-1664303119944-4cf5302bb701?q=80&w=840&auto=format&fit=crop',
+		location: 'Av. Paulista, 1200',
+		rating: 4.8,
+		distance: '2.1',
+	},
+
+	{
+		id: '2',
+		name: 'Prime Padel Club',
+		sport: 'Padel',
+		imageUrl:
+			'https://plus.unsplash.com/premium_photo-1684713510655-e6e31536168d?q=80&w=1470&auto=format&fit=crop',
+		location: 'Rua Augusta, 450',
+		rating: 4.9,
+		distance: '3.4',
+	},
+
+	{
+		id: '3',
+		name: 'Urban Basketball',
+		sport: 'Basketball',
+		imageUrl:
+			'https://plus.unsplash.com/premium_photo-1663039984787-b11d7240f592?q=80&w=1470&auto=format&fit=crop',
+		location: 'Vila Olímpia, 210',
+		rating: 4.7,
+		distance: '5.2',
+	},
+
+	{
+		id: '4',
+		name: 'Beach Volley Center',
+		sport: 'Volley',
+		imageUrl:
+			'https://images.unsplash.com/photo-1530549387789-4c1017266635?q=80&w=1470&auto=format&fit=crop',
+		location: 'Moema, 890',
+		rating: 4.6,
+		distance: '4.8',
+	},
+
+	{
+		id: '5',
+		name: 'Next Goal Arena',
+		sport: 'Football',
+		imageUrl:
+			'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=1470&auto=format&fit=crop',
+		location: 'Brooklin, 155',
+		rating: 4.5,
+		distance: '6.3',
+	},
+
+	{
+		id: '6',
+		name: 'Elite Tennis Club',
+		sport: 'Tennis',
+		imageUrl:
+			'https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?q=80&w=687&auto=format&fit=crop',
+		location: 'Pinheiros, 340',
+		rating: 4.9,
+		distance: '7.1',
+	},
+
+	{
+		id: '7',
+		name: 'SportZone Arena',
+		sport: 'Soccer',
+		imageUrl:
+			'https://images.unsplash.com/photo-1518604666860-9ed391f76460?q=80&w=1470&auto=format&fit=crop',
+		location: 'Morumbi, 78',
+		rating: 4.4,
+		distance: '8.5',
+	},
+
+	{
+		id: '8',
+		name: 'Green Field Club',
+		sport: 'Soccer',
+		imageUrl:
+			'https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=1470&auto=format&fit=crop',
+		location: 'Campo Belo, 500',
+		rating: 4.7,
+		distance: '9.2',
+	},
 ]
 
 export function Discover() {
-    return (
-        <>
-            <PageTitle title="Discover" />
-            <div className="flex flex-col p-6 w-fit gap-6">
-                <h1 className='font-semibold text-2xl'>Discover Courts</h1>
+	const { onPageChange } = useContext(HeaderContext)
 
-                <form>
-                    <div className='flex gap-2 items-center w-fit'>
-                        <Label className='font-bold'>Filters</Label>
+	useEffect(() => {
+		onPageChange('Discover Courts')
+	}, [onPageChange])
 
-                        <Input placeholder='Court name' type='text'/>
+	return (
+		<>
+			<PageTitle title="Discover" />
+			<div className="flex flex-col p-6 w-fit gap-6">
+				<DiscoverCourtFilters />
 
-                        <Input placeholder='Location' type='text'/>
+				<div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+					{courts.map((court) => {
+						return <DiscoverCourtCard key={court.id} {...court} />
+					})}
+				</div>
 
-                        <Select>
-							<SelectTrigger className="h-8 w-45">
-                                <SelectValue placeholder="Sport type" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectGroup>
-									<SelectLabel>Sport type</SelectLabel>
-									<SelectItem value="all">All</SelectItem>
-									<SelectItem value="pending">Soccer</SelectItem>
-									<SelectItem value="canceled">Volley</SelectItem>
-									<SelectItem value="processing">Basketball</SelectItem>
-									<SelectItem value="delivering">Football</SelectItem>
-								</SelectGroup>
-							</SelectContent>
-						</Select>
-
-                       <Button type="submit" variant="secondary">
-                            <Search className="h-4 w-4" />
-                        </Button>
-
-                        <Button type="submit" variant="secondary">
-                            <LocateIcon className="h-4 w-4" />
-                        </Button>
-
-                        <Button type="button" variant="ghost">
-                            <X className="h-4 w-4 mr-2" />
-                            <span className="text-sm">Clear filters</span>
-                        </Button>
-                    </div>
-                </form>
-
-                <div className='grid grid-cols-3 gap-6'>
-                    {courts.map((court) => {
-                        return (
-                            <CourtCard key={court.id} {...court} />
-                        )
-                    })}
-                </div>
-
-                <footer>
-                    <Pagination pageIndex={0} totalCount={courts.length} onPageChange={() => {}} perPage={6} />
-                </footer>
-            </div>
-        </>
-    )
+				<footer>
+					<Pagination
+						pageIndex={0}
+						perPage={8}
+						totalCount={courts.length}
+						onPageChange={() => {}}
+					/>
+				</footer>
+			</div>
+		</>
+	)
 }

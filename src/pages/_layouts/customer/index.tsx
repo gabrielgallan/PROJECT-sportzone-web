@@ -1,20 +1,26 @@
 import { Outlet } from 'react-router-dom'
-import { CustomerHeader } from './customer-header'
-import { SidebarProvider } from '@/components/ui/sidebar'
-import { CustomerSidebar } from './customer-sidebar'
+
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { SidebarProvider } from '@/components/ui/sidebar'
+
+import { CustomerHeader } from './customer-header'
+import { CustomerSidebar } from './customer-sidebar'
 
 export function CustomerLayout() {
 	return (
 		<TooltipProvider>
 			<SidebarProvider>
-				<CustomerSidebar />
+				<div className="flex min-h-screen w-full">
+					<CustomerSidebar />
 
-					<div className='w-full'>
+					<main className="flex min-w-0 flex-1 flex-col">
 						<CustomerHeader />
 
-						<Outlet />
-					</div>
+						<div className="flex-1">
+							<Outlet />
+						</div>
+					</main>
+				</div>
 			</SidebarProvider>
 		</TooltipProvider>
 	)

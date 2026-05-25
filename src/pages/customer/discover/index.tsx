@@ -2,8 +2,6 @@ import { PageTitle } from '@/components/page-title'
 import { DiscoverCourtCard } from './discover-court-card'
 import { Pagination } from '@/components/pagination'
 import { DiscoverCourtFilters } from './discover-court-filters'
-import { useContext, useEffect } from 'react'
-import { HeaderContext } from '@/contexts/header-context'
 
 export const courts = [
 	{
@@ -96,12 +94,6 @@ export const courts = [
 ]
 
 export function Discover() {
-	const { onPageChange } = useContext(HeaderContext)
-
-	useEffect(() => {
-		onPageChange('Discover Courts')
-	}, [onPageChange])
-
 	return (
 		<>
 			<PageTitle title="Discover" />

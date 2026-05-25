@@ -1,10 +1,10 @@
 import { Bell, Slash } from 'lucide-react'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { ProfileMenu } from '@/components/profile-menu'
-import { Link } from 'react-router-dom'
-import { useContext } from 'react'
-import { HeaderContext } from '@/contexts/header-context'
 import { PageBreadcrumb } from '@/components/page-breadcrump'
+import { NotificationsSheet } from '@/components/notification-sheet'
+import { Button } from '@/components/ui/button'
+import { SheetTrigger } from '@/components/ui/sheet'
 
 const user = {
 	name: 'Gabriel Gallan',
@@ -13,25 +13,41 @@ const user = {
 }
 
 export function CustomerHeader() {
-	const { pageTitle } = useContext(HeaderContext)
+	const hasNotifications = true
 
 	return (
-		<header className="border-b p-4">
-			<div className="flex items-center justify-between gap-2">
-				<div className="flex items-center gap-2">
-					<SidebarTrigger />
+		<NotificationsSheet>
+			<header className="border-b p-4">
+				<div className="flex items-center justify-between gap-2">
+					<div className="flex items-center gap-2">
+						<SidebarTrigger />
 
-					<Slash className="-rotate-45 text-muted-foreground/45 size-3" />
+						<Slash className="-rotate-45 text-muted-foreground/45 size-3" />
 
-					<PageBreadcrumb title={pageTitle} />
+						<PageBreadcrumb />
+					</div>
+					<div className="flex items-center gap-2">
+						<SheetTrigger asChild>
+							<div className="relative">
+								<Button
+									type="button"
+									variant="ghost"
+									size="icon"
+									className="rounded-full cursor-pointer"
+								>
+									<Bell className="size-4" />
+								</Button>
+
+								{hasNotifications && (
+									<span className="absolute top-0.5 right-0.5 size-2 rounded-full bg-primary ring-2 ring-background" />
+								)}
+							</div>
+						</SheetTrigger>
+
+						<ProfileMenu user={user} />
+					</div>
 				</div>
-				<div className="flex items-center gap-2">
-					<Link to="#" className="p-2 rounded-full hover:bg-muted transition-colors duration-200">
-						<Bell className="size-4" />
-					</Link>
-					<ProfileMenu user={user} />
-				</div>
-			</div>
-		</header>
+			</header>
+		</NotificationsSheet>
 	)
 }

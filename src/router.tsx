@@ -13,12 +13,13 @@ import { Overview } from './pages/customer/overview'
 import { Dashboard } from './pages/org/dashboard'
 import { Discover } from './pages/customer/discover'
 import { Bookings } from './pages/customer/bookings'
+import { ErrorPage } from './pages/error'
 
 export const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <AuthLayout />,
-		errorElement: <NotFound />,
+		errorElement: <ErrorPage />,
 		children: [
 			{ path: 'auth/sign-in', element: <SignIn /> },
 			{ path: 'auth/sign-up', element: <SignUp /> },
@@ -28,14 +29,18 @@ export const router = createBrowserRouter([
 		path: '/',
 		element: <CustomerLayout />,
 		children: [
-			{ index: true, element: <Overview /> },
-			{ path: 'discover', element: <Discover /> },
-			{ path: 'bookings', element: <Bookings /> },
+			{ index: true, element: <Overview />, handle: { breadcrumb: 'Overview' } },
+			{ path: 'discover', element: <Discover />, handle: { breadcrumb: 'Discover' } },
+			{ path: 'bookings', element: <Bookings />, handle: { breadcrumb: 'Bookings' } },
 		],
 	},
 	{
 		path: '/',
 		element: <OrganizationLayout />,
 		children: [{ path: 'orgs/dashboard', element: <Dashboard /> }],
+	},
+	{
+		path: '*',
+		element: <NotFound />,
 	},
 ])

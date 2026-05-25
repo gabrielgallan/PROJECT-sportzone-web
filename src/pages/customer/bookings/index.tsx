@@ -3,18 +3,10 @@ import { BookingHistoryCard } from './bookings-history-card'
 import { Pagination } from '@/components/pagination'
 import { BookingsHistoryFilters } from './bookings-history-filters'
 import { getBookingsHistoryMock } from './mock'
-import { useContext, useEffect } from 'react'
-import { HeaderContext } from '@/contexts/header-context'
 
 const bookingsByDate = getBookingsHistoryMock()
 
 export function Bookings() {
-	const { onPageChange } = useContext(HeaderContext)
-
-	useEffect(() => {
-		onPageChange('My Bookings')
-	}, [onPageChange])
-
 	return (
 		<>
 			<PageTitle title="My Bookings" />

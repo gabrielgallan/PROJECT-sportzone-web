@@ -8,10 +8,10 @@ const bookingStatusMap: Record<BookingStatus, string> = {
 }
 
 export const bookingsStatusColorMap: Record<BookingStatus, string> = {
-	confirmed: 'emerald-600',
-	canceled: 'rose-600',
-	pending: 'amber-500',
-	completed: 'cyan-500',
+	confirmed: 'bg-emerald-600',
+	canceled: 'bg-rose-600',
+	pending: 'bg-amber-500 animate-pulse',
+	completed: 'bg-gray-500',
 }
 
 interface BookingStatusBadgeProps {
@@ -21,7 +21,7 @@ interface BookingStatusBadgeProps {
 export function BookingStatusBadge({ status }: BookingStatusBadgeProps) {
 	return (
 		<div className="flex items-center gap-2">
-			<span className={`w-2 h-2 rounded-full bg-${bookingsStatusColorMap[status]}`} />
+			<span className={`w-2 h-2 rounded-full ${bookingsStatusColorMap[status]}`} />
 			<span>{bookingStatusMap[status]}</span>
 		</div>
 	)

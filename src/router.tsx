@@ -30,8 +30,8 @@ export const router = createBrowserRouter([
 		element: <CustomerLayout />,
 		children: [
 			{ index: true, element: <Overview />, handle: { breadcrumb: 'Overview' } },
-			{ path: 'discover', element: <Discover />, handle: { breadcrumb: 'Discover' } },
-			{ path: 'bookings', element: <Bookings />, handle: { breadcrumb: 'Bookings' } },
+			{ path: 'discover', element: <Discover />, handle: { breadcrumb: 'Discover courts' } },
+			{ path: 'bookings', element: <Bookings />, handle: { breadcrumb: 'My Bookings' } },
 		],
 	},
 	{

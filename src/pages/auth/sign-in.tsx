@@ -8,7 +8,7 @@ import { PageTitle } from '@/components/page-title'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Separator } from '@/components/ui/separator'
+import { Field, FieldSeparator } from '@/components/ui/field'
 
 const signInFormSchema = z.object({
 	email: z.email(),
@@ -61,7 +61,14 @@ export function SignIn() {
 								<Input id="email" type="email" {...register('email')} />
 							</div>
 							<div className="space-y-2">
-								<Label htmlFor="password">Password</Label>
+								<div className="flex items-center justify-between">
+									<Label htmlFor="password">Password</Label>
+									<Link to="#">
+										<span className="text-xs text-muted-foreground hover:underline">
+											Forgot your password?
+										</span>
+									</Link>
+								</div>
 								<Input id="password" type="password" {...register('password')} />
 							</div>
 
@@ -74,28 +81,30 @@ export function SignIn() {
 								{isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Sign In'}
 							</Button>
 
-							<Separator />
+							<Field>
+								<FieldSeparator>Or continue with</FieldSeparator>
+							</Field>
 
 							<div className="space-y-4">
-								<Button
-									variant="secondary"
-									className="w-full cursor-pointer py-5 flex gap-2"
-									type="button"
-									disabled={isSubmitting}
-								>
-									<FaGithub className="size-4" />
-									<span>Sign in with GitHub</span>
-								</Button>
+								<div className="grid grid-cols-2 gap-2">
+									<Button
+										variant="secondary"
+										className="cursor-pointer py-5"
+										type="button"
+										disabled={isSubmitting}
+									>
+										<FaGithub className="size-4" />
+									</Button>
 
-								<Button
-									variant="secondary"
-									className="w-full cursor-pointer py-5 flex gap-2"
-									type="button"
-									disabled={isSubmitting}
-								>
-									<FaGoogle className="size-4" />
-									<span>Sign in with Google</span>
-								</Button>
+									<Button
+										variant="secondary"
+										className="cursor-pointer py-5"
+										type="button"
+										disabled={isSubmitting}
+									>
+										<FaGoogle className="size-4" />
+									</Button>
+								</div>
 
 								<Link to="/auth/sign-up" className="font-medium text-sm underline hover:opacity-90">
 									Don't have account ?

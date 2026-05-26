@@ -9,7 +9,7 @@ import { PageTitle } from '@/components/page-title'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Separator } from '@/components/ui/separator'
+import { Field, FieldSeparator } from '@/components/ui/field'
 
 const signUpFormSchema = z.object({
 	name: z.string().optional(),
@@ -81,28 +81,30 @@ export function SignUp() {
 								{isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Register'}
 							</Button>
 
-							<Separator />
+							<Field>
+								<FieldSeparator>Or register with</FieldSeparator>
+							</Field>
 
 							<div className="space-y-4">
-								<Button
-									variant="secondary"
-									className="w-full cursor-pointer py-5 flex gap-2"
-									type="button"
-									disabled={isSubmitting}
-								>
-									<FaGithub className="size-4" />
-									<span>Sign up with GitHub</span>
-								</Button>
+								<div className="grid grid-cols-2 gap-2">
+									<Button
+										variant="secondary"
+										className="cursor-pointer py-5"
+										type="button"
+										disabled={isSubmitting}
+									>
+										<FaGithub className="size-4" />
+									</Button>
 
-								<Button
-									variant="secondary"
-									className="w-full cursor-pointer py-5 flex gap-2"
-									type="button"
-									disabled={isSubmitting}
-								>
-									<FaGoogle className="size-4" />
-									<span>Sign up with Google</span>
-								</Button>
+									<Button
+										variant="secondary"
+										className="cursor-pointer py-5"
+										type="button"
+										disabled={isSubmitting}
+									>
+										<FaGoogle className="size-4" />
+									</Button>
+								</div>
 
 								<Link to="/auth/sign-in" className="font-medium text-sm underline hover:opacity-90">
 									Already have an account ?

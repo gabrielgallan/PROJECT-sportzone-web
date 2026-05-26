@@ -1,11 +1,14 @@
 import { PageTitle } from '@/components/page-title'
+import { Card } from '@/components/ui/card'
 
 export function Overview() {
 	return (
 		<>
 			<PageTitle title="Overview" />
-			<div className="space-y-4">
-				<h1 className="text-3xl font-bold tracking-tight">Overview</h1>
+			<div className="flex flex-col gap-4 p-4">
+				<div className="grid grid-cols-6 gap-4">
+					<Card className="col-span-4 h-50"></Card>
+				</div>
 			</div>
 		</>
 	)

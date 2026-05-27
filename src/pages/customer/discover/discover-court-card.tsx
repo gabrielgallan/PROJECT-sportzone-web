@@ -4,7 +4,8 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
-interface DiscoverCourtCardProps {
+export interface Court {
+	id: string
 	name: string
 	sport: string
 	imageUrl: string
@@ -13,34 +14,32 @@ interface DiscoverCourtCardProps {
 	distance: string
 }
 
-export function DiscoverCourtCard({
-	name,
-	sport,
-	imageUrl,
-	location,
-	rating,
-	distance,
-}: DiscoverCourtCardProps) {
+interface DiscoverCourtCardProps {
+	court: Court
+	hasVisited?: boolean
+}
+
+export function DiscoverCourtCard({ court, hasVisited = false }: DiscoverCourtCardProps) {
 	return (
 		<Card className="overflow-hidden p-0 gap-0">
 			<div className="aspect-video overflow-hidden">
-				<img src={imageUrl} alt={name} className="h-full w-full object-cover" />
+				<img src={court.imageUrl} alt={court.name} className="h-full w-full object-cover" />
 			</div>
 
 			<CardContent className="space-y-4 p-5">
 				<div className="space-y-2">
 					<div className="flex items-start justify-between gap-3">
 						<div>
-							<h3 className="text-lg font-semibold">{name}</h3>
+							<h3 className="text-lg font-semibold">{court.name}</h3>
 
 							<div className="mt-1 flex items-center gap-2">
-								<Badge variant="secondary">{sport}</Badge>
+								<Badge variant="secondary">{court.sport}</Badge>
 							</div>
 						</div>
 
 						<div className="flex items-center gap-1 text-sm text-muted-foreground">
 							<Star className="size-4 fill-current" />
-							<span>{rating}</span>
+							<span>{court.rating}</span>
 						</div>
 					</div>
 
@@ -48,14 +47,20 @@ export function DiscoverCourtCard({
 						<MapPin className="size-4" />
 
 						<span>
-							{location} · {distance} Km
+							{court.location} · {court.distance} Km
 						</span>
 					</div>
 				</div>
 
-				<Button className="w-full py-5 hover:opacity-80 cursor-pointer">
-					<span className="font-semibold">Book now</span>
-				</Button>
+				{hasVisited ? (
+					<Button variant="secondary" className="w-full py-5 hover:opacity-80 cursor-pointer">
+						<span className="font-semibold">Book again</span>
+					</Button>
+				) : (
+					<Button className="w-full py-5 hover:opacity-80 cursor-pointer">
+						<span className="font-semibold">Book now</span>
+					</Button>
+				)}
 			</CardContent>
 		</Card>
 	)

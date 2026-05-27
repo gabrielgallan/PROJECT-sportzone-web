@@ -13,12 +13,10 @@ export function CustomerLayout() {
 				<div className="flex min-h-screen w-full">
 					<CustomerSidebar />
 
-					<main className="flex min-w-0 flex-1 flex-col">
+					<main className="flex flex-1 flex-col">
 						<CustomerHeader />
 
-						<div className="flex-1">
-							<Outlet />
-						</div>
+						<Outlet />
 					</main>
 				</div>
 			</SidebarProvider>

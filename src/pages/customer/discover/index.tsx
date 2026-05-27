@@ -80,7 +80,6 @@ export const courts = [
 		rating: 4.4,
 		distance: '8.5',
 	},
-
 	{
 		id: '8',
 		name: 'Green Field Club',
@@ -102,7 +101,7 @@ export function Discover() {
 
 				<div className="grid grid-cols-1 gap-6 md:grid-cols-4">
 					{courts.map((court) => {
-						return <DiscoverCourtCard key={court.id} {...court} />
+						return <DiscoverCourtCard key={court.id} court={court} />
 					})}
 				</div>
 

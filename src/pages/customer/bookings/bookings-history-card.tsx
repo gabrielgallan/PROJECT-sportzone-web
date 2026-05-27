@@ -4,11 +4,10 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Label } from '@/components/ui/label'
 import { BookingStatusBadge } from './booking-status-badge'
-import { cn } from '@/lib/utils'
 
 export type BookingStatus = 'confirmed' | 'pending' | 'canceled' | 'completed'
 
-interface Booking {
+export interface Booking {
 	date: string
 	startTime: string
 	endTime: string
@@ -30,9 +29,9 @@ interface BookingHistoryCardProps {
 
 export function BookingHistoryCard({ court, booking }: BookingHistoryCardProps) {
 	return (
-		<Card className="border hover:border-emerald-400 cursor-pointer transition-all duration-150">
+		<Card className="border hover:bg-muted/25 cursor-pointer transition-all duration-150 py-6">
 			<CardContent className="flex gap-4">
-				<div className="h-32 w-40 shrink-0 overflow-hidden rounded-lg">
+				<div className="h-32 w-40 shrink-0 overflow-hidden rounded-md">
 					<img
 						src={court.imageUrl}
 						alt={court.name}

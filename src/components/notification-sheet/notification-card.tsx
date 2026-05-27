@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card'
-import { formatDistanceToNow } from 'date-fns'
+import { formatDistanceToNowStrict } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
 
 export type NotificationStatus = 'unread' | 'read'
@@ -31,10 +31,10 @@ export function NotificationCard({ notification, onSelectNotification }: Notific
 	return (
 		<Card
 			onClick={handleSelectNotification}
-			className="hover:bg-muted/65 transition-colors duration-100 cursor-pointer"
+			className="hover:bg-muted/25 transition-colors duration-100 cursor-pointer"
 		>
 			<CardContent>
-				<div className="flex flex-col">
+				<div className="flex flex-col gap-1">
 					<div className="flex justify-between">
 						<div className="flex items-center gap-2">
 							{notification.status === 'unread' && (
@@ -45,7 +45,7 @@ export function NotificationCard({ notification, onSelectNotification }: Notific
 
 						<div>
 							<span className="text-xs text-muted-foreground/45">
-								{formatDistanceToNow(notification.date, {
+								{formatDistanceToNowStrict(notification.date, {
 									addSuffix: true,
 								})}
 							</span>

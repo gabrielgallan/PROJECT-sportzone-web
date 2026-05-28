@@ -9,6 +9,10 @@ import { getCourts } from '@/mocks/courts'
 import { getUpcomingBookingsMock } from '@/mocks/bookings'
 import { ChartPieDonutActive } from './pie-chart'
 import { MonthlyBookingsAmountChart } from './monthly-bookings-amount-chart'
+import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { BadgePlus } from 'lucide-react'
+import { OverviewMainCard } from './overview-main-card'
 
 const upcomingBookings = getUpcomingBookingsMock()
 
@@ -23,24 +27,27 @@ export function OverviewPage() {
 			<div className="flex flex-col p-4">
 				<div className="grid grid-cols-1 md:grid-cols-4 gap-4">
 					<div className="col-span-3 grid gap-4">
-						{/* <div className="grid md:grid-cols-4 gap-4">
+						<div className="grid md:grid-cols-4 gap-4">
 							<div className="md:col-span-4">
-								<NextBookingCard booking={upcomingBookings[0]} />
+								<OverviewMainCard />
 							</div>
-						</div> */}
+							{/* <div className="md:col-span-2">
+								<NextBookingCard booking={upcomingBookings[0]} />
+							</div> */}
+						</div>
 
-						<div className="grid grid-cols-6 gap-4">
+						{/* <div className="grid grid-cols-6 gap-4">
 							<div className="col-span-4 h-90">
 								<MonthlyBookingsAmountChart />
 							</div>
 							<div className="col-span-2">
 								<ChartPieDonutActive />
 							</div>
-						</div>
+						</div> */}
 
 						<div className="space-y-6">
 							<div className="flex items-center justify-between">
-								<h1 className="text-2xl font-semibold">Recent visits</h1>
+								<h1 className="text-xl font-semibold">Recent visits</h1>
 
 								<Link to="/discover">
 									<span className="text-xs text-muted-foreground hover:text-primary">

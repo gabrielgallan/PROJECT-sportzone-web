@@ -6,6 +6,7 @@ import { courtDetailsMock as court } from './court-details-mock'
 import { Button } from '@/components/ui/button'
 import { CourtReviewComment } from './court-review-comment'
 import { CourtAmenityBadge } from './court-amenity-badge'
+import { CourtsMap } from './court-map'
 
 export function CourtDetailsPage() {
 	const { courtId } = useParams()
@@ -75,6 +76,10 @@ export function CourtDetailsPage() {
 						<div className="flex items-center gap-2 text-sm text-muted-foreground">
 							<MapPin className="size-4 text-primary" />
 							<span>{court.address}</span>
+						</div>
+
+						<div>
+							<CourtsMap />
 						</div>
 					</section>
 

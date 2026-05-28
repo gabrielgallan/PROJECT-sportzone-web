@@ -1,4 +1,4 @@
-import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
+import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis } from 'recharts'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -34,25 +34,31 @@ const chartConfig = {
 
 export function MonthlyBookingsAmountChart() {
 	return (
-		<Card className="flex h-full flex-col">
+		<Card className="flex h-full min-h-0 flex-col overflow-hidden">
 			<CardHeader>
 				<CardTitle>Bookings by month</CardTitle>
 				<CardDescription>January - June 2026</CardDescription>
 			</CardHeader>
-			<CardContent className="min-h-0">
-				<ChartContainer config={chartConfig} className="h-full w-full">
-					<BarChart accessibilityLayer data={chartData}>
+			<CardContent className="min-h-0 flex-1">
+				<ChartContainer config={chartConfig} className="h-full min-h-0 w-full">
+					<LineChart data={chartData}>
 						<CartesianGrid vertical={false} />
 						<XAxis
 							dataKey="month"
 							tickLine={false}
-							tickMargin={10}
 							axisLine={false}
 							tickFormatter={(value) => value.slice(0, 3)}
 						/>
 						<ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-						<Bar dataKey="bookings" fill="var(--color-bookings)" radius={8} />
-					</BarChart>
+
+						<Line
+							dataKey="bookings"
+							type="linear"
+							stroke="var(--color-bookings)"
+							strokeWidth={2}
+							dot={false}
+						/>
+					</LineChart>
 				</ChartContainer>
 			</CardContent>
 		</Card>

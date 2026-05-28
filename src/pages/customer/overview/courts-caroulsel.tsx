@@ -5,7 +5,8 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from '@/components/ui/carousel'
-import { DiscoverCourtCard, type Court } from '../discover/discover-court-card'
+import { DiscoverCourtCard } from '../discover/discover-court-card'
+import type { Court } from '@/types/court'
 
 interface CourtsCaroulselProps {
 	courts: Court[]

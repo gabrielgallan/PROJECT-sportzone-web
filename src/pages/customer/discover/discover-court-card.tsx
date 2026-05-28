@@ -3,16 +3,8 @@ import { MapPin, Star } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-
-export interface Court {
-	id: string
-	name: string
-	sport: string
-	imageUrl: string
-	location: string
-	rating: number
-	distance: string
-}
+import { useNavigate } from 'react-router-dom'
+import type { Court } from '@/types/court'
 
 interface DiscoverCourtCardProps {
 	court: Court
@@ -20,6 +12,14 @@ interface DiscoverCourtCardProps {
 }
 
 export function DiscoverCourtCard({ court, hasVisited = false }: DiscoverCourtCardProps) {
+	const navigate = useNavigate()
+
+	function handleOpenCourtPage() {
+		const courtDetailsPage = `/discover/court/${court.id}`
+
+		navigate(courtDetailsPage)
+	}
+
 	return (
 		<Card className="overflow-hidden p-0 gap-0">
 			<div className="aspect-video overflow-hidden">
@@ -33,7 +33,7 @@ export function DiscoverCourtCard({ court, hasVisited = false }: DiscoverCourtCa
 							<h3 className="text-lg font-semibold">{court.name}</h3>
 
 							<div className="mt-1 flex items-center gap-2">
-								<Badge variant="secondary">{court.sport}</Badge>
+								<Badge variant="secondary">none</Badge>
 							</div>
 						</div>
 
@@ -47,17 +47,26 @@ export function DiscoverCourtCard({ court, hasVisited = false }: DiscoverCourtCa
 						<MapPin className="size-4" />
 
 						<span>
-							{court.location} · {court.distance} Km
+							{court.address} · {court.distance} Km
 						</span>
 					</div>
 				</div>
 
 				{hasVisited ? (
-					<Button variant="secondary" className="w-full py-5 hover:opacity-80 cursor-pointer">
+					<Button
+						type="button"
+						onClick={handleOpenCourtPage}
+						variant="secondary"
+						className="w-full py-5 hover:opacity-80 cursor-pointer"
+					>
 						<span className="font-semibold">Book again</span>
 					</Button>
 				) : (
-					<Button className="w-full py-5 hover:opacity-80 cursor-pointer">
+					<Button
+						type="button"
+						onClick={handleOpenCourtPage}
+						className="w-full py-5 hover:opacity-80 cursor-pointer"
+					>
 						<span className="font-semibold">Book now</span>
 					</Button>
 				)}

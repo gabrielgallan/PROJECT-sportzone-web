@@ -2,10 +2,10 @@ import { ArrowRight, CalendarDays } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Link } from 'react-router-dom'
 import { BookingStatusBadge } from '../bookings/booking-status-badge'
-import type { BookingStatus } from '../bookings/bookings-history-card'
 import { formatDistanceToNowStrict } from 'date-fns'
-import { useFormatBookingInterval } from '@/hooks/use-format-booking-interval'
+import { useBookingTimeFormatter } from '@/hooks/use-booking-time-formatter'
 import { cn } from '@/lib/utils'
+import type { BookingWithCourt } from '@/types/booking'
 
 const weekDays = [
 	{
@@ -45,84 +45,12 @@ const weekDays = [
 	},
 ]
 
-interface BookingWithCourt {
-	id: string
-	court: {
-		name: string
-	}
-	startDate: Date
-	endDate: Date
-	status: BookingStatus
-}
-
-const upcomingBookings: BookingWithCourt[] = [
-	{
-		id: '1',
-		court: {
-			name: 'Arena Sports - Society Court',
-		},
-		startDate: new Date('2026-05-27T19:00:00.000Z'),
-		endDate: new Date('2026-05-27T20:00:00.000Z'),
-		status: 'confirmed',
-	},
-	{
-		id: '2',
-		court: {
-			name: 'Beach Tennis Club',
-		},
-		startDate: new Date('2026-05-29T20:00:00.000Z'),
-		endDate: new Date('2026-05-29T21:30:00.000Z'),
-		status: 'confirmed',
-	},
-	{
-		id: '3',
-		court: {
-			name: 'Padel Center Premium',
-		},
-		startDate: new Date('2026-05-31T10:00:00.000Z'),
-		endDate: new Date('2026-05-31T11:00:00.000Z'),
-		status: 'completed',
-	},
-	{
-		id: '4',
-		court: {
-			name: 'Downtown Basketball Arena',
-		},
-		startDate: new Date('2026-06-02T18:30:00.000Z'),
-		endDate: new Date('2026-06-02T20:00:00.000Z'),
-		status: 'completed',
-	},
-	{
-		id: '4',
-		court: {
-			name: 'Downtown Basketball Arena',
-		},
-		startDate: new Date('2026-06-02T18:30:00.000Z'),
-		endDate: new Date('2026-06-02T20:00:00.000Z'),
-		status: 'completed',
-	},
-	{
-		id: '4',
-		court: {
-			name: 'Downtown Basketball Arena',
-		},
-		startDate: new Date('2026-06-02T18:30:00.000Z'),
-		endDate: new Date('2026-06-02T20:00:00.000Z'),
-		status: 'completed',
-	},
-]
-
-const bookingStatusColorMap: Partial<Record<BookingStatus, string>> = {
-	confirmed: 'primary',
-	completed: 'gray',
-}
-
 interface UpcomingBookingCardProps {
 	booking: BookingWithCourt
 }
 
 function UpcomingBookingCard({ booking }: UpcomingBookingCardProps) {
-	const { interval } = useFormatBookingInterval({
+	const { intervalWithSeparator } = useBookingTimeFormatter({
 		startDate: booking.startDate,
 		endDate: booking.endDate,
 	})
@@ -140,7 +68,8 @@ function UpcomingBookingCard({ booking }: UpcomingBookingCardProps) {
 					<p className="text-sm font-medium">{booking.court.name}</p>
 
 					<p className="text-muted-foreground text-xs">
-						{formatDistanceToNowStrict(booking.startDate, { addSuffix: true })} • {interval}
+						{formatDistanceToNowStrict(booking.startDate, { addSuffix: true })} •{' '}
+						{intervalWithSeparator}
 					</p>
 				</div>
 
@@ -150,7 +79,11 @@ function UpcomingBookingCard({ booking }: UpcomingBookingCardProps) {
 	)
 }
 
-export function WeeklyBookingsCard() {
+interface WeeklyBookingsCardProps {
+	upcomingBookings: BookingWithCourt[]
+}
+
+export function WeeklyBookingsCard({ upcomingBookings }: WeeklyBookingsCardProps) {
 	return (
 		<Card>
 			<CardHeader className="flex flex-row items-start justify-between space-y-0">

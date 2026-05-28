@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils'
-
-export type BookingStatus = 'confirmed' | 'pending' | 'canceled' | 'completed'
+import type { BookingStatus } from '@/types/booking'
 
 export const bookingStatusMap: Record<BookingStatus, string> = {
 	confirmed: 'Confirmed',

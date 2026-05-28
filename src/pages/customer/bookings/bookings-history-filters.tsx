@@ -12,8 +12,8 @@ import {
 	SelectValue,
 } from '@/components/ui/select'
 import { Search, X } from 'lucide-react'
-import type { BookingStatus } from './bookings-history-card'
 import { BookingStatusBadge } from './booking-status-badge'
+import type { BookingStatus } from '@/types/booking'
 
 const statusOptions: BookingStatus[] = ['pending', 'confirmed', 'completed', 'canceled']
 

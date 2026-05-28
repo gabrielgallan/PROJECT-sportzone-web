@@ -1,32 +1,19 @@
 import { Building2, MapPin } from 'lucide-react'
 import dayjs from 'dayjs'
 import { formatDistanceToNowStrict } from 'date-fns'
-
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card'
-
-import { useFormatBookingInterval } from '@/hooks/use-format-booking-interval'
-
-type BookingStatus = 'confirmed' | 'pending' | 'canceled' | 'completed'
+import { useBookingTimeFormatter } from '@/hooks/use-booking-time-formatter'
+import type { BookingWithCourt } from '@/types/booking'
 
 interface NextBookingCardProps {
-	booking: {
-		id: string
-		court: {
-			name: string
-			org: string
-			address: string
-		}
-		startDate: Date
-		endDate: Date
-		status: BookingStatus
-	}
+	booking: BookingWithCourt
 }
 
 export function NextBookingCard({ booking }: NextBookingCardProps) {
 	const bookingDate = dayjs(booking.startDate).format('dddd, DD MMM')
 
-	const { interval } = useFormatBookingInterval({
+	const { intervalWithSeparator } = useBookingTimeFormatter({
 		startDate: booking.startDate,
 		endDate: booking.endDate,
 	})

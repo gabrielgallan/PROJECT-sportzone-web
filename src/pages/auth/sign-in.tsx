@@ -1,7 +1,7 @@
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { FaGithub, FaGoogle } from 'react-icons/fa'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { PageTitle } from '@/components/page-title'
@@ -17,8 +17,9 @@ const signInFormSchema = z.object({
 
 type SignInFormType = z.infer<typeof signInFormSchema>
 
-export function SignIn() {
+export function SignInPage() {
 	const [searchParams] = useSearchParams()
+	const navigate = useNavigate()
 
 	const {
 		register,
@@ -33,11 +34,17 @@ export function SignIn() {
 	async function handleSignIn(data: SignInFormType) {
 		return new Promise((resolve) => {
 			setTimeout(() => {
-				console.log(data)
+				try {
+					toast.success('Authentication successfully', {
+						position: 'top-center',
+					})
 
-				toast.error('Failed to sign in. Try again in a few minutes', {
-					position: 'top-center',
-				})
+					navigate('/')
+				} catch {
+					toast.error('Failed to sign in. Try again in a few minutes', {
+						position: 'top-center',
+					})
+				}
 
 				resolve(null)
 			}, 2000)

@@ -1,7 +1,7 @@
 import { PageTitle } from '@/components/page-title'
 import { CardTest } from './components/card'
 
-export function Dashboard() {
+export function DashboardPage() {
 	return (
 		<>
 			<PageTitle title="Dashboard" />

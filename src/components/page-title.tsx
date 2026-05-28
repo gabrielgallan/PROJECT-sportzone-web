@@ -7,7 +7,7 @@ type PageTitleProps = {
 export function PageTitle({ title }: PageTitleProps) {
 	return (
 		<Helmet>
-			<title>{title ? `${title} | sportzone.app` : 'Sportzone'}</title>
+			<title>{title ? `${title} | sportzone` : 'sportzone'}</title>
 		</Helmet>
 	)
 }

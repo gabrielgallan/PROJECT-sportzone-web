@@ -2,11 +2,11 @@ import { PageTitle } from '@/components/page-title'
 import { BookingHistoryCard } from './bookings-history-card'
 import { Pagination } from '@/components/pagination'
 import { BookingsHistoryFilters } from './bookings-history-filters'
-import { getBookingsHistoryMock } from './mock'
+import { getBookingsHistoryMock } from '@/mocks/bookings'
 
 const bookingsByDate = getBookingsHistoryMock()
 
-export function Bookings() {
+export function BookingsPage() {
 	return (
 		<>
 			<PageTitle title="My Bookings" />
@@ -20,8 +20,8 @@ export function Bookings() {
 							<>
 								<span className="text-base text-muted-foreground my-2">{date}</span>
 								<div className="space-y-4">
-									{items.map(({ court, booking }) => (
-										<BookingHistoryCard key={booking.id} court={court} booking={booking} />
+									{items.map((booking) => (
+										<BookingHistoryCard key={booking.id} booking={booking} />
 									))}
 								</div>
 							</>

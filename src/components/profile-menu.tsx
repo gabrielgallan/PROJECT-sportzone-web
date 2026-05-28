@@ -1,4 +1,4 @@
-import { Building2, ChevronDown, ChevronsUpDown, LogOut } from 'lucide-react'
+import { Building2, ChevronDown, LogOut } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -35,7 +35,6 @@ export function ProfileMenu({ user }: ProfileMenuProps) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger className="flex items-center gap-3 rounded-md outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring">
-
 				<Avatar className="size-8">
 					{user.avatar && <AvatarImage src={user.avatar} alt={user.name} />}
 					<AvatarFallback>{initials}</AvatarFallback>
@@ -59,7 +58,7 @@ export function ProfileMenu({ user }: ProfileMenuProps) {
 				</DropdownMenuItem>
 
 				<DropdownMenuItem asChild>
-					<a href="/api/auth/sign-out">
+					<a href="/auth/sign-in">
 						<LogOut className="mr-2 size-4" />
 						Sign Out
 					</a>

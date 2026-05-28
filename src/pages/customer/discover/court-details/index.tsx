@@ -78,7 +78,7 @@ export function CourtDetailsPage() {
 							<span>{court.address}</span>
 						</div>
 
-						<div>
+						<div className="h-100">
 							<CourtsMap />
 						</div>
 					</section>

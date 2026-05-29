@@ -9,10 +9,8 @@ import { getCourts } from '@/mocks/courts'
 import { getUpcomingBookingsMock } from '@/mocks/bookings'
 import { ChartPieDonutActive } from './pie-chart'
 import { MonthlyBookingsAmountChart } from './monthly-bookings-amount-chart'
-import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { BadgePlus } from 'lucide-react'
 import { OverviewMainCard } from './overview-main-card'
+import { BookingCourtCard } from '../bookings/booking-details/components/booking-court-card'
 
 const upcomingBookings = getUpcomingBookingsMock()
 
@@ -31,19 +29,14 @@ export function OverviewPage() {
 							<div className="md:col-span-4">
 								<OverviewMainCard />
 							</div>
-							{/* <div className="md:col-span-2">
-								<NextBookingCard booking={upcomingBookings[0]} />
-							</div> */}
 						</div>
 
-						{/* <div className="grid grid-cols-6 gap-4">
-							<div className="col-span-4 h-90">
-								<MonthlyBookingsAmountChart />
-							</div>
+						<div className="grid grid-cols-6 gap-4">
+							<div className="col-span-4"></div>
 							<div className="col-span-2">
 								<ChartPieDonutActive />
 							</div>
-						</div> */}
+						</div>
 
 						<div className="space-y-6">
 							<div className="flex items-center justify-between">
@@ -68,9 +61,8 @@ export function OverviewPage() {
 						</div>
 					</div>
 
-					<div className="flex flex-col gap-4 h-fit">
+					<div className="flex flex-col gap-4">
 						<WeeklyBookingsCard upcomingBookings={upcomingBookings} />
-						{/* <MonthlyBookingsAmountChart /> */}
 					</div>
 				</div>
 			</div>

@@ -28,7 +28,7 @@ const chartData = [
 const chartConfig = {
 	bookings: {
 		label: 'Bookings',
-		color: 'var(--chart-1)',
+		color: 'var(--primary)',
 	},
 } satisfies ChartConfig
 

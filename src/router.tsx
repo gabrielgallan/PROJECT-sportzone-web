@@ -15,7 +15,7 @@ import { DiscoverPage } from './pages/customer/discover'
 import { BookingsPage } from './pages/customer/bookings'
 import { ErrorPage } from './pages/error'
 import { CourtDetailsPage } from './pages/customer/discover/court-details'
-import { BookingDetailsPage } from './pages/customer/bookings/booking-details.tsx'
+import { BookingDetailsPage } from './pages/customer/bookings/booking-details'
 
 export const router = createBrowserRouter([
 	{

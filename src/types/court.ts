@@ -1,10 +1,18 @@
-export interface Court {
+interface Organization {
 	id: string
 	name: string
-	org: string
-	distance: string
-	rating: number
+}
+
+export interface Court {
+	id: string
+	org: Organization
+	name: string
+	description: string
+	pricePerHour: number
 	address: string
+	latitude: number
+	longitude: number
+	rating: number
 	imageUrl: string
 }
 

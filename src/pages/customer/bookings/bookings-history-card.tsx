@@ -1,12 +1,10 @@
-import { Building2, Clock, MapPin } from 'lucide-react'
-
-import { Card, CardContent } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import { Label } from '@/components/ui/label'
-import { BookingStatusBadge } from './booking-status-badge'
+import { Clock, MapPin } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import type { BookingWithCourt } from '@/types/booking'
+
+import { BookingStatusBadge } from './booking-status-badge'
 import { useBookingTimeFormatter } from '@/hooks/use-booking-time-formatter'
+import type { BookingWithCourt } from '@/types/booking'
+import { Card, CardContent } from '@/components/ui/card'
 
 interface BookingHistoryCardProps {
 	booking: BookingWithCourt
@@ -14,63 +12,69 @@ interface BookingHistoryCardProps {
 
 export function BookingHistoryCard({ booking }: BookingHistoryCardProps) {
 	const { intervalWithSeparator } = useBookingTimeFormatter({
-		startDate: booking.startTime,
-		endDate: booking.endTime,
+		startDate: booking.startDate,
+		endDate: booking.endDate,
+	})
+
+	const formattedAmount = (booking.amount / 100).toLocaleString('en-US', {
+		style: 'currency',
+		currency: 'USD',
 	})
 
 	return (
 		<Link to={`/bookings/${booking.id}`} className="block">
-			<Card className="border hover:bg-muted/25 cursor-pointer transition-all duration-150 py-6">
-				<CardContent className="flex gap-4">
-					<div className="h-32 w-40 shrink-0 overflow-hidden rounded-md">
-						<img
-							src={booking.court.imageUrl}
-							alt={booking.court.name}
-							loading="lazy"
-							className="h-full w-full object-cover transition-transform duration-300 hover:scale-[1.02]"
-						/>
-					</div>
+			<Card
+				className="
+					group
+					py-0
+					gap-0
+					grid grid-cols-[120px_1fr]
+					rounded-xl overflow-hidden
+					transition-all duration-300
+					hover:bg-muted/10
+					cursor-pointer
+				"
+			>
+				{/* Image */}
+				<div className="h-full overflow-hidden">
+					<img
+						src={booking.court.imageUrl}
+						alt={booking.court.name}
+						loading="lazy"
+						className="h-full w-full object-cover"
+					/>
+				</div>
 
-					<div className="flex-1 space-y-4">
-						<div className="flex items-start justify-between gap-4">
-							<div className="space-y-2">
-								<div>
-									<span className="text-base font-semibold">{booking.court.name}</span>
-								</div>
-
-								<div className="flex flex-col gap-1">
-									<div className="flex items-center gap-2 text-xs text-muted-foreground">
-										<Building2 className="size-4" />
-										<span>{booking.court.org}</span>
-									</div>
-
-									<div className="flex items-center gap-2 text-xs text-muted-foreground">
-										<MapPin className="size-4" />
-										<span>{booking.court.address}</span>
-									</div>
-								</div>
-							</div>
-
-							<BookingStatusBadge status={booking.status} />
-						</div>
-
-						<Separator />
-
-						<div className="flex items-center justify-between gap-4 text-sm text-muted-foreground">
-							<div className="flex items-center gap-2">
-								<Clock className="size-4" />
-								<span>{intervalWithSeparator}</span>
-							</div>
-
-							<div className="flex items-center gap-2">
-								<Label>Total amount:</Label>
-								<span className="ml-auto font-semibold text-sm text-foreground">
-									{(booking.amount / 100).toLocaleString('en-US', {
-										style: 'currency',
-										currency: 'USD',
-									})}
+				{/* Content */}
+				<CardContent className="flex flex-col px-5 py-4">
+					{/* Top row: name + badge */}
+					<div className="flex justify-between">
+						<div className="space-y-1">
+							<h1 className="group-hover:text-primary text-base font-medium leading-tight">
+								{booking.court.name}
+							</h1>
+							<div className="flex flex-col gap-1">
+								<span className="text-xs text-muted-foreground">{booking.court.org.name}</span>
+								<span className="mt-2 flex items-center gap-2 text-sm">
+									<MapPin className="size-4" />
+									{booking.court.address}
 								</span>
 							</div>
+						</div>
+
+						<BookingStatusBadge status={booking.status} />
+					</div>
+
+					{/* Bottom row: time + amount */}
+					<div className="flex items-end justify-between">
+						<div className="flex items-center gap-2 text-primary bg-muted/40 px-2.5 py-1 rounded-md font-mono text-xs font-medium">
+							<Clock className="size-3.5" />
+							<span>{intervalWithSeparator}</span>
+						</div>
+
+						<div className="text-right">
+							<p className="text-xs text-muted-foreground">Total</p>
+							<span className="text-base font-medium">{formattedAmount}</span>
 						</div>
 					</div>
 				</CardContent>

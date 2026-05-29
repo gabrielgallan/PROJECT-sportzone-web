@@ -1,4 +1,4 @@
-import { Bell, Slash } from 'lucide-react'
+import { Bell } from 'lucide-react'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { ProfileMenu } from '@/components/profile-menu'
 import { PageBreadcrumb } from '@/components/page-breadcrump'
@@ -21,8 +21,6 @@ export function CustomerHeader() {
 				<div className="flex items-center justify-between gap-2">
 					<div className="flex items-center gap-2">
 						<SidebarTrigger />
-
-						<Slash className="-rotate-45 text-muted-foreground/45 size-3" />
 
 						<PageBreadcrumb />
 					</div>

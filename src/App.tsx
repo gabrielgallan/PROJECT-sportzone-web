@@ -3,9 +3,10 @@ import { HelmetProvider } from 'react-helmet-async'
 import { RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from './components/theme-provider'
 import { router } from './router'
+import { Toaster } from './components/ui/sonner'
 
 import './index.css'
-import { Toaster } from './components/ui/sonner'
+import './styles/leaflet.css'
 
 export function App() {
 	return (

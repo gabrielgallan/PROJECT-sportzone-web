@@ -28,7 +28,7 @@ const sidebarGroups = [
 			},
 			{
 				title: 'My Bookings',
-				url: '/bookings',
+				url: '/my-bookings',
 				icon: BadgeCheck,
 			},
 		],
@@ -42,8 +42,8 @@ const sidebarGroups = [
 				icon: Settings,
 			},
 			{
-				title: 'Help',
-				url: '/help',
+				title: 'Support',
+				url: '/support',
 				icon: HelpCircle,
 			},
 		],

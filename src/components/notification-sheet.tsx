@@ -6,11 +6,12 @@ import {
 	SheetFooter,
 	SheetHeader,
 	SheetTitle,
-} from '../ui/sheet'
-import { NotificationCard, type Notification } from './notification-card'
-import { Link } from 'react-router-dom'
+} from './ui/sheet'
+import { Link, useNavigate } from 'react-router-dom'
 import { CheckCheck } from 'lucide-react'
-import { Button } from '../ui/button'
+import { Button } from './ui/button'
+import { Card, CardContent } from './ui/card'
+import { formatDistanceToNowStrict } from 'date-fns'
 
 interface NotificationsSheetProps {
 	children: ReactNode
@@ -48,7 +49,64 @@ export const notifications: Notification[] = [
 	},
 ]
 
-export function NotificationsSheet({ children }: NotificationsSheetProps) {
+type NotificationStatus = 'unread' | 'read'
+
+interface Notification {
+	title: string
+	description: string
+	date: Date
+	status: NotificationStatus
+	href?: string
+}
+
+interface NotificationCardProps {
+	notification: Notification
+	onSelectNotification: () => void
+}
+
+function NotificationCard({ notification, onSelectNotification }: NotificationCardProps) {
+	const navigate = useNavigate()
+
+	function handleSelectNotification() {
+		if (notification.href) {
+			onSelectNotification()
+
+			navigate(notification.href)
+		}
+	}
+
+	return (
+		<Card
+			onClick={handleSelectNotification}
+			className="hover:bg-muted/25 transition-colors duration-100 cursor-pointer"
+		>
+			<CardContent>
+				<div className="flex flex-col gap-1">
+					<div className="flex justify-between">
+						<div className="flex items-center gap-2">
+							{notification.status === 'unread' && (
+								<span className="h-1.5 w-1.5 rounded-full bg-primary" />
+							)}
+							<span className="text-sm font-medium">{notification.title}</span>
+						</div>
+
+						<div>
+							<span className="text-xs text-muted-foreground/45">
+								{formatDistanceToNowStrict(notification.date, {
+									addSuffix: true,
+								})}
+							</span>
+						</div>
+					</div>
+
+					<span className="text-xs text-muted-foreground mt-2">{notification.description}</span>
+				</div>
+			</CardContent>
+		</Card>
+	)
+}
+
+function NotificationsSheet({ children }: NotificationsSheetProps) {
 	const [isSheetOpen, setIsSheetOpen] = useState(false)
 
 	const unreadNotifications = notifications.filter((n) => n.status === 'unread').length
@@ -95,3 +153,5 @@ export function NotificationsSheet({ children }: NotificationsSheetProps) {
 		</Sheet>
 	)
 }
+
+export { NotificationsSheet }

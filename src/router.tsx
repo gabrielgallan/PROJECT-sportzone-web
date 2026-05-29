@@ -1,21 +1,22 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 // Layouts
-import { AuthLayout } from './pages/_layouts/auth'
-import { CustomerLayout } from './pages/_layouts/customer'
-import { OrganizationLayout } from './pages/_layouts/org'
+import { AuthLayout } from './app/layouts/auth'
+import { CustomerLayout } from './app/layouts/customer'
+import { OrganizationLayout } from './app/layouts/org'
 
 // Pages
-import { NotFound } from './pages/404'
-import { SignInPage } from './pages/auth/sign-in'
-import { SignUpPage } from './pages/auth/sign-up'
-import { OverviewPage } from './pages/customer/overview'
-import { DashboardPage } from './pages/org/dashboard'
-import { DiscoverPage } from './pages/customer/discover'
-import { BookingsPage } from './pages/customer/bookings'
-import { ErrorPage } from './pages/error'
-import { CourtDetailsPage } from './pages/customer/discover/court-details'
-import { BookingDetailsPage } from './pages/customer/bookings/booking-details'
+import { NotFound } from '@/app/pages/404'
+import { SignInPage } from '@/app/pages/auth/sign-in'
+import { SignUpPage } from '@/app/pages/auth/sign-up'
+import { OverviewPage } from '@/app/pages/customer/overview'
+import { DashboardPage } from '@/app/pages/org/dashboard'
+import { DiscoverPage } from '@/app/pages/customer/discover'
+import { BookingsPage } from '@/app/pages/customer/my-bookings'
+import { ErrorPage } from '@/app/pages/error'
+import { CourtDetailsPage } from '@/app/pages/customer/discover/court/[id]'
+import { BookingDetailsPage } from '@/app/pages/customer/my-bookings/[id]'
+import { SupportPage } from './app/pages/customer/support'
 
 export const router = createBrowserRouter([
 	{
@@ -30,6 +31,7 @@ export const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <CustomerLayout />,
+		errorElement: <ErrorPage />,
 		children: [
 			{ index: true, element: <OverviewPage />, handle: { breadcrumb: 'Overview' } },
 			{
@@ -48,7 +50,7 @@ export const router = createBrowserRouter([
 				],
 			},
 			{
-				path: 'bookings',
+				path: 'my-bookings',
 				handle: { breadcrumb: 'My Bookings' },
 				children: [
 					{
@@ -61,6 +63,11 @@ export const router = createBrowserRouter([
 						handle: { breadcrumb: 'Booking Details' },
 					},
 				],
+			},
+			{
+				path: 'support',
+				handle: { breadcrumb: 'Support center' },
+				element: <SupportPage />
 			},
 		],
 	},

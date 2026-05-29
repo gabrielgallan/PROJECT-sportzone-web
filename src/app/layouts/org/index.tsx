@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import { OrganizationHeader } from '@/pages/_layouts/org/org-header'
+import { OrganizationHeader } from './org-header'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { OrganizationSidebar } from './org-sidebar'

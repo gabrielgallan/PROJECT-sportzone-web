@@ -10,7 +10,7 @@ import { getUpcomingBookingsMock } from '@/mocks/bookings'
 import { ChartPieDonutActive } from './pie-chart'
 import { MonthlyBookingsAmountChart } from './monthly-bookings-amount-chart'
 import { OverviewMainCard } from './overview-main-card'
-import { BookingCourtCard } from '../bookings/booking-details/components/booking-court-card'
+import { BookingCourtCard } from '../my-bookings/[id]/components/booking-court-card'
 
 const upcomingBookings = getUpcomingBookingsMock()
 

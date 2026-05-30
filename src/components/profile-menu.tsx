@@ -34,21 +34,29 @@ export function ProfileMenu({ user }: ProfileMenuProps) {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger className="flex items-center gap-3 rounded-md outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring">
+			<DropdownMenuTrigger className="flex items-center gap-2 rounded-md outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring">
 				<Avatar className="size-8">
 					{user.avatar && <AvatarImage src={user.avatar} alt={user.name} />}
 					<AvatarFallback>{initials}</AvatarFallback>
 				</Avatar>
-				<ChevronDown className="size-4 text-muted-foreground" />
+
+				<div className="hidden md:flex flex-col items-start">
+					<span className="text-xs font-medium">{user.name}</span>
+					<span className="text-xs  text-muted-foreground">{user.email}</span>
+				</div>
+
+				<ChevronDown className="size-4 text-muted-foreground ml-2" />
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent align="end" className="w-52">
-				<div className="px-2 py-1.5">
-					<p className="truncate text-sm font-medium">{user.name}</p>
-					<p className="truncate text-xs text-muted-foreground">{user.email}</p>
-				</div>
+				<div className="md:hidden">
+					<div className="px-2 py-1.5">
+						<p className="truncate text-sm font-medium">{user.name}</p>
+						<p className="truncate text-xs text-muted-foreground">{user.email}</p>
+					</div>
 
-				<DropdownMenuSeparator />
+					<DropdownMenuSeparator />
+				</div>
 
 				<DropdownMenuItem asChild>
 					<a href="/organizations">

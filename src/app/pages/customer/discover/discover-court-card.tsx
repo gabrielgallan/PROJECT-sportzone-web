@@ -43,12 +43,10 @@ export function DiscoverCourtCard({ court, hasVisited = false }: DiscoverCourtCa
 						</div>
 					</div>
 
-					<div className="flex items-center gap-2 text-sm text-muted-foreground">
-						<MapPin className="size-4" />
+					<div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
+						<MapPin className="size-3 md:size-4" />
 
-						<span>
-							{court.address} · {court.distance} Km
-						</span>
+						<p>{court.address}</p>
 					</div>
 				</div>
 

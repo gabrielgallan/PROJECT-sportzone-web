@@ -15,39 +15,45 @@ import { LocateIcon, Search, X } from 'lucide-react'
 export function DiscoverCourtFilters() {
 	return (
 		<form>
-			<div className="flex gap-2 items-center w-fit">
-				<Label>Filters</Label>
+			<div className="flex flex-col gap-3 md:flex-row w-fit md:items-center">
+				<Label className="hidden md:block">Filters</Label>
 
-				<Input placeholder="Court name" type="text" />
+				{/* Inputs em grid no mobile */}
+				<div className="grid grid-cols-2 gap-2 md:contents">
+					<Input placeholder="Court name" type="text" />
+					<Input placeholder="Location" type="text" />
 
-				<Input placeholder="Location" type="text" />
+					<Select>
+						<SelectTrigger className="h-9 w-full">
+							<SelectValue placeholder="Sport type" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								<SelectLabel>Sport type</SelectLabel>
+								<SelectItem value="all">All</SelectItem>
+								<SelectItem value="soccer">Soccer</SelectItem>
+								<SelectItem value="volley">Volley</SelectItem>
+								<SelectItem value="basketball">Basketball</SelectItem>
+								<SelectItem value="football">Football</SelectItem>
+							</SelectGroup>
+						</SelectContent>
+					</Select>
 
-				<Select>
-					<SelectTrigger className="h-8 w-45">
-						<SelectValue placeholder="Sport type" />
-					</SelectTrigger>
-					<SelectContent>
-						<SelectGroup>
-							<SelectLabel>Sport type</SelectLabel>
-							<SelectItem value="all">All</SelectItem>
-							<SelectItem value="pending">Soccer</SelectItem>
-							<SelectItem value="canceled">Volley</SelectItem>
-							<SelectItem value="processing">Basketball</SelectItem>
-							<SelectItem value="delivering">Football</SelectItem>
-						</SelectGroup>
-					</SelectContent>
-				</Select>
+					{/* Botões agrupados */}
+					<div className="flex gap-2">
+						<Button type="submit" variant="secondary" className="flex-1 md:flex-none">
+							<Search className="size-4" />
+						</Button>
 
-				<Button type="submit" variant="secondary">
-					<Search className="h-4 w-4" />
-				</Button>
+						<Button type="button" variant="secondary" className="flex-1 md:flex-none">
+							<LocateIcon className="size-4" />
+						</Button>
+					</div>
+				</div>
 
-				<Button type="submit" variant="secondary">
-					<LocateIcon className="h-4 w-4" />
-				</Button>
-
-				<Button type="button" variant="ghost">
-					<X className="h-4 w-4 mr-2" />
+				{/* Clear filters — full width no mobile */}
+				<Button type="button" variant="ghost" className="w-fit ml-auto">
+					<X className="size-4 mr-2" />
 					<span className="text-sm">Clear filters</span>
 				</Button>
 			</div>

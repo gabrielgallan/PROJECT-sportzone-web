@@ -14,7 +14,7 @@ interface CourtsCaroulselProps {
 
 export function CourtsCaroulsel({ courts }: CourtsCaroulselProps) {
 	return (
-		<Carousel className="w-full sm:max-w-xs">
+		<Carousel className="w-full">
 			<CarouselContent>
 				{courts.map((court) => (
 					<CarouselItem key={court.id}>

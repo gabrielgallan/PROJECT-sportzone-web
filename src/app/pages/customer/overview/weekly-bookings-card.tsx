@@ -86,7 +86,7 @@ interface WeeklyBookingsCardProps {
 export function WeeklyBookingsCard({ upcomingBookings }: WeeklyBookingsCardProps) {
 	return (
 		<Card>
-			<CardHeader className="flex flex-row items-start justify-between space-y-0">
+			<CardHeader className="flex flex-row items-start justify-between">
 				<div className="space-y-1">
 					<CardTitle className="text-base">This week</CardTitle>
 					<CardDescription>Your upcoming court schedule</CardDescription>

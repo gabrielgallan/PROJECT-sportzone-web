@@ -5,7 +5,7 @@ import { type DateRange } from 'react-day-picker'
 
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
-import { Field, FieldLabel } from '@/components/ui/field'
+import { Field } from '@/components/ui/field'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 export function DateRangePicker() {
@@ -15,8 +15,7 @@ export function DateRangePicker() {
 	})
 
 	return (
-		<Field className="mx-auto w-60">
-			{/* <FieldLabel htmlFor="date-picker-range">Date Picker Range</FieldLabel> */}
+		<Field className="mx-auto">
 			<Popover>
 				<PopoverTrigger asChild>
 					<Button

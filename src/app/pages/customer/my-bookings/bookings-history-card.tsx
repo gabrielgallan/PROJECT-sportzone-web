@@ -22,21 +22,19 @@ export function BookingHistoryCard({ booking }: BookingHistoryCardProps) {
 	})
 
 	return (
-		<Link to={`/bookings/${booking.id}`} className="block">
+		<Link to={`/my-bookings/${booking.id}`} className="group block">
 			<Card
 				className="
-					group
-					py-0
-					gap-0
-					grid grid-cols-[120px_1fr]
-					rounded-xl overflow-hidden
-					transition-all duration-300
-					hover:bg-muted/10
-					cursor-pointer
-				"
+    py-0
+    gap-0
+    grid grid-cols-1 md:grid-cols-[120px_1fr]
+    transition-all
+    cursor-pointer
+    hover:bg-muted/10
+  "
 			>
 				{/* Image */}
-				<div className="h-full overflow-hidden">
+				<div className="h-40 md:h-full overflow-hidden rounded-t-xl md:rounded-none md:rounded-l-xl">
 					<img
 						src={booking.court.imageUrl}
 						alt={booking.court.name}
@@ -46,7 +44,7 @@ export function BookingHistoryCard({ booking }: BookingHistoryCardProps) {
 				</div>
 
 				{/* Content */}
-				<CardContent className="flex flex-col px-5 py-4">
+				<CardContent className="flex flex-col px-5 py-4 gap-2 md:gap-0">
 					{/* Top row: name + badge */}
 					<div className="flex justify-between">
 						<div className="space-y-1">
@@ -55,14 +53,16 @@ export function BookingHistoryCard({ booking }: BookingHistoryCardProps) {
 							</h1>
 							<div className="flex flex-col gap-1">
 								<span className="text-xs text-muted-foreground">{booking.court.org.name}</span>
-								<span className="mt-2 flex items-center gap-2 text-sm">
+								<span className="mt-2 flex items-center gap-2 text-xs md:text-sm">
 									<MapPin className="size-4" />
 									{booking.court.address}
 								</span>
 							</div>
 						</div>
 
-						<BookingStatusBadge status={booking.status} />
+						<div className="hidden md:flex">
+							<BookingStatusBadge status={booking.status} />
+						</div>
 					</div>
 
 					{/* Bottom row: time + amount */}
@@ -73,7 +73,7 @@ export function BookingHistoryCard({ booking }: BookingHistoryCardProps) {
 						</div>
 
 						<div className="text-right">
-							<p className="text-xs text-muted-foreground">Total</p>
+							<p className="hidden md:grid text-xs text-muted-foreground">Total</p>
 							<span className="text-base font-medium">{formattedAmount}</span>
 						</div>
 					</div>

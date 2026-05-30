@@ -14,7 +14,11 @@ interface RouteHandle {
 	breadcrumb?: string
 }
 
-export function PageBreadcrumb() {
+interface PageBreadcrumbProps {
+	className?: string
+}
+
+export function PageBreadcrumb({ className }: PageBreadcrumbProps) {
 	const matches = useMatches()
 
 	const breadcrumbs = matches
@@ -33,7 +37,7 @@ export function PageBreadcrumb() {
 		})
 
 	return (
-		<Breadcrumb>
+		<Breadcrumb className={className}>
 			<BreadcrumbList>
 				{breadcrumbs.map((breadcrumb, index) => {
 					const isLast = index === breadcrumbs.length - 1

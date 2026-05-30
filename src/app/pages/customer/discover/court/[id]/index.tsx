@@ -1,5 +1,5 @@
-import { useParams } from 'react-router-dom'
-import { BadgeCheck, Building2, MapPin, Star } from 'lucide-react'
+import { Link, useParams } from 'react-router-dom'
+import { BadgeCheck, Building2, ChevronLeft, MapPin, Star } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -22,10 +22,10 @@ export function CourtDetailsPage() {
 	return (
 		<>
 			<PageTitle title="Court Details" />
-			<div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6">
-				<header className="flex justify-between items-end">
-					<div className="space-y-2">
-						<h1 className="text-3xl md:text-4xl font-semibold tracking-tight">{court.name}</h1>
+			<main className="mx-auto grid max-w-300 gap-6 py-6 px-4">
+				<header className="flex justify-between">
+					<div className="space-y-1">
+						<h1 className="text-xl md:text-2xl font-semibold tracking-tight">{court.name}</h1>
 
 						<div className="flex items-center gap-2 text-sm md:text-base text-muted-foreground">
 							<Building2 className="size-4" />
@@ -33,15 +33,24 @@ export function CourtDetailsPage() {
 						</div>
 					</div>
 
-					<div className="flex items-center gap-2 text-sm">
-						<div className="flex items-center gap-1 font-medium text-foreground">
-							<Star className="size-4 fill-primary text-primary" />
-							<span>{court.rating}</span>
-						</div>
+					<div className="flex flex-col items-end justify-between">
+						<Link to="/discover">
+							<Button className="flex items-center justify-between py-4 mb-auto" variant="ghost">
+								<ChevronLeft className="size-4" />
+								Back
+							</Button>
+						</Link>
 
-						<span className="text-xs md:text-base text-muted-foreground">
-							({court.reviews.length} reviews)
-						</span>
+						<div className="flex items-center gap-2 text-sm">
+							<div className="flex items-center gap-1 font-medium text-foreground">
+								<Star className="size-4 fill-primary text-primary" />
+								<span>{court.rating}</span>
+							</div>
+
+							<span className="text-xs md:text-base text-muted-foreground">
+								({court.reviews.length} reviews)
+							</span>
+						</div>
 					</div>
 				</header>
 
@@ -184,7 +193,7 @@ export function CourtDetailsPage() {
 						</Card>
 					</aside>
 				</div>
-			</div>
+			</main>
 		</>
 	)
 }

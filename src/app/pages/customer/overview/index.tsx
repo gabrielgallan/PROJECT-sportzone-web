@@ -22,8 +22,8 @@ export function OverviewPage() {
 	return (
 		<>
 			<PageTitle title="Overview" />
-			<div className="flex flex-col p-4">
-				<div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+			<div className="p-4">
+				<div className="grid md:grid-cols-4 gap-4">
 					<div className="col-span-3 grid gap-4">
 						<div className="grid md:grid-cols-4 gap-4">
 							<div className="md:col-span-4">
@@ -31,16 +31,18 @@ export function OverviewPage() {
 							</div>
 						</div>
 
-						<div className="grid grid-cols-6 gap-4">
+						{/* <div className="grid grid-cols-6 gap-4">
 							<div className="col-span-4"></div>
 							<div className="col-span-2">
 								<ChartPieDonutActive />
 							</div>
-						</div>
+						</div> */}
 
-						<div className="space-y-6">
+						<div className="grid gap-6">
 							<div className="flex items-center justify-between">
-								<h1 className="text-xl font-semibold">Recent visits</h1>
+								<h1 className="text-base font-semibold">
+									Recent visited <span className="font-semibold text-primary">courts</span>
+								</h1>
 
 								<Link to="/discover">
 									<span className="text-xs text-muted-foreground hover:text-primary">
@@ -61,7 +63,7 @@ export function OverviewPage() {
 						</div>
 					</div>
 
-					<div className="flex flex-col gap-4">
+					<div>
 						<WeeklyBookingsCard upcomingBookings={upcomingBookings} />
 					</div>
 				</div>

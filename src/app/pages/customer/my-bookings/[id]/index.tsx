@@ -1,4 +1,12 @@
-import { BadgeDollarSign, Ban, ChevronLeft, ChevronRight, HelpCircle, Repeat2 } from 'lucide-react'
+import {
+	BadgeDollarSign,
+	Ban,
+	ChevronLeft,
+	ChevronRight,
+	HelpCircle,
+	MessageCircle,
+	Repeat2,
+} from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
@@ -14,7 +22,7 @@ import { useBookingTimeFormatter } from '@/hooks/use-booking-time-formatter'
 
 const booking: BookingWithCourt = {
 	id: 'bk-1',
-	status: 'confirmed',
+	status: 'completed',
 	startDate: new Date('2026-05-29T18:00:00'),
 	endDate: new Date('2026-05-29T19:00:00'),
 	amount: 45000,
@@ -49,21 +57,20 @@ export function BookingDetailsPage() {
 			<main className="mx-auto grid max-w-300 gap-6 py-6 px-4">
 				<header className="flex justify-between items-start">
 					<div className="space-y-1">
-						<h1 className="text-2xl font-semibold tracking-tight">Booking details</h1>
+						<h1 className="text-xl md:text-2xl font-semibold tracking-tight">Booking details</h1>
 
-						<span className="text-base text-muted-foreground">
-							View the details and status of your court reservation.
+						<span className="text-sm md:text-base text-muted-foreground">
+							View the details and status of your court reservation for{' '}
+							{format(booking.startDate, 'dd MMM')} on {booking.court.name}
 						</span>
 					</div>
 
-					<div>
-						<Button variant="ghost" asChild className="text-sm">
-							<Link to="/bookings">
-								<ChevronLeft className="size-4" />
-								Back
-							</Link>
+					<Link to="/my-bookings">
+						<Button className="flex items-center justify-between py-4" variant="ghost">
+							<ChevronLeft className="size-4" />
+							Back
 						</Button>
-					</div>
+					</Link>
 				</header>
 
 				<BookingStatusAlert status={booking.status} />
@@ -102,10 +109,10 @@ export function BookingDetailsPage() {
 						<BookingSummaryCard booking={booking} />
 					</div>
 
-					<aside className="space-y-4">
+					<aside className="flex flex-col gap-4">
 						<div className="space-y-4">
 							{['pending', 'confirmed'].includes(booking.status) && (
-								<Card className="group hover:text-rose-500 hover:bg-muted/10 cursor-pointer transition-colors">
+								<Card className="group hover:text-rose-500 cursor-pointer transition-colors">
 									<CardContent className="flex items-center justify-between">
 										<div className="space-y-2">
 											<div className="flex items-center gap-2">
@@ -126,7 +133,7 @@ export function BookingDetailsPage() {
 							)}
 
 							{['pending'].includes(booking.status) && (
-								<Card className="group hover:text-primary hover:bg-muted/10 cursor-pointer transition-colors">
+								<Card className="group hover:text-primary cursor-pointer transition-colors">
 									<CardContent className="flex items-center justify-between">
 										<div className="space-y-2">
 											<div className="flex items-center gap-2">
@@ -147,24 +154,49 @@ export function BookingDetailsPage() {
 							)}
 
 							{['completed'].includes(booking.status) && (
-								<Card className="group hover:text-teal-500 hover:bg-muted/10 cursor-pointer transition-colors">
-									<CardContent className="flex items-center justify-between">
-										<div className="space-y-2">
-											<div className="flex items-center gap-2">
-												<Repeat2 className="size-4" />
-												<CardTitle className="text-sm">Book again</CardTitle>
+								<Link to="/discover/court/1" className="block">
+									<Card className="group hover:text-teal-500 cursor-pointer transition-colors">
+										<CardContent className="flex items-center justify-between">
+											<div className="space-y-2">
+												<div className="flex items-center gap-2">
+													<Repeat2 className="size-4" />
+													<CardTitle className="text-sm">Book again</CardTitle>
+												</div>
+
+												<CardDescription className="text-xs">
+													Adjust how much you can send from your balance
+												</CardDescription>
 											</div>
 
-											<CardDescription className="text-xs">
-												Adjust how much you can send from your balance
-											</CardDescription>
-										</div>
+											<div>
+												<ChevronRight className="size-4 text-muted-foreground group-hover:text-teal-500" />
+											</div>
+										</CardContent>
+									</Card>
+								</Link>
+							)}
 
-										<div>
-											<ChevronRight className="size-4 text-muted-foreground group-hover:text-teal-500" />
-										</div>
-									</CardContent>
-								</Card>
+							{['completed'].includes(booking.status) && (
+								<Link to="/discover/court/1" className="block">
+									<Card className="group hover:text-amber-500 cursor-pointer transition-colors">
+										<CardContent className="flex items-center justify-between">
+											<div className="space-y-2">
+												<div className="flex items-center gap-2">
+													<MessageCircle className="size-4" />
+													<CardTitle className="text-sm">Review this court</CardTitle>
+												</div>
+
+												<CardDescription className="text-xs">
+													{/* Adjust how much you can send from your balance */}
+												</CardDescription>
+											</div>
+
+											<div>
+												<ChevronRight className="size-4 text-muted-foreground group-hover:text-amber-500" />
+											</div>
+										</CardContent>
+									</Card>
+								</Link>
 							)}
 						</div>
 

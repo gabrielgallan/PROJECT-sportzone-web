@@ -5,6 +5,8 @@ import { SidebarProvider } from '@/components/ui/sidebar'
 
 import { CustomerHeader } from './customer-header'
 import { CustomerSidebar } from './customer-sidebar'
+import { CustomerBottomNav } from './curtomer-bottom-nav'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 export function CustomerLayout() {
 	return (
@@ -15,9 +17,10 @@ export function CustomerLayout() {
 
 					<main className="flex flex-1 flex-col">
 						<CustomerHeader />
-
 						<Outlet />
 					</main>
+
+					<CustomerBottomNav />
 				</div>
 			</SidebarProvider>
 		</TooltipProvider>

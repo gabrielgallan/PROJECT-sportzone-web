@@ -22,7 +22,7 @@ export function CourtDetailsPage() {
 	return (
 		<>
 			<PageTitle title="Court Details" />
-			<main className="mx-auto grid max-w-300 gap-6 py-6 px-4">
+			<main className="mx-auto grid max-w-300 w-full gap-6 py-6 px-4">
 				<header className="flex justify-between">
 					<div className="space-y-1">
 						<h1 className="text-xl md:text-2xl font-semibold tracking-tight">{court.name}</h1>

@@ -16,7 +16,8 @@ import { BookingsPage } from '@/app/pages/customer/my-bookings'
 import { ErrorPage } from '@/app/pages/error'
 import { CourtDetailsPage } from '@/app/pages/customer/discover/court/[id]'
 import { BookingDetailsPage } from '@/app/pages/customer/my-bookings/[id]'
-import { SupportPage } from './app/pages/customer/support'
+import { SupportPage } from './app/pages/support'
+import { SettingsPage } from './app/pages/settings'
 
 export const router = createBrowserRouter([
 	{
@@ -67,7 +68,12 @@ export const router = createBrowserRouter([
 			{
 				path: 'support',
 				handle: { breadcrumb: 'Support center' },
-				element: <SupportPage />
+				element: <SupportPage />,
+			},
+			{
+				path: 'settings',
+				handle: { breadcrumb: 'Settings' },
+				element: <SettingsPage />,
 			},
 		],
 	},

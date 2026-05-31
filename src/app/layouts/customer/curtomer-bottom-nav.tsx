@@ -1,5 +1,5 @@
 // customer-bottom-nav.tsx
-import { BadgeCheck, BringToFront, MapPin, Settings } from 'lucide-react'
+import { BadgeCheck, BringToFront, HelpCircle, MapPin, Settings } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 
@@ -7,6 +7,7 @@ const navItems = [
 	{ title: 'Overview', url: '/', icon: BringToFront },
 	{ title: 'Discover', url: '/discover', icon: MapPin },
 	{ title: 'Bookings', url: '/my-bookings', icon: BadgeCheck },
+	{ title: 'Help', url: '/support', icon: HelpCircle },
 	{ title: 'Settings', url: '/settings', icon: Settings },
 ]
 

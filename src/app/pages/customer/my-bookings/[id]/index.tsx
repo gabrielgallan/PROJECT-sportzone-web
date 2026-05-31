@@ -51,10 +51,15 @@ export function BookingDetailsPage() {
 		endDate: booking.endDate,
 	})
 
+	const supportPageParams = new URLSearchParams({
+		subject: 'booking',
+		issue: `Booking ID: ${booking.id}`,
+	})
+
 	return (
 		<>
 			<PageTitle title="Booking Details" />
-			<main className="mx-auto grid max-w-300 gap-6 py-6 px-4">
+			<main className="mx-auto grid max-w-300 w-full gap-6 py-6 px-4">
 				<header className="flex justify-between items-start">
 					<div className="space-y-1">
 						<h1 className="text-xl md:text-2xl font-semibold tracking-tight">Booking details</h1>
@@ -207,9 +212,11 @@ export function BookingDetailsPage() {
 							</CardHeader>
 
 							<CardContent>
-								<Button className="p-0" variant="link">
-									Contact our support team
-								</Button>
+								<Link to={`/support?${supportPageParams}`}>
+									<Button className="p-0" variant="link">
+										Contact our support team
+									</Button>
+								</Link>
 							</CardContent>
 						</Card>
 					</aside>

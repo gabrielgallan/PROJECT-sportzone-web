@@ -18,7 +18,7 @@ export function getBookingsHistoryMock(): BookingHistoryByDate[] {
 					status: 'confirmed',
 					court: {
 						id: '1',
-						name: 'Arena Paulista',
+						name: 'Arena do São',
 						description: '',
 						pricePerHour: 45000,
 						latitude: -23.0,

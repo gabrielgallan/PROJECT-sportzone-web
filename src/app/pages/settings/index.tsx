@@ -14,7 +14,16 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import { Box, ChevronDown, Users } from 'lucide-react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Box, ChevronDown, Users, Pencil, Loader2, FingerprintPattern, Star, CreditCard, CircleEllipsis, HelpCircle, Bell } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import z from 'zod'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Link } from 'react-router-dom'
+import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel } from '@/components/ui/field'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Switch } from '@/components/ui/switch'
 
 const user = {
 	name: 'Gabriel Gallan',
@@ -60,10 +69,10 @@ function OrganizationCard({ org }: OrganizationCardProps) {
 		<HoverCard openDelay={10} closeDelay={20}>
 			<HoverCardTrigger asChild>
 				<div className="flex items-center gap-2 group transition-all hover:bg-muted/40 p-1 rounded-lg cursor-pointer">
-					<img src={org.imageUrl} alt={org.slug} className="w-10 rounded-lg" />
+					<img src={org.imageUrl} alt={org.slug} className="w-8 rounded-lg" />
 
 					<div>
-						<p className="text-sm font-medium group-hover:text-primary">{org.name}</p>
+						<p className="text-xs font-medium group-hover:text-primary">{org.name}</p>
 						<p className="text-xs text-muted-foreground">{org.role}</p>
 					</div>
 				</div>
@@ -95,17 +104,62 @@ function OrganizationCard({ org }: OrganizationCardProps) {
 	)
 }
 
+const updateProfileFormSchema = z.object({
+	name: z.string(),
+	email: z.email()
+})
+
+type UpdateProfileFormType = z.infer<typeof updateProfileFormSchema>
+
 function EditProfileModal() {
+	const { register, handleSubmit, formState: { isSubmitting } } = useForm<UpdateProfileFormType>({
+		resolver: zodResolver(updateProfileFormSchema),
+		defaultValues: {
+			name: user.name,
+			email: user.email
+		}
+	})
+
+	function handleUpdateProfile(data: UpdateProfileFormType) {
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				toast.success('Profile edited successfully!')
+
+				resolve(null)
+			}, 2000)
+		})
+	}
+
 	return (
 		<DialogContent>
 			<DialogHeader>
-				<DialogTitle>Edit yout profile account</DialogTitle>
+				<DialogTitle>Your profile</DialogTitle>
 			</DialogHeader>
 
-			<form>
-				<div className="space-y-2">
-					<Label htmlFor="name">Name</Label>
-					<Input type="text" id="name" />
+			<form onSubmit={handleSubmit(handleUpdateProfile)}>
+				<div className='space-y-4'>
+					<div className="relative w-fit mx-auto">
+						<Avatar className="size-17">
+							<AvatarImage src={user.avatarUrl} alt={user.username} />
+							<AvatarFallback>GG</AvatarFallback>
+						</Avatar>
+
+						<button className="absolute bottom-0 right-0 flex items-center justify-center size-6 rounded-full bg-primary text-primary-foreground ring-2 ring-background hover:bg-primary/90 transition-colors">
+							<Pencil className="size-3" />
+						</button>
+					</div>
+
+					<div className="space-y-2">
+						<Label htmlFor="name">Name</Label>
+						<Input type="text" id="name" {...register('name')} />
+					</div>
+
+					<div className="space-y-2">
+						<Label htmlFor="email">E-mail</Label>
+						<Input type="email" id="email" {...register('email')} />
+					</div>
+
+					<Button disabled={isSubmitting} type='submit' className='w-15'>{isSubmitting ? <Loader2 className='size-4 animate-spin' /> : 'Save'}</Button>
 				</div>
 			</form>
 		</DialogContent>
@@ -116,20 +170,8 @@ export function SettingsPage() {
 	return (
 		<>
 			<PageTitle title="Settings" />
-			<main className="mx-auto grid max-w-300 w-full gap-6 py-6 px-4">
-				<header className="flex justify-between items-start">
-					<div className="space-y-1">
-						<h1 className="text-xl md:text-2xl font-semibold tracking-tight">Settings</h1>
-
-						<span className="text-sm md:text-base text-muted-foreground">
-							View the details and status of your court reservation for
-						</span>
-					</div>
-				</header>
-
-				<div className="grid gap-6 md:grid-cols-[1fr_22rem]">
-					<Card></Card>
-
+			<main className="mx-auto grid max-w-340 w-full gap-6 py-6 px-4">
+				<div className="grid gap-6 md:grid-cols-[20rem_1fr]">
 					<aside>
 						<Card>
 							<CardHeader className="flex flex-col items-center gap-2 p-2">
@@ -169,7 +211,107 @@ export function SettingsPage() {
 								</div>
 							</CardContent>
 						</Card>
+
+						<Card className="bg-muted-foreground/5">
+							<CardHeader className="flex items-center gap-2">
+								<HelpCircle className="size-4" />
+								<CardTitle className="text-sm">Need help?</CardTitle>
+							</CardHeader>
+						
+							<CardContent>
+								<Link to={`/support`}>
+									<Button className="p-0" variant="link">
+										Contact our support team
+									</Button>
+								</Link>
+							</CardContent>
+						</Card>
+													
 					</aside>
+
+					<div className='w-full'>
+						<Tabs defaultValue="security" className="w-full flex flex-col">
+							<TabsList>
+								<TabsTrigger value="security">
+									<FingerprintPattern />
+									Security
+								</TabsTrigger>
+
+								<TabsTrigger value="notification">
+									<Bell />
+									Notification
+								</TabsTrigger>
+								
+								<TabsTrigger value="billing">
+									<CreditCard />
+									Billing
+								</TabsTrigger>
+
+								<TabsTrigger value="preferences">
+									<CircleEllipsis />
+									Preferences
+								</TabsTrigger>
+							</TabsList>
+
+							<TabsContent value="security">
+								<Card>
+									<CardHeader>
+										<CardTitle>Security</CardTitle>
+										<CardDescription>Your account security details</CardDescription>
+									</CardHeader>
+								</Card>
+							</TabsContent>
+
+							<TabsContent value="preferences">
+								<Card>
+									<CardHeader>
+										<CardTitle>Your preferences</CardTitle>
+									</CardHeader>
+								</Card>
+							</TabsContent>
+
+							<TabsContent value="notification">
+								<Card>
+									<CardHeader>
+										<CardTitle>My notifications</CardTitle>
+									</CardHeader>
+									<CardContent>
+										<FieldGroup className="flex flex-col gap-3">
+											<Field orientation="horizontal">
+												<Checkbox id="booking-updates" name="booking-updates" />
+												<Label htmlFor="booking-updates">Bookings updates</Label>
+											</Field>
+
+											<Field orientation="horizontal">
+												<Checkbox id="new-invite" name="new-invite" />
+												<Label htmlFor="new-invite">When receive a new invite</Label>
+											</Field>
+										</FieldGroup>
+
+										<Field orientation="horizontal">
+												<FieldContent>
+													<FieldLabel htmlFor="switch-focus-mode">
+													Share across devices
+													</FieldLabel>
+													<FieldDescription>
+													Focus is shared across devices, and turns off when you leave the app.
+													</FieldDescription>
+												</FieldContent>
+												<Switch id="switch-focus-mode" />
+											</Field>
+									</CardContent>
+								</Card>
+							</TabsContent>
+
+							<TabsContent value="billing">
+								<Card>
+									<CardHeader>
+										<CardTitle>Billing information</CardTitle>
+									</CardHeader>
+								</Card>
+							</TabsContent>
+						</Tabs>
+					</div>
 				</div>
 			</main>
 		</>

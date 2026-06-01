@@ -19,10 +19,11 @@ import { BookingStatusAlert } from './components/booking-status-alert'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { format, formatDistanceToNow } from 'date-fns'
 import { useBookingTimeFormatter } from '@/hooks/use-booking-time-formatter'
+import { CancelBookingModal } from './components/cancel-booking-modal'
 
 const booking: BookingWithCourt = {
 	id: 'bk-1',
-	status: 'completed',
+	status: 'pending',
 	startDate: new Date('2026-05-29T18:00:00'),
 	endDate: new Date('2026-05-29T19:00:00'),
 	amount: 45000,
@@ -116,26 +117,7 @@ export function BookingDetailsPage() {
 
 					<aside className="flex flex-col gap-4">
 						<div className="space-y-4">
-							{['pending', 'confirmed'].includes(booking.status) && (
-								<Card className="group hover:text-rose-500 cursor-pointer transition-colors">
-									<CardContent className="flex items-center justify-between">
-										<div className="space-y-2">
-											<div className="flex items-center gap-2">
-												<Ban className="size-4" />
-												<CardTitle className="text-sm">Cancel this booking</CardTitle>
-											</div>
-
-											<CardDescription className="text-xs">
-												Adjust how much you can send from your balance
-											</CardDescription>
-										</div>
-
-										<div>
-											<ChevronRight className="size-4 text-muted-foreground group-hover:text-rose-500" />
-										</div>
-									</CardContent>
-								</Card>
-							)}
+							{['pending', 'confirmed'].includes(booking.status) && <CancelBookingModal />}
 
 							{['pending'].includes(booking.status) && (
 								<Card className="group hover:text-primary cursor-pointer transition-colors">

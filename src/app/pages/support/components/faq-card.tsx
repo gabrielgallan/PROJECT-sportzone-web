@@ -1,11 +1,11 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { ChevronRight, HelpCircle, MessageCircle } from 'lucide-react'
-
-const faqItems = [
-	{ title: 'How to cancel a booking' },
-	{ title: 'Refund policy' },
-	{ title: 'Payment methods' },
-]
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from '@/components/ui/accordion'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { HelpCircle } from 'lucide-react'
 
 export function FaqCard() {
 	return (
@@ -15,22 +15,37 @@ export function FaqCard() {
 					<HelpCircle className="size-4 text-muted-foreground" />
 					<CardTitle className="text-base">Before you write</CardTitle>
 				</div>
+
+				<CardDescription>
+					Common questions about your account, plans, payments and cancellations.
+				</CardDescription>
 			</CardHeader>
-			<CardContent className="space-y-1 px-6 pb-4">
-				{faqItems.map((item, i) => (
-					<div key={item.title}>
-						<div className="flex items-center justify-between py-2.5 cursor-pointer group">
-							<div className="flex items-center gap-2">
-								<MessageCircle className="size-3.5 group-hover:text-primary text-muted-foreground" />
-								<span className="text-sm group-hover:text-primary transition-colors">
-									{item.title}
-								</span>
-							</div>
-							<ChevronRight className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
-						</div>
-						{i < faqItems.length - 1 && <div className="border-t" />}
-					</div>
-				))}
+			<CardContent className="px-4">
+				<Accordion type="single" collapsible>
+					<AccordionItem value="cancel-booking">
+						<AccordionTrigger>How to cancel a booking?</AccordionTrigger>
+						<AccordionContent>
+							We offer standard (5-7 days), express (2-3 days), and overnight shipping. Free
+							shipping on international orders.
+						</AccordionContent>
+					</AccordionItem>
+
+					<AccordionItem value="policy">
+						<AccordionTrigger>Refund policy</AccordionTrigger>
+						<AccordionContent>
+							We offer standard (5-7 days), express (2-3 days), and overnight shipping. Free
+							shipping on international orders.
+						</AccordionContent>
+					</AccordionItem>
+
+					<AccordionItem value="payments">
+						<AccordionTrigger>Payment methods</AccordionTrigger>
+						<AccordionContent>
+							We offer standard (5-7 days), express (2-3 days), and overnight shipping. Free
+							shipping on international orders.
+						</AccordionContent>
+					</AccordionItem>
+				</Accordion>
 			</CardContent>
 		</Card>
 	)

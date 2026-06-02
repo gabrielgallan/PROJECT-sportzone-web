@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { PageTitle } from '@/components/page-title'
 import { getOrganizationDashboardMock } from '@/mocks/organization-dashboard'
+import type { OrganizationDashboardPeriod } from '@/types/organization-dashboard'
 import { BookingsAmountCard } from './components/bookings-amount-card'
 import { BookingsOverviewChart } from './components/bookings-overview-chart'
 import { BookingsPendingAmountCard } from './components/bookings-pending-amount-card'
@@ -12,12 +13,20 @@ import { PendingActionsCard } from './components/pending-actions-card'
 import { RevenueCard } from './components/revenue-card'
 import { TopCourtsCard } from './components/top-courts-card'
 
+function parsePeriod(value: string | null): OrganizationDashboardPeriod {
+	if (value === 'today' || value === '7_days' || value === '30_days') {
+		return value
+	}
+
+	return '30_days'
+}
+
 export function DashboardPage() {
 	const [searchParams, _setSearchParams] = useSearchParams()
 
 	const dashboard = useMemo(() => getOrganizationDashboardMock(), [])
 
-	const period = searchParams.get('period') || '30_days'
+	const period = parsePeriod(searchParams.get('period'))
 	const selectedCourtId = searchParams.get('court') || 'all'
 
 	const hasOperationalData = dashboard.courts.length > 0 && dashboard.topCourts.length > 0

@@ -15,6 +15,7 @@ import { Separator } from '@/components/ui/separator'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, ChevronDown, Users, Loader2, RefreshCcw } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import z from 'zod'
 
@@ -61,14 +62,16 @@ function OrganizationCard({ org }: OrganizationCardProps) {
 	return (
 		<HoverCard openDelay={10} closeDelay={20}>
 			<HoverCardTrigger asChild>
-				<div className="flex items-center gap-2 group transition-all hover:bg-muted/40 p-1 rounded-lg cursor-pointer">
-					<img src={org.imageUrl} alt={org.slug} className="w-8 rounded-lg" />
+				<Link to={`/organizations/${org.slug}`}>
+					<div className="flex items-center gap-2 group transition-all hover:bg-muted/40 p-1 rounded-lg cursor-pointer">
+						<img src={org.imageUrl} alt={org.slug} className="w-8 rounded-lg" />
 
-					<div>
-						<p className="text-xs font-medium group-hover:text-primary">{org.name}</p>
-						<p className="text-xs text-muted-foreground">{org.role}</p>
+						<div>
+							<p className="text-xs font-medium group-hover:text-primary">{org.name}</p>
+							<p className="text-xs text-muted-foreground">{org.role}</p>
+						</div>
 					</div>
-				</div>
+				</Link>
 			</HoverCardTrigger>
 			<HoverCardContent className="max-w-64 p-0">
 				<div className="flex p-2 gap-2">

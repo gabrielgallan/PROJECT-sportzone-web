@@ -1,5 +1,4 @@
-import { Building2, ChevronDown, LogOut } from 'lucide-react'
-
+import { ChevronDown, LogOut, Settings, User as UserIcon } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
 	DropdownMenu,
@@ -8,6 +7,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import type { User } from '@/types/organization'
 
 function getInitials(name: string): string {
 	return name
@@ -19,24 +19,19 @@ function getInitials(name: string): string {
 		.join('')
 }
 
-interface User {
-	name: string
-	email: string
-	avatar?: string | null
-}
-
 interface ProfileMenuProps {
 	user: User
+	organizationLayout?: boolean
 }
 
-export function ProfileMenu({ user }: ProfileMenuProps) {
+export function ProfileMenu({ user, organizationLayout = false }: ProfileMenuProps) {
 	const initials = user.name ? getInitials(user.name) : 'U'
 
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger className="flex items-center gap-2 rounded-md outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring">
 				<Avatar className="size-8">
-					{user.avatar && <AvatarImage src={user.avatar} alt={user.name} />}
+					{user.avatarUrl && <AvatarImage src={user.avatarUrl} alt={user.name} />}
 					<AvatarFallback>{initials}</AvatarFallback>
 				</Avatar>
 
@@ -58,12 +53,25 @@ export function ProfileMenu({ user }: ProfileMenuProps) {
 					<DropdownMenuSeparator />
 				</div>
 
-				<DropdownMenuItem asChild>
-					<a href="/organizations">
-						<Building2 className="mr-2 size-4" />
-						Organizations
-					</a>
-				</DropdownMenuItem>
+				{organizationLayout && (
+					<>
+						<DropdownMenuItem asChild>
+							<a href="/">
+								<UserIcon className="mr-2 size-4" />
+								Customer Area
+							</a>
+						</DropdownMenuItem>
+
+						<DropdownMenuItem asChild>
+							<a href="settings">
+								<Settings className="mr-2 size-4" />
+								Profile Settings
+							</a>
+						</DropdownMenuItem>
+
+						<DropdownMenuSeparator />
+					</>
+				)}
 
 				<DropdownMenuItem asChild>
 					<a href="/auth/sign-in">

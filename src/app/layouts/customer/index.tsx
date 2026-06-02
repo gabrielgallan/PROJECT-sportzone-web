@@ -6,7 +6,6 @@ import { SidebarProvider } from '@/components/ui/sidebar'
 import { CustomerHeader } from './customer-header'
 import { CustomerSidebar } from './customer-sidebar'
 import { CustomerBottomNav } from './curtomer-bottom-nav'
-import { useIsMobile } from '@/hooks/use-mobile'
 
 export function CustomerLayout() {
 	return (
@@ -15,7 +14,7 @@ export function CustomerLayout() {
 				<div className="flex min-h-screen w-full">
 					<CustomerSidebar />
 
-					<main className="flex flex-1 flex-col">
+					<main className="flex flex-1 flex-col mb-16 md:mb-0">
 						<CustomerHeader />
 						<Outlet />
 					</main>

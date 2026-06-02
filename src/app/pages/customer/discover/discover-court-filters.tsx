@@ -1,3 +1,4 @@
+import { LocateIcon, Search, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -10,12 +11,11 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import { LocateIcon, Search, X } from 'lucide-react'
 
 export function DiscoverCourtFilters() {
 	return (
 		<form>
-			<div className="flex flex-col gap-3 md:flex-row w-full md:items-center">
+			<div className="flex flex-col gap-3 md:flex-row w-full md:w-fit md:items-center">
 				<Label className="hidden md:block">Filters</Label>
 
 				{/* Inputs em grid no mobile */}

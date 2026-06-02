@@ -5,7 +5,7 @@ export function DashboardPage() {
 	return (
 		<>
 			<PageTitle title="Dashboard" />
-			<div className="space-y-8">
+			<main className="mx-auto grid max-w-300 w-full gap-6 py-6 px-4">
 				<div className="grid gap-4 grid-cols-4">
 					<CardTest />
 					<CardTest />
@@ -14,7 +14,7 @@ export function DashboardPage() {
 				</div>
 
 				<div className="grid grid-cols-9 gap-4"></div>
-			</div>
+			</main>
 		</>
 	)
 }

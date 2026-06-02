@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
-import { OrganizationHeader } from './org-header'
-import { TooltipProvider } from '@/components/ui/tooltip'
 import { SidebarProvider } from '@/components/ui/sidebar'
+import { TooltipProvider } from '@/components/ui/tooltip'
+import { OrganizationHeader } from './org-header'
 import { OrganizationSidebar } from './org-sidebar'
 
 export function OrganizationLayout() {
@@ -11,13 +11,11 @@ export function OrganizationLayout() {
 				<div className="flex min-h-screen w-full">
 					<OrganizationSidebar />
 
-					<div className="flex min-w-0 flex-1 flex-col">
+					<main className="flex flex-1 flex-col mb-16 md:mb-0">
 						<OrganizationHeader />
 
-						<main className="flex-1 p-4">
-							<Outlet />
-						</main>
-					</div>
+						<Outlet />
+					</main>
 				</div>
 			</SidebarProvider>
 		</TooltipProvider>

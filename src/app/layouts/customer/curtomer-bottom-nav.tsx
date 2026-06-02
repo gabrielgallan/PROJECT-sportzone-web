@@ -7,8 +7,8 @@ const navItems = [
 	{ title: 'Overview', url: '/', icon: BringToFront },
 	{ title: 'Discover', url: '/discover', icon: MapPin },
 	{ title: 'Bookings', url: '/my-bookings', icon: BadgeCheck },
-	{ title: 'Help', url: '/support', icon: HelpCircle },
 	{ title: 'Settings', url: '/settings', icon: Settings },
+	{ title: 'Help', url: '/support', icon: HelpCircle },
 ]
 
 export function CustomerBottomNav() {

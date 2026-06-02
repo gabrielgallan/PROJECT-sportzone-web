@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 // Pages
-import { NotFound } from '@/app/pages/404'
+import { NotFoundPage } from '@/app/pages/404'
 import { SignInPage } from '@/app/pages/auth/sign-in'
 import { SignUpPage } from '@/app/pages/auth/sign-up'
 import { DiscoverPage } from '@/app/pages/customer/discover'
@@ -111,6 +111,6 @@ export const router = createBrowserRouter([
 	},
 	{
 		path: '*',
-		element: <NotFound />,
+		element: <NotFoundPage />,
 	},
 ])

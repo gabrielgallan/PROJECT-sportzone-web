@@ -1,6 +1,6 @@
 import { Bell } from 'lucide-react'
 import { NotificationsSheet } from '@/components/notification-sheet'
-import { PageBreadcrumb } from '@/components/page-breadcrump'
+import { PageBreadcrumb } from '@/components/page-breadcrumb'
 import { ProfileMenu } from '@/components/profile-menu'
 import { Button } from '@/components/ui/button'
 import { SheetTrigger } from '@/components/ui/sheet'

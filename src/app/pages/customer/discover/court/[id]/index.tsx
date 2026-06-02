@@ -1,22 +1,20 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { BadgeCheck, Building2, ChevronLeft, MapPin, Star } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { CourtReviewComment } from './court-review-comment'
-import { CourtAmenityBadge } from './court-amenity-badge'
-import { CourtLocationMap } from './court-location-map'
+import { RatingStars } from '@/components/rating-stars'
+import { CourtReviewComment } from './components/court-review-comment'
+import { CourtAmenityBadge } from './components/court-amenity-badge'
+import { CourtLocationMap } from './components/court-location-map'
 import { getCourtDetails } from '@/mocks/courts'
 import { PageTitle } from '@/components/page-title'
 import { Textarea } from '@/components/ui/textarea'
-import { RatingStars } from './rating-stars'
 import { useState } from 'react'
 
 const court = getCourtDetails('1')
 
 export function CourtDetailsPage() {
-	const { courtId } = useParams()
-
 	const [rate, setRate] = useState<number>(0)
 
 	return (

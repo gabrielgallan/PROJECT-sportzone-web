@@ -1,7 +1,7 @@
 import { PageTitle } from '@/components/page-title'
-import { BookingHistoryCard } from './bookings-history-card'
 import { Pagination } from '@/components/pagination'
-import { BookingsHistoryFilters } from './bookings-history-filters'
+import { BookingHistoryCard } from './components/booking-history-card'
+import { BookingsHistoryFilters } from './components/bookings-history-filters'
 import { getBookingsHistoryMock } from '@/mocks/bookings'
 
 const bookingsByDate = getBookingsHistoryMock()

@@ -120,7 +120,7 @@ function EditProfileModal() {
 		},
 	})
 
-	function handleUpdateProfile(data: UpdateProfileFormType) {
+	function handleUpdateProfile(_data: UpdateProfileFormType) {
 		return new Promise((resolve) => {
 			setTimeout(() => {
 				toast.success('Profile edited successfully!')

@@ -1,16 +1,11 @@
 import { Bell } from 'lucide-react'
 import { SidebarTrigger } from '@/components/ui/sidebar'
+import { PageBreadcrumb } from '@/components/page-breadcrumb'
 import { ProfileMenu } from '@/components/profile-menu'
-import { PageBreadcrumb } from '@/components/page-breadcrump'
 import { NotificationsSheet } from '@/components/notification-sheet'
 import { Button } from '@/components/ui/button'
 import { SheetTrigger } from '@/components/ui/sheet'
-
-const user = {
-	name: 'Gabriel Gallan',
-	email: 'gabriel31@gmail.com',
-	avatar: 'https://github.com/gabrielgallan.png',
-}
+import { user } from '@/mocks/user'
 
 export function CustomerHeader() {
 	const hasNotifications = true

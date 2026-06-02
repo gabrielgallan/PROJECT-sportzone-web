@@ -1,8 +1,8 @@
 import { PageTitle } from '@/components/page-title'
 import { Pagination } from '@/components/pagination'
+import { DiscoverCourtCard } from '@/components/discover-court-card'
 import { getCourts } from '@/mocks/courts'
-import { DiscoverCourtCard } from './discover-court-card'
-import { DiscoverCourtFilters } from './discover-court-filters'
+import { DiscoverCourtFilters } from './components/discover-court-filters'
 
 const courts = getCourts()
 

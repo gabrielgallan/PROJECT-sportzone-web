@@ -1,16 +1,12 @@
 import { PageTitle } from '@/components/page-title'
-import { WeeklyBookingsCard } from './weekly-bookings-card'
-import { NextBookingCard } from './next-booking-card'
-import { DiscoverCourtCard } from '../discover/discover-court-card'
 import { Link } from 'react-router-dom'
+import { DiscoverCourtCard } from '@/components/discover-court-card'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { CourtsCaroulsel } from './courts-caroulsel'
+import { CourtsCarousel } from './components/courts-carousel'
 import { getCourts } from '@/mocks/courts'
 import { getUpcomingBookingsMock } from '@/mocks/bookings'
-import { ChartPieDonutActive } from './pie-chart'
-import { MonthlyBookingsAmountChart } from './monthly-bookings-amount-chart'
-import { OverviewMainCard } from './overview-main-card'
-import { BookingCourtCard } from '../my-bookings/[id]/components/booking-court-card'
+import { OverviewMainCard } from './components/overview-main-card'
+import { WeeklyBookingsCard } from './components/weekly-bookings-card'
 
 const upcomingBookings = getUpcomingBookingsMock()
 
@@ -52,7 +48,7 @@ export function OverviewPage() {
 							</div>
 
 							{isMobile ? (
-								<CourtsCaroulsel courts={courts} />
+								<CourtsCarousel courts={courts} />
 							) : (
 								<div className="grid md:grid-cols-4 gap-4">
 									{courts.map((court) => (

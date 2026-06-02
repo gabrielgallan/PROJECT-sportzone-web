@@ -36,11 +36,11 @@ function CourtLocationMarker({ position, name, address }: CourtLocationMarkerPro
 	)
 }
 
-interface CorutLocationMapProps {
+interface CourtLocationMapProps {
 	court: Court
 }
 
-export function CourtLocationMap({ court }: CorutLocationMapProps) {
+export function CourtLocationMap({ court }: CourtLocationMapProps) {
 	const { theme } = useTheme()
 
 	const isDark = theme === 'dark'

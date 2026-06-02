@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatDistanceToNow } from 'date-fns'
+import { RatingStars } from '@/components/rating-stars'
 import type { CourtReview } from '@/types/court'
-import { RatingStars } from './rating-stars'
 
 interface CourtReviewCommentProps {
 	review: CourtReview

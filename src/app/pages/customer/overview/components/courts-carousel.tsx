@@ -5,14 +5,14 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from '@/components/ui/carousel'
-import { DiscoverCourtCard } from '../discover/discover-court-card'
+import { DiscoverCourtCard } from '@/components/discover-court-card'
 import type { Court } from '@/types/court'
 
-interface CourtsCaroulselProps {
+interface CourtsCarouselProps {
 	courts: Court[]
 }
 
-export function CourtsCaroulsel({ courts }: CourtsCaroulselProps) {
+export function CourtsCarousel({ courts }: CourtsCarouselProps) {
 	return (
 		<Carousel className="w-full">
 			<CarouselContent>

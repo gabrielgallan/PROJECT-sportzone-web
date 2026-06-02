@@ -1,4 +1,5 @@
 import { DateRangePicker } from '@/components/date-range-picker'
+import { BookingStatusBadge } from '@/components/booking-status-badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -12,7 +13,6 @@ import {
 	SelectValue,
 } from '@/components/ui/select'
 import { Search, X } from 'lucide-react'
-import { BookingStatusBadge } from './booking-status-badge'
 import type { BookingStatus } from '@/types/booking'
 
 const statusOptions: BookingStatus[] = ['pending', 'confirmed', 'completed', 'canceled']

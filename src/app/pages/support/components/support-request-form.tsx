@@ -1,5 +1,5 @@
 import { Input } from '@/components/ui/input'
-import { Check, CheckCircle2, Loader2, Send } from 'lucide-react'
+import { CheckCircle2, Loader2 } from 'lucide-react'
 import { Label } from '@/components/ui/label'
 import {
 	Select,
@@ -52,7 +52,7 @@ export function SupportRequestForm() {
 		},
 	})
 
-	function handleSendIssue(data: SupportFormType) {
+	function handleSendIssue(_data: SupportFormType) {
 		return new Promise((resolve) => {
 			setTimeout(() => {
 				try {

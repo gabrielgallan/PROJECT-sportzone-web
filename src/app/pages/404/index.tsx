@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { PageTitle } from '@/components/page-title'
 
-export function NotFound() {
+export function NotFoundPage() {
 	return (
 		<>
 			<PageTitle title="404" />

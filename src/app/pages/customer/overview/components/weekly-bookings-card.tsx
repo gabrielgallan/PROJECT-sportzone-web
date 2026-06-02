@@ -1,7 +1,7 @@
 import { ArrowRight, CalendarDays } from 'lucide-react'
+import { BookingStatusBadge } from '@/components/booking-status-badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Link } from 'react-router-dom'
-import { BookingStatusBadge } from '../my-bookings/booking-status-badge'
 import { formatDistanceToNowStrict } from 'date-fns'
 import { useBookingTimeFormatter } from '@/hooks/use-booking-time-formatter'
 import { cn } from '@/lib/utils'

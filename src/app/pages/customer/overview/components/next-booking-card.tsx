@@ -3,7 +3,6 @@ import dayjs from 'dayjs'
 import { formatDistanceToNowStrict } from 'date-fns'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card'
-import { useBookingTimeFormatter } from '@/hooks/use-booking-time-formatter'
 import type { BookingWithCourt } from '@/types/booking'
 
 interface NextBookingCardProps {
@@ -11,13 +10,6 @@ interface NextBookingCardProps {
 }
 
 export function NextBookingCard({ booking }: NextBookingCardProps) {
-	const bookingDate = dayjs(booking.startDate).format('dddd, DD MMM')
-
-	const { intervalWithSeparator } = useBookingTimeFormatter({
-		startDate: booking.startDate,
-		endDate: booking.endDate,
-	})
-
 	return (
 		<Card className="overflow-hidden pb-0 md:pb-4">
 			<div className="flex flex-col lg:flex-row">
@@ -38,10 +30,10 @@ export function NextBookingCard({ booking }: NextBookingCardProps) {
 								<h3 className="text-xl font-semibold">{booking.court.name}</h3>
 
 								<div className="flex flex-col mt-3 gap-2 text-sm text-muted-foreground">
-									<div className="flex items-center gap-2">
-										<Building2 className="size-4" />
-										<span>{booking.court.org}</span>
-									</div>
+								<div className="flex items-center gap-2">
+									<Building2 className="size-4" />
+									<span>{booking.court.org.name}</span>
+								</div>
 
 									<div className="flex items-center gap-2">
 										<MapPin className="size-4" />

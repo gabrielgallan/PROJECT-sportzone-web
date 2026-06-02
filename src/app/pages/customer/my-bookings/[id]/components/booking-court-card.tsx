@@ -1,8 +1,8 @@
 import { Building2, MapPin } from 'lucide-react'
 
+import { RatingStars } from '@/components/rating-stars'
 import { Card, CardContent } from '@/components/ui/card'
 import type { BookingWithCourt } from '@/types/booking'
-import { RatingStars } from '../../../discover/court/[id]/rating-stars'
 
 interface BookingCourtCardProps {
 	booking: BookingWithCourt

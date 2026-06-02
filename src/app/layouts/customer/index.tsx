@@ -1,11 +1,9 @@
 import { Outlet } from 'react-router-dom'
-
-import { TooltipProvider } from '@/components/ui/tooltip'
 import { SidebarProvider } from '@/components/ui/sidebar'
-
-import { CustomerHeader } from './customer-header'
-import { CustomerSidebar } from './customer-sidebar'
-import { CustomerBottomNav } from './curtomer-bottom-nav'
+import { TooltipProvider } from '@/components/ui/tooltip'
+import { CustomerBottomNav } from './components/customer-bottom-nav'
+import { CustomerHeader } from './components/customer-header'
+import { CustomerSidebar } from './components/customer-sidebar'
 
 export function CustomerLayout() {
 	return (

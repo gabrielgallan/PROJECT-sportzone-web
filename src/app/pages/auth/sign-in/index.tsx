@@ -31,7 +31,7 @@ export function SignInPage() {
 		},
 	})
 
-	async function handleSignIn(data: SignInFormType) {
+	async function handleSignIn(_data: SignInFormType) {
 		return new Promise((resolve) => {
 			setTimeout(() => {
 				try {

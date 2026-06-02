@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import { OrganizationHeader } from './org-header'
-import { OrganizationSidebar } from './org-sidebar'
+import { OrganizationHeader } from './components/org-header'
+import { OrganizationSidebar } from './components/org-sidebar'
 
 export function OrganizationLayout() {
 	return (

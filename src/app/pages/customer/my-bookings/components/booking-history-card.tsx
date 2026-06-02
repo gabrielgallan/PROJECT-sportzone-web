@@ -1,7 +1,7 @@
 import { Clock, MapPin } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-import { BookingStatusBadge } from './booking-status-badge'
+import { BookingStatusBadge } from '@/components/booking-status-badge'
 import { useBookingTimeFormatter } from '@/hooks/use-booking-time-formatter'
 import type { BookingWithCourt } from '@/types/booking'
 import { Card, CardContent } from '@/components/ui/card'

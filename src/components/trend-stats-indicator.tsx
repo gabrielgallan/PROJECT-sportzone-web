@@ -51,9 +51,7 @@ export function TrendingStatsIndicator({
 				className={cn('flex items-center gap-1 text-xs font-medium', trendClassMap[trendDirection])}
 			>
 				<TrendIcon className="size-3.5" />
-				<span>
-					{message ? trendMessageMap[trendDirection] : `${formattedDiff} from last period`}
-				</span>
+				<span>{message ? trendMessageMap[trendDirection] : formattedDiff}</span>
 			</div>
 		</div>
 	)

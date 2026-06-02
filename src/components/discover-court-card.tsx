@@ -1,9 +1,8 @@
 import { MapPin, Star } from 'lucide-react'
-
+import { useNavigate } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { useNavigate } from 'react-router-dom'
 import type { Court } from '@/types/court'
 
 interface DiscoverCourtCardProps {
@@ -21,53 +20,47 @@ export function DiscoverCourtCard({ court, hasVisited = false }: DiscoverCourtCa
 	}
 
 	return (
-		<Card className="overflow-hidden p-0 gap-0">
+		<Card className="overflow-hidden p-0 gap-0  max-h-85">
 			<div className="aspect-video overflow-hidden">
 				<img src={court.imageUrl} alt={court.name} className="h-full w-full object-cover" />
 			</div>
 
-			<CardContent className="space-y-4 p-5">
+			<CardContent className="flex flex-col gap-4 justify-between p-5">
 				<div className="space-y-2">
 					<div className="flex items-start justify-between gap-3">
-						<div>
-							<h3 className="text-lg font-semibold">{court.name}</h3>
-
+						<div className="min-w-0 flex-1">
+							{' '}
+							{/* ← adicione min-w-0 e flex-1 */}
+							<h1 className="text-lg font-semibold truncate">{court.name}</h1>
 							<div className="mt-1 flex items-center gap-2">
 								<Badge variant="secondary">none</Badge>
 							</div>
 						</div>
 
-						<div className="flex items-center gap-1 text-sm text-muted-foreground">
+						<div className="flex items-center gap-1 text-sm text-muted-foreground shrink-0">
+							{' '}
+							{/* ← shrink-0 para o rating não encolher */}
 							<Star className="size-4 fill-current" />
 							<span>{court.rating}</span>
 						</div>
 					</div>
 
-					<div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
-						<MapPin className="size-3 md:size-4" />
-
-						<p>{court.address}</p>
+					<div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground min-w-0">
+						{' '}
+						{/* ← min-w-0 aqui também */}
+						<MapPin className="size-3 md:size-4 shrink-0" /> {/* ← shrink-0 no ícone */}
+						<p className="truncate">{court.address}</p>
 					</div>
 				</div>
 
-				{hasVisited ? (
-					<Button
-						type="button"
-						onClick={handleOpenCourtPage}
-						variant="secondary"
-						className="w-full py-5 hover:opacity-80 cursor-pointer"
-					>
-						<span className="font-semibold">Book again</span>
-					</Button>
-				) : (
-					<Button
-						type="button"
-						onClick={handleOpenCourtPage}
-						className="w-full py-5 hover:opacity-80 cursor-pointer"
-					>
-						<span className="font-semibold">Book now</span>
-					</Button>
-				)}
+				<Button
+					type="button"
+					variant={hasVisited ? 'secondary' : 'default'}
+					onClick={handleOpenCourtPage}
+					className="w-full py-5 hover:opacity-80 cursor-pointer"
+				>
+					<span className="font-semibold">{hasVisited ? 'Book again' : 'Book now'}</span>
+				</Button>
 			</CardContent>
 		</Card>
 	)

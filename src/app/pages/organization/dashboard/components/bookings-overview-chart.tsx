@@ -1,4 +1,4 @@
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
+import { CartesianGrid, Line, LineChart, XAxis } from 'recharts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
 	type ChartConfig,
@@ -30,13 +30,17 @@ export function BookingsOverviewChart({ data }: BookingsOverviewChartProps) {
 				<CardTitle>Bookings over time</CardTitle>
 				<CardDescription>Reservation volume for the selected period.</CardDescription>
 			</CardHeader>
-			<CardContent className="px-6 h-70">
+			<CardContent className="h-70">
 				<ChartContainer config={chartConfig} className="w-full h-full">
 					<LineChart data={data}>
 						<CartesianGrid vertical={false} />
 
-						<XAxis dataKey="label" tickLine={false} axisLine={false} />
-						<YAxis width={30} tickLine={false} tickMargin={8} axisLine={false} />
+						<XAxis
+							dataKey="label"
+							tickLine={false}
+							axisLine={false}
+							padding={{ left: 16, right: 16 }}
+						/>
 
 						<ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
 

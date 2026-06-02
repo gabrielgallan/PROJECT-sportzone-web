@@ -1,3 +1,9 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Box, ChevronDown, Loader2, RefreshCcw, Users } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
+import { toast } from 'sonner'
+import z from 'zod'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -12,12 +18,6 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, ChevronDown, Users, Loader2, RefreshCcw } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
-import { toast } from 'sonner'
-import z from 'zod'
 
 const user = {
 	name: 'Gabriel Gallan',
@@ -60,7 +60,7 @@ interface OrganizationCardProps {
 
 function OrganizationCard({ org }: OrganizationCardProps) {
 	return (
-		<HoverCard openDelay={10} closeDelay={20}>
+		<HoverCard openDelay={10} closeDelay={80}>
 			<HoverCardTrigger asChild>
 				<Link to={`/organizations/${org.slug}`}>
 					<div className="flex items-center gap-2 group transition-all hover:bg-muted/40 p-1 rounded-lg cursor-pointer">
@@ -199,9 +199,11 @@ export function ProfileSettingsSidebar() {
 					<span className="font-semibold text-base">Organizations</span>
 
 					<div className="mt-2 space-y-2">
-						{organizations.map((org) => (
-							<OrganizationCard key={org.id} org={org} />
-						))}
+						<div>
+							{organizations.map((org) => (
+								<OrganizationCard key={org.id} org={org} />
+							))}
+						</div>
 
 						<div className="flex gap-1 items-center text-xs text-primary cursor-pointer w-fit">
 							<span>See 1 more</span>

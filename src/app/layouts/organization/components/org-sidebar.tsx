@@ -1,4 +1,4 @@
-import { AtSign, Box, ChartArea, HelpCircle, Plus, Tickets } from 'lucide-react'
+import { Box, ChartArea, HelpCircle, Plus, Tickets, Users } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import {
 	Sidebar,
@@ -35,7 +35,7 @@ const sidebarGroups = [
 			{
 				title: 'Members',
 				url: 'members',
-				icon: AtSign,
+				icon: Users,
 			},
 		],
 	},

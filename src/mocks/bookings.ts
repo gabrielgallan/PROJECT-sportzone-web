@@ -121,13 +121,36 @@ export function getUpcomingBookingsMock(): BookingWithCourt[] {
 	return [
 		{
 			id: 'bk-1',
-			startDate: new Date(),
-			endDate: new Date(),
+			startDate: new Date(2026, 6, 4, 10),
+			endDate: new Date(2026, 6, 4, 12),
 			amount: 4550,
 			status: 'confirmed',
 			court: {
 				id: '1',
 				name: 'Arena Paulista',
+				description: '',
+				pricePerHour: 45000,
+				latitude: -23.0,
+				longitude: -40.0,
+				org: {
+					id: '1',
+					name: 'Sportzone Club',
+				},
+				address: 'Av. Paulista, 1200 - São Paulo, SP',
+				rating: 4.6,
+				imageUrl:
+					'https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=1470&auto=format&fit=crop',
+			},
+		},
+		{
+			id: 'bk-2',
+			startDate: new Date(2026, 5, 1, 18),
+			endDate: new Date(2026, 5, 1, 19),
+			amount: 4550,
+			status: 'completed',
+			court: {
+				id: '1',
+				name: 'Parque Ibirapuera',
 				description: '',
 				pricePerHour: 45000,
 				latitude: -23.0,

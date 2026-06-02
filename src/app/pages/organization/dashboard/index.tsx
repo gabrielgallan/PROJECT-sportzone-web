@@ -69,7 +69,7 @@ export function DashboardPage() {
 
 				{hasOperationalData ? (
 					<>
-						<div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+						<div className="grid gap-4 xl:grid-cols-4">
 							<BookingsAmountCard data={{ amount: 32, indicator: 50 }} />
 
 							<BookingsPendingAmountCard data={{ amount: 12, indicator: 5 }} />

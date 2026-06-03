@@ -1,6 +1,8 @@
 import { useLocation } from 'react-router-dom'
 import { PageTitle } from '@/components/page-title'
 import { Pagination } from '@/components/pagination'
+import { MembersTable } from './components/members-table'
+import { MembersTableFilters } from './components/members-table-filters'
 
 export function OrganizationMembersPage() {
 	const { pathname } = useLocation()
@@ -18,7 +20,13 @@ export function OrganizationMembersPage() {
 					<p className="text-sm text-muted-foreground">Manage your organization memberships</p>
 				</header>
 
-				<Pagination onPageChange={() => {}} pageIndex={0} perPage={10} totalCount={12} />
+				<div className="space-y-4">
+					<MembersTableFilters />
+
+					<MembersTable />
+
+					<Pagination onPageChange={() => {}} pageIndex={0} perPage={10} totalCount={12} />
+				</div>
 			</main>
 		</>
 	)

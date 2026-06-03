@@ -1,6 +1,6 @@
 import type { Court } from './court'
 
-export interface User {
+interface User {
 	id: string
 	name: string
 	email: string
@@ -9,16 +9,17 @@ export interface User {
 	memberOn?: Membership[]
 }
 
-export type UserRole = 'member' | 'owner'
+type UserRole = 'member' | 'owner' | 'billing'
 
-export interface Membership {
+interface Membership {
 	id: string
 	user: User
 	organization: Organization
 	role: UserRole
+	createdAt: Date
 }
 
-export interface Organization {
+interface Organization {
 	id: string
 	owner?: User
 	name: string
@@ -28,3 +29,5 @@ export interface Organization {
 	courts: Court[]
 	members: Membership[]
 }
+
+export type { Membership, Organization, User, UserRole }

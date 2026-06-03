@@ -8,7 +8,7 @@ const trendIconMap = {
 }
 
 const trendClassMap = {
-	up: 'text-primary',
+	up: 'text-teal-500',
 	down: 'text-rose-500',
 	neutral: 'text-muted-foreground',
 }

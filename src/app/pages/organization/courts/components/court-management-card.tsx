@@ -1,123 +1,73 @@
-import { CalendarDays, Clock3, MapPin, PencilLine, Settings2, Ticket, Wrench } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter } from '@/components/ui/card'
-import { cn } from '@/lib/utils'
+import { MapPin, MousePointerClick } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
+import type { CourtWithMetrics } from '@/types/court'
+import { CourtManagementHoverCard } from './court-management-hover-card'
+import { CourtStatusBadge } from './court-status-badge'
 
 interface CourtManagementCardProps {
-	court: {
-		id: string
-		name: string
-		sport: string
-		address: string
-		imageUrl: string
-		status: 'active' | 'draft' | 'paused' | 'maintenance'
-		pricePerHour: number
-		bookingsThisWeek: number
-		weeklyOccupancy: number
-		nextBooking: string
-		alert: string
-	}
+	courtWithMetrics: CourtWithMetrics
 }
 
-const statusLabelMap = {
-	active: 'Active',
-	draft: 'Draft',
-	paused: 'Paused',
-	maintenance: 'Maintenance',
-} satisfies Record<CourtManagementCardProps['court']['status'], string>
+export function CourtManagementCard({ courtWithMetrics: court }: CourtManagementCardProps) {
+	const { metrics } = court
 
-const statusClassMap = {
-	active: 'bg-primary/10 text-primary',
-	draft: 'bg-muted text-muted-foreground',
-	paused: 'bg-amber-500/10 text-amber-600',
-	maintenance: 'bg-rose-500/10 text-rose-500',
-} satisfies Record<CourtManagementCardProps['court']['status'], string>
-
-function formatCurrency(value: number) {
-	return (value / 100).toLocaleString('en-US', {
-		style: 'currency',
-		currency: 'USD',
-		maximumFractionDigits: 0,
-	})
-}
-
-export function CourtManagementCard({ court }: CourtManagementCardProps) {
 	return (
-		<Card className="overflow-hidden p-0 gap-0">
-			<div className="aspect-video overflow-hidden">
-				<img src={court.imageUrl} alt={court.name} className="h-full w-full object-cover" />
-			</div>
+		<CourtManagementHoverCard court={court} metrics={metrics}>
+			<Card className="gap-0 overflow-hidden p-0 transition-all hover:bg-muted/15 hover:shadow-sm">
+				<div className="relative aspect-video overflow-hidden">
+					<img
+						src={court.imageUrl}
+						alt={court.name}
+						className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+					/>
 
-			<CardContent className="space-y-5 p-5">
-				<div className="space-y-3">
-					<div className="flex items-start justify-between gap-3">
-						<div className="space-y-1">
-							<h3 className="text-lg font-semibold leading-tight">{court.name}</h3>
-							<div className="flex flex-wrap items-center gap-2">
-								<Badge variant="secondary">{court.sport}</Badge>
-								<Badge className={cn(statusClassMap[court.status])}>{statusLabelMap[court.status]}</Badge>
+					<div className="absolute top-3 left-3 flex gap-2">
+						<CourtStatusBadge status={court.status} />
+					</div>
+				</div>
+
+				<CardContent className="space-y-4 p-4">
+					<div className="space-y-3">
+						<div className="flex items-start justify-between gap-4">
+							<div className="flex flex-col gap-2 text-left">
+								<h1 className="text-lg font-semibold">{court.name}</h1>
+
+								<div className="flex flex-wrap items-center gap-1">
+									{court.sportTypes.slice(0, 2).map((sport) => (
+										<span
+											key={sport}
+											className="rounded-sm bg-secondary px-3 py-0.5 text-xs text-secondary-foreground"
+										>
+											{sport}
+										</span>
+									))}
+								</div>
+
+								<div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+									<MapPin className="size-4" />
+									<p className="line-clamp-1">{court.address}</p>
+								</div>
+							</div>
+
+							<div className="shrink-0 text-right">
+								<p className="text-xs text-muted-foreground">Per hour</p>
+								<p className="text-lg font-semibold">
+									{(court.pricePerHour / 100).toLocaleString('en-US', {
+										style: 'currency',
+										currency: 'USD',
+										maximumFractionDigits: 0,
+									})}
+								</p>
 							</div>
 						</div>
 
-						<div className="text-right">
-							<p className="text-xs text-muted-foreground">Per hour</p>
-							<p className="text-base font-semibold">{formatCurrency(court.pricePerHour)}</p>
-						</div>
+						<span className="flex justify-center items-center gap-2 text-muted-foreground hover:text-primary cursor-pointer">
+							<MousePointerClick className="size-4" />
+							<p className="text-xs">Click to manage court</p>
+						</span>
 					</div>
-
-					<div className="flex items-center gap-2 text-sm text-muted-foreground">
-						<MapPin className="size-4" />
-						<p>{court.address}</p>
-					</div>
-				</div>
-
-				<div className="grid gap-3 sm:grid-cols-3">
-					<div className="rounded-xl bg-muted/20 p-3">
-						<div className="flex items-center gap-2 text-muted-foreground">
-							<Ticket className="size-4" />
-							<span className="text-xs">Bookings this week</span>
-						</div>
-						<p className="mt-2 text-lg font-semibold">{court.bookingsThisWeek}</p>
-					</div>
-
-					<div className="rounded-xl bg-muted/20 p-3">
-						<div className="flex items-center gap-2 text-muted-foreground">
-							<CalendarDays className="size-4" />
-							<span className="text-xs">Weekly occupancy</span>
-						</div>
-						<p className="mt-2 text-lg font-semibold">{court.weeklyOccupancy}%</p>
-					</div>
-
-					<div className="rounded-xl bg-muted/20 p-3">
-						<div className="flex items-center gap-2 text-muted-foreground">
-							<Clock3 className="size-4" />
-							<span className="text-xs">Next booking</span>
-						</div>
-						<p className="mt-2 text-sm font-medium">{court.nextBooking}</p>
-					</div>
-				</div>
-
-				<div className="flex items-start gap-2 rounded-xl border border-dashed bg-muted/10 p-3 text-sm text-muted-foreground">
-					<Wrench className="mt-0.5 size-4 shrink-0" />
-					<p>{court.alert}</p>
-				</div>
-			</CardContent>
-
-			<CardFooter className="grid gap-2 border-t bg-muted/10 p-5 sm:grid-cols-3">
-				<Button variant="outline" className="w-full justify-center">
-					<PencilLine className="size-4" />
-					Edit
-				</Button>
-				<Button variant="secondary" className="w-full justify-center">
-					<Settings2 className="size-4" />
-					Manage schedule
-				</Button>
-				<Button className="w-full justify-center">
-					<Ticket className="size-4" />
-					View bookings
-				</Button>
-			</CardFooter>
-		</Card>
+				</CardContent>
+			</Card>
+		</CourtManagementHoverCard>
 	)
 }

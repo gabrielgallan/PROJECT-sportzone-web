@@ -3,10 +3,16 @@ interface Organization {
 	name: string
 }
 
+export type CourtStatus = 'pending' | 'online' | 'in_maintenance' | 'paused'
+
+type SportType = 'soccer' | 'volley' | 'basketball' | 'tenis'
+
 export interface Court {
 	id: string
 	org: Organization
 	name: string
+	status: CourtStatus
+	sportTypes: SportType[]
 	description: string
 	pricePerHour: number
 	address: string
@@ -30,4 +36,14 @@ export type CourtAmenity = 'parking' | 'wifi' | 'locker_room' | 'bar' | 'lightin
 export interface CourtDetails extends Court {
 	reviews: CourtReview[]
 	amenities: CourtAmenity[]
+}
+
+export interface CourtMetrics {
+	bookingsThisWeek: number
+	occupancyRate: number
+	revenueThisMonth: number
+}
+
+export interface CourtWithMetrics extends Court {
+	metrics: CourtMetrics
 }

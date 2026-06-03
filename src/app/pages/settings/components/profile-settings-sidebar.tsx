@@ -60,7 +60,7 @@ interface OrganizationCardProps {
 
 function OrganizationCard({ org }: OrganizationCardProps) {
 	return (
-		<HoverCard openDelay={10} closeDelay={80}>
+		<HoverCard openDelay={10} closeDelay={100}>
 			<HoverCardTrigger asChild>
 				<Link to={`/organizations/${org.slug}`}>
 					<div className="flex items-center gap-2 group transition-all hover:bg-muted/40 p-1 rounded-lg cursor-pointer">
@@ -73,7 +73,7 @@ function OrganizationCard({ org }: OrganizationCardProps) {
 					</div>
 				</Link>
 			</HoverCardTrigger>
-			<HoverCardContent className="max-w-64 p-0">
+			<HoverCardContent className="max-w-64 p-0" side="top">
 				<div className="flex p-2 gap-2">
 					<img src={org.imageUrl} alt="" className="w-7.5 rounded-lg" />
 

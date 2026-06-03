@@ -167,3 +167,112 @@ export function getUpcomingBookingsMock(): BookingWithCourt[] {
 		},
 	]
 }
+
+import type { BookingRegister } from '@/types/booking'
+
+const bookingRegistersMock: BookingRegister[] = [
+	{
+		id: 'BK-1001',
+		customerName: 'gabriel.gallan@gmail.com',
+		courtName: 'Arena Paulista',
+		status: 'confirmed',
+		paymentStatus: 'paid',
+		startDate: new Date(2026, 5, 3, 19, 0),
+		endDate: new Date(2026, 5, 3, 20, 0),
+		amount: 6000,
+	},
+	{
+		id: 'BK-1002',
+		customerName: 'gabriel.gallan@gmail.com',
+		courtName: 'Arena Paulista',
+		status: 'confirmed',
+		paymentStatus: 'pending',
+		startDate: new Date(2026, 5, 4, 18, 0),
+		endDate: new Date(2026, 5, 4, 19, 0),
+		amount: 5500,
+	},
+	{
+		id: 'BK-1003',
+		customerName: 'gabriel.gallan@gmail.com',
+		courtName: 'Quadra Central',
+		status: 'confirmed',
+		paymentStatus: 'paid',
+		startDate: new Date(2026, 5, 5, 20, 0),
+		endDate: new Date(2026, 5, 5, 22, 0),
+		amount: 12000,
+	},
+	{
+		id: 'BK-1004',
+		customerName: 'gabriel.gallan@gmail.com',
+		courtName: 'Arena Paulista',
+		status: 'canceled',
+		paymentStatus: 'refunded',
+		startDate: new Date(2026, 5, 6, 14, 0),
+		endDate: new Date(2026, 5, 6, 15, 0),
+		amount: 5000,
+	},
+	{
+		id: 'BK-1005',
+		customerName: 'gabriel.gallan@gmail.com',
+		courtName: 'Court Premium',
+		status: 'completed',
+		paymentStatus: 'paid',
+		startDate: new Date(2026, 5, 1, 9, 0),
+		endDate: new Date(2026, 5, 1, 10, 0),
+		amount: 7500,
+	},
+	{
+		id: 'BK-1006',
+		customerName: 'gabriel.gallan@gmail.com',
+		courtName: 'Quadra Norte',
+		status: 'confirmed',
+		paymentStatus: 'paid',
+		startDate: new Date(2026, 5, 7, 21, 0),
+		endDate: new Date(2026, 5, 7, 22, 0),
+		amount: 6500,
+	},
+	{
+		id: 'BK-1007',
+		customerName: 'gabriel.gallan@gmail.com',
+		courtName: 'Court Premium',
+		status: 'pending',
+		paymentStatus: 'failed',
+		startDate: new Date(2026, 5, 8, 17, 0),
+		endDate: new Date(2026, 5, 8, 18, 0),
+		amount: 8000,
+	},
+	{
+		id: 'BK-1008',
+		customerName: 'gabriel.gallan@gmail.com',
+		courtName: 'Arena Paulista',
+		status: 'completed',
+		paymentStatus: 'paid',
+		startDate: new Date(2026, 4, 30, 20, 0),
+		endDate: new Date(2026, 4, 30, 21, 0),
+		amount: 6000,
+	},
+	{
+		id: 'BK-1009',
+		customerName: 'gabriel.gallan@gmail.com',
+		courtName: 'Quadra Central',
+		status: 'confirmed',
+		paymentStatus: 'paid',
+		startDate: new Date(2026, 5, 10, 19, 0),
+		endDate: new Date(2026, 5, 10, 20, 30),
+		amount: 9000,
+	},
+	{
+		id: 'BK-1010',
+		customerName: 'gabriel.gallan@gmail.com',
+		courtName: 'Quadra Norte',
+		status: 'canceled',
+		paymentStatus: 'refunded',
+		startDate: new Date(2026, 5, 11, 16, 0),
+		endDate: new Date(2026, 5, 11, 17, 0),
+		amount: 5500,
+	},
+]
+
+export function getBookingsRegister() {
+	return bookingRegistersMock
+}

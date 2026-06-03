@@ -14,3 +14,11 @@ export interface Booking {
 export interface BookingWithCourt extends Booking {
 	court: Court
 }
+
+export type PaymentStatus = 'pending' | 'paid' | 'refunded' | 'failed'
+
+export interface BookingRegister extends Booking {
+	customerName: string
+	courtName: string
+	paymentStatus: PaymentStatus
+}

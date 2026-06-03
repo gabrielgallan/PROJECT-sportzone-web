@@ -2,11 +2,12 @@ import { HelmetProvider } from 'react-helmet-async'
 
 import { RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from './components/theme-provider'
-import { router } from './router'
 import { Toaster } from './components/ui/sonner'
+import { router } from './router'
 
 import './index.css'
 import './styles/leaflet.css'
+import './styles/shadcn.css'
 
 export function App() {
 	return (

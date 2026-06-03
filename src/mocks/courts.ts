@@ -1,4 +1,4 @@
-import type { Court, CourtDetails } from '@/types/court'
+import type { Court, CourtDetails, CourtWithMetrics } from '@/types/court'
 
 const courts: Court[] = [
 	{
@@ -395,4 +395,131 @@ export function getCourtDetails(id: string): CourtDetails {
 	const court = courtsWithDetailsMock.find((court) => court.id === id)
 
 	return court ?? courtsWithDetailsMock[0]
+}
+
+const organizationCourtsManagementMock: CourtWithMetrics[] = [
+	{
+		id: 'court-1',
+		org: { id: 'org-1', name: 'Sportzone Club' },
+		name: 'Arena A',
+		description: 'Main football field for peak-hour bookings.',
+		sportTypes: ['volley'],
+		address: 'Av. Paulista, 1200 - Sao Paulo, SP',
+		latitude: -23.561684,
+		longitude: -46.656139,
+		rating: 4.8,
+		imageUrl:
+			'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=1470&auto=format&fit=crop',
+		status: 'online',
+		pricePerHour: 18000,
+		metrics: {
+			bookingsThisWeek: 18,
+			occupancyRate: 84,
+			revenueThisMonth: 148000,
+		},
+	},
+	{
+		id: 'court-2',
+		org: { id: 'org-1', name: 'Sportzone Club' },
+		name: 'Court B',
+		description: 'Padel court reserved for maintenance review.',
+		sportTypes: ['basketball', 'soccer'],
+		address: 'Rua Augusta, 450 - Sao Paulo, SP',
+		latitude: -23.555771,
+		longitude: -46.658557,
+		rating: 4.7,
+		imageUrl:
+			'https://plus.unsplash.com/premium_photo-1684713510655-e6e31536168d?q=80&w=1470&auto=format&fit=crop',
+		status: 'in_maintenance',
+		pricePerHour: 22000,
+		metrics: {
+			bookingsThisWeek: 6,
+			occupancyRate: 28,
+			revenueThisMonth: 42000,
+		},
+	},
+	{
+		id: 'court-3',
+		org: { id: 'org-1', name: 'Sportzone Club' },
+		name: 'Center Court',
+		description: 'Tennis court pending publishing and final review.',
+		sportTypes: [],
+		address: 'Pinheiros, 340 - Sao Paulo, SP',
+		latitude: -23.567912,
+		longitude: -46.692112,
+		rating: 4.9,
+		imageUrl:
+			'https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?q=80&w=687&auto=format&fit=crop',
+		status: 'pending',
+		pricePerHour: 25000,
+		metrics: {
+			bookingsThisWeek: 0,
+			occupancyRate: 0,
+			revenueThisMonth: 0,
+		},
+	},
+	{
+		id: 'court-4',
+		org: { id: 'org-1', name: 'Sportzone Club' },
+		name: 'Hoops Arena',
+		description: 'Basketball arena temporarily paused for schedule adjustments.',
+		sportTypes: ['tenis'],
+		address: 'Vila Olimpia, 210 - Sao Paulo, SP',
+		latitude: -23.595145,
+		longitude: -46.684128,
+		rating: 4.6,
+		imageUrl:
+			'https://plus.unsplash.com/premium_photo-1663039984787-b11d7240f592?q=80&w=1470&auto=format&fit=crop',
+		status: 'paused',
+		pricePerHour: 14000,
+		metrics: {
+			bookingsThisWeek: 4,
+			occupancyRate: 19,
+			revenueThisMonth: 23500,
+		},
+	},
+	{
+		id: 'court-5',
+		org: { id: 'org-1', name: 'Sportzone Club' },
+		name: 'Volley Sand',
+		description: 'Beach volleyball court ready for weekend demand.',
+		sportTypes: ['basketball'],
+		address: 'Moema, 890 - Sao Paulo, SP',
+		latitude: -23.601876,
+		longitude: -46.667421,
+		rating: 4.5,
+		imageUrl:
+			'https://images.unsplash.com/photo-1530549387789-4c1017266635?q=80&w=1470&auto=format&fit=crop',
+		status: 'online',
+		pricePerHour: 16000,
+		metrics: {
+			bookingsThisWeek: 12,
+			occupancyRate: 63,
+			revenueThisMonth: 96500,
+		},
+	},
+	{
+		id: 'court-6',
+		org: { id: 'org-1', name: 'Sportzone Club' },
+		name: 'Arena Prime',
+		description: 'Premium football arena operating at full capacity.',
+		sportTypes: ['tenis', 'volley'],
+		address: 'Brooklin, 155 - Sao Paulo, SP',
+		latitude: -23.623221,
+		longitude: -46.696552,
+		rating: 4.9,
+		imageUrl:
+			'https://images.unsplash.com/photo-1518604666860-9ed391f76460?q=80&w=1470&auto=format&fit=crop',
+		status: 'online',
+		pricePerHour: 20000,
+		metrics: {
+			bookingsThisWeek: 21,
+			occupancyRate: 91,
+			revenueThisMonth: 189000,
+		},
+	},
+]
+
+export function getOrganizationCourtsManagement() {
+	return organizationCourtsManagementMock
 }

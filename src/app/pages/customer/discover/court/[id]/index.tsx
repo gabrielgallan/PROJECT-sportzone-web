@@ -1,16 +1,16 @@
-import { Link } from 'react-router-dom'
 import { BadgeCheck, Building2, ChevronLeft, MapPin, Star } from 'lucide-react'
-
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { PageTitle } from '@/components/page-title'
 import { RatingStars } from '@/components/rating-stars'
-import { CourtReviewComment } from './components/court-review-comment'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Textarea } from '@/components/ui/textarea'
+import { getCourtDetails } from '@/mocks/courts'
+import { BookCourtDialog } from '../../components/book-court-dialog'
 import { CourtAmenityBadge } from './components/court-amenity-badge'
 import { CourtLocationMap } from './components/court-location-map'
-import { getCourtDetails } from '@/mocks/courts'
-import { PageTitle } from '@/components/page-title'
-import { Textarea } from '@/components/ui/textarea'
-import { useState } from 'react'
+import { CourtReviewComment } from './components/court-review-comment'
 
 const court = getCourtDetails('1')
 
@@ -174,13 +174,15 @@ export function CourtDetailsPage() {
 									Available Now
 								</div>
 
-								<Button
-									type="button"
-									className="w-full mt-6 py-6 text-sm hover:opacity-90 cursor-pointer"
-								>
-									<BadgeCheck className="size-4" />
-									Book this court
-								</Button>
+								<BookCourtDialog court={court}>
+									<Button
+										type="button"
+										className="w-full mt-6 py-6 text-sm hover:opacity-90 cursor-pointer"
+									>
+										<BadgeCheck className="size-4" />
+										Book this court
+									</Button>
+								</BookCourtDialog>
 							</CardContent>
 
 							<div className="mx-auto">

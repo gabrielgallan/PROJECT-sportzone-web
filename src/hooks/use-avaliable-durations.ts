@@ -1,4 +1,4 @@
-import type { TimeSlot } from '@/app/pages/customer/discover/components/booking-time-picker'
+import type { TimeSlot } from '@/app/pages/customer/discover/court/[id]/components/booking-time-picker'
 
 export interface DurationOption {
 	hours: number

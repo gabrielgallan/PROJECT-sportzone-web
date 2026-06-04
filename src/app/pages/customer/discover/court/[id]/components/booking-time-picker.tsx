@@ -27,19 +27,27 @@ const durationOptions = [1, 2, 3, 4, 5, 6]
 
 interface BookingTimePickerProps {
 	slots: TimeSlot[]
-	selectedSlot: TimeSlot | null
+	selectedSlotTime: string | null
 	selectedDuration: number | null
-	onSelectTime: (slot: TimeSlot) => void
+	onSelectTime: (time: string) => void
 	onSelectDuration: (duration: number) => void
+	timeErrorMessage?: string
+	durationErrorMessage?: string
 }
 
 export function BookingTimePicker({
 	slots,
-	selectedSlot,
+	selectedSlotTime,
 	selectedDuration,
 	onSelectTime,
 	onSelectDuration,
+	timeErrorMessage,
+	durationErrorMessage,
 }: BookingTimePickerProps) {
+	const selectedSlot = selectedSlotTime
+		? slots.find((slot) => slot.time === selectedSlotTime) ?? null
+		: null
+
 	const avaliableHours = useAvailableDurations({
 		slots,
 		selectedSlot,
@@ -57,14 +65,16 @@ export function BookingTimePicker({
 							key={slot.id}
 							type="button"
 							className="rounded cursor-pointer"
-							variant={slot.id === selectedSlot?.id ? 'default' : 'outline'}
+							variant={slot.time === selectedSlotTime ? 'default' : 'outline'}
 							disabled={!slot.available}
-							onClick={() => onSelectTime(slot)}
+							onClick={() => onSelectTime(slot.time)}
 						>
 							{slot.time}
 						</Button>
 					))}
 				</div>
+
+				{timeErrorMessage ? <p className="text-sm text-destructive">{timeErrorMessage}</p> : null}
 			</div>
 
 			<div className="space-y-3">
@@ -84,6 +94,10 @@ export function BookingTimePicker({
 						</Button>
 					))}
 				</div>
+
+				{durationErrorMessage ? (
+					<p className="text-sm text-destructive">{durationErrorMessage}</p>
+				) : null}
 			</div>
 		</div>
 	)

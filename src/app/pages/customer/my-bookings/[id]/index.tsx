@@ -1,15 +1,14 @@
+import { PageTitle } from '@/components/page-title'
+import { useBookingTimeFormatter } from '@/hooks/use-booking-time-formatter'
 import type { BookingWithCourt } from '@/types/booking'
-
+import { BookingCourtCard } from './components/booking-court-card'
 import { BookingDetailsHeader } from './components/booking-details-header'
 import { BookingDetailsSidebar } from './components/booking-details-sidebar'
 import { BookingScheduleCard } from './components/booking-schedule-card'
-import { BookingCourtCard } from './components/booking-court-card'
-import { BookingSummaryCard } from './components/booking-summary-card'
-import { PageTitle } from '@/components/page-title'
 import { BookingStatusAlert } from './components/booking-status-alert'
-import { useBookingTimeFormatter } from '@/hooks/use-booking-time-formatter'
+import { BookingSummaryCard } from './components/booking-summary-card'
 
-const booking: BookingWithCourt = {
+const bookingWithCourt: BookingWithCourt = {
 	id: 'bk-1',
 	status: 'pending',
 	startDate: new Date('2026-05-29T18:00:00'),
@@ -18,6 +17,8 @@ const booking: BookingWithCourt = {
 	court: {
 		id: 'court-1',
 		name: 'Arena Paulista',
+		sportTypes: [],
+		status: 'online',
 		description:
 			'Modern sports venue with high-quality infrastructure, professional lighting and a comfortable environment for casual matches and competitive games.',
 		pricePerHour: 45000,
@@ -36,34 +37,37 @@ const booking: BookingWithCourt = {
 
 export function BookingDetailsPage() {
 	const { intervalWithSeparator } = useBookingTimeFormatter({
-		startDate: booking.startDate,
-		endDate: booking.endDate,
+		startDate: bookingWithCourt.startDate,
+		endDate: bookingWithCourt.endDate,
 	})
 
 	const supportPageParams = new URLSearchParams({
 		subject: 'booking',
-		issue: `Booking ID: ${booking.id}`,
+		issue: `Booking ID: ${bookingWithCourt.id}`,
 	})
 
 	return (
 		<>
 			<PageTitle title="Booking Details" />
 			<main className="mx-auto grid max-w-300 w-full gap-6 py-6 px-4">
-				<BookingDetailsHeader booking={booking} />
+				<BookingDetailsHeader booking={bookingWithCourt} />
 
-				<BookingStatusAlert status={booking.status} />
+				<BookingStatusAlert status={bookingWithCourt.status} />
 
 				<div className="grid gap-6 lg:grid-cols-[1fr_360px]">
 					<div className="grid gap-6">
-						<BookingCourtCard booking={booking} />
+						<BookingCourtCard booking={bookingWithCourt} />
 
-						<BookingScheduleCard booking={booking} intervalWithSeparator={intervalWithSeparator} />
+						<BookingScheduleCard
+							booking={bookingWithCourt}
+							intervalWithSeparator={intervalWithSeparator}
+						/>
 
-						<BookingSummaryCard booking={booking} />
+						<BookingSummaryCard booking={bookingWithCourt} />
 					</div>
 
 					<BookingDetailsSidebar
-						booking={booking}
+						booking={bookingWithCourt}
 						supportPageSearch={supportPageParams.toString()}
 					/>
 				</div>

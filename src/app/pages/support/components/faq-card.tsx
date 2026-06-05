@@ -1,3 +1,4 @@
+import { HelpCircle } from 'lucide-react'
 import {
 	Accordion,
 	AccordionContent,
@@ -5,7 +6,6 @@ import {
 	AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { HelpCircle } from 'lucide-react'
 
 export function FaqCard() {
 	return (
@@ -24,7 +24,7 @@ export function FaqCard() {
 				<Accordion type="single" collapsible>
 					<AccordionItem value="cancel-booking">
 						<AccordionTrigger>How to cancel a booking?</AccordionTrigger>
-						<AccordionContent>
+						<AccordionContent className="text-muted-foreground">
 							We offer standard (5-7 days), express (2-3 days), and overnight shipping. Free
 							shipping on international orders.
 						</AccordionContent>
@@ -32,7 +32,7 @@ export function FaqCard() {
 
 					<AccordionItem value="policy">
 						<AccordionTrigger>Refund policy</AccordionTrigger>
-						<AccordionContent>
+						<AccordionContent className="text-muted-foreground">
 							We offer standard (5-7 days), express (2-3 days), and overnight shipping. Free
 							shipping on international orders.
 						</AccordionContent>
@@ -40,7 +40,7 @@ export function FaqCard() {
 
 					<AccordionItem value="payments">
 						<AccordionTrigger>Payment methods</AccordionTrigger>
-						<AccordionContent>
+						<AccordionContent className="text-muted-foreground">
 							We offer standard (5-7 days), express (2-3 days), and overnight shipping. Free
 							shipping on international orders.
 						</AccordionContent>

@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { ReactNode } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import z from 'zod'
 import { DatePicker } from '@/components/date-picker'
 import { Button } from '@/components/ui/button'
@@ -37,6 +38,8 @@ const bookCourtFormSchema = z.object({
 type BookCourtFormType = z.infer<typeof bookCourtFormSchema>
 
 export function BookCourtDialog({ court, children }: BookCourtDialogProps) {
+	const navigate = useNavigate()
+
 	const {
 		control,
 		handleSubmit,
@@ -52,11 +55,23 @@ export function BookCourtDialog({ court, children }: BookCourtDialogProps) {
 		},
 	})
 
-	const _selectedTime = watch('startTime')
 	const selectedDuration = watch('duration')
 
 	function handleBookCourt(data: BookCourtFormType) {
-		console.log(data)
+		const [hours, minutes] = data.startTime.split(':').map(Number)
+
+		const start = new Date(data.date)
+		start.setHours(hours, minutes, 0, 0)
+
+		const end = new Date(start)
+		end.setHours(end.getHours() + data.duration)
+
+		const searchParams = new URLSearchParams({
+			start: start.toISOString(),
+			end: end.toISOString(),
+		})
+
+		navigate(`/discover/court/${court.id}/checkout?${searchParams.toString()}`)
 	}
 
 	return (

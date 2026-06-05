@@ -15,14 +15,14 @@ const paymentStatusTextMap: Record<PaymentStatus, string> = {
 const paymentStatusClassMap: Record<PaymentStatus, string> = {
 	paid: 'bg-emerald-500',
 	pending: 'bg-amber-500',
-	refunded: 'bg-rose-500',
+	refunded: 'bg-gray-500',
 	failed: 'bg-rose-700',
 }
 
 export function PaymentStatusBadge({ status }: PaymentStatusBadgeProps) {
 	return (
 		<div className="flex gap-2 items-center">
-			<span className={cn(['block h-1.5 w-1.5 rounded', paymentStatusClassMap[status]])} />
+			<span className={cn(['size-2 rounded', paymentStatusClassMap[status]])} />
 			{paymentStatusTextMap[status]}
 		</div>
 	)

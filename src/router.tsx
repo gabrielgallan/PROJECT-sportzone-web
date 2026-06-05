@@ -14,6 +14,9 @@ import { DashboardPage } from '@/app/pages/organization/dashboard'
 import { AuthLayout } from './app/layouts/auth'
 import { CustomerLayout } from './app/layouts/customer'
 import { OrganizationLayout } from './app/layouts/organization'
+import { BookingCheckoutPage } from './app/pages/customer/discover/court/[id]/checkout'
+import { PaymentFailedPage } from './app/pages/customer/my-bookings/[id]/payment/failed'
+import { PaymentSuccessPage } from './app/pages/customer/my-bookings/[id]/payment/success'
 import { OrganizationBookingsPage } from './app/pages/organization/bookings'
 import { OrganizationCourtsPage } from './app/pages/organization/courts'
 import { OrganizationMembersPage } from './app/pages/organization/members'
@@ -35,45 +38,94 @@ export const router = createBrowserRouter([
 		element: <CustomerLayout />,
 		errorElement: <ErrorPage />,
 		children: [
-			{ index: true, element: <OverviewPage />, handle: { breadcrumb: 'Overview' } },
+			{
+				index: true,
+				element: <OverviewPage />,
+				handle: { breadcrumbs: [{ label: 'Overview' }] },
+			},
 			{
 				path: 'discover',
-				handle: { breadcrumb: 'Discover Courts' },
+				handle: { breadcrumbs: [{ label: 'Discover Courts' }] },
 				children: [
 					{
 						index: true,
 						element: <DiscoverPage />,
+						handle: { breadcrumbs: [{ label: 'Discover Courts' }] },
 					},
 					{
 						path: 'court/:courtId',
 						element: <CourtDetailsPage />,
-						handle: { breadcrumb: 'Court Details' },
+						handle: {
+							breadcrumbs: [
+								{ label: 'Discover Courts', to: '/discover' },
+								{ label: 'Court Details' },
+							],
+						},
+					},
+					{
+						path: 'court/:courtId/checkout',
+						element: <BookingCheckoutPage />,
+						handle: {
+							breadcrumbs: [
+								{ label: 'Discover Courts', to: '/discover' },
+								{ label: 'Court Details' },
+								{ label: 'Court Checkout' },
+							],
+						},
 					},
 				],
 			},
 			{
 				path: 'my-bookings',
-				handle: { breadcrumb: 'My Bookings' },
+				handle: { breadcrumbs: [{ label: 'My Bookings' }] },
 				children: [
 					{
 						index: true,
 						element: <BookingsPage />,
+						handle: { breadcrumbs: [{ label: 'My Bookings' }] },
 					},
 					{
 						path: ':bookingId',
 						element: <BookingDetailsPage />,
-						handle: { breadcrumb: 'Booking Details' },
+						handle: {
+							breadcrumbs: [
+								{ label: 'My Bookings', to: '/my-bookings' },
+								{ label: 'Booking Details' },
+							],
+						},
+					},
+					{
+						path: ':bookingId/payment/failed',
+						element: <PaymentFailedPage />,
+						handle: {
+							breadcrumbs: [
+								{ label: 'My Bookings', to: '/my-bookings' },
+								{ label: 'Booking Details' },
+								{ label: 'Payment failed' },
+							],
+						},
+					},
+					{
+						path: ':bookingId/payment/success',
+						element: <PaymentSuccessPage />,
+						handle: {
+							breadcrumbs: [
+								{ label: 'My Bookings', to: '/my-bookings' },
+								{ label: 'Booking Details' },
+								{ label: 'Payment success' },
+							],
+						},
 					},
 				],
 			},
 			{
 				path: 'support',
-				handle: { breadcrumb: 'Support center' },
+				handle: { breadcrumbs: [{ label: 'Support center' }] },
 				element: <SupportPage />,
 			},
 			{
 				path: 'settings',
-				handle: { breadcrumb: 'Settings' },
+				handle: { breadcrumbs: [{ label: 'Settings' }] },
 				element: <SettingsPage />,
 			},
 		],
@@ -81,32 +133,69 @@ export const router = createBrowserRouter([
 	{
 		path: '/organizations/:slug',
 		element: <OrganizationLayout />,
-		handle: { breadcrumb: 'Organization' },
+		handle: { breadcrumbs: [{ label: 'Organization' }] },
 		children: [
-			{ index: true, element: <DashboardPage /> },
+			{
+				index: true,
+				element: <DashboardPage />,
+				handle: { breadcrumbs: [{ label: 'Organization' }] },
+			},
 			{
 				path: 'bookings',
 				element: <OrganizationBookingsPage />,
-				handle: { breadcrumb: 'Bookings' },
+				handle: {
+					breadcrumbs: [
+						{ label: 'Organization' },
+						{ label: 'Bookings' },
+					],
+				},
 			},
 			{
 				path: 'courts',
 				element: <OrganizationCourtsPage />,
-				handle: { breadcrumb: 'Courts' },
+				handle: {
+					breadcrumbs: [
+						{ label: 'Organization' },
+						{ label: 'Courts' },
+					],
+				},
 			},
 			{
 				path: 'members',
 				element: <OrganizationMembersPage />,
-				handle: { breadcrumb: 'Members' },
+				handle: {
+					breadcrumbs: [
+						{ label: 'Organization' },
+						{ label: 'Members' },
+					],
+				},
 			},
-			{ path: 'support', element: <SupportPage />, handle: { breadcrumb: 'Support' } },
+			{
+				path: 'support',
+				element: <SupportPage />,
+				handle: {
+					breadcrumbs: [
+						{ label: 'Organization' },
+						{ label: 'Support' },
+					],
+				},
+			},
 		],
 	},
 	{
 		path: '/organizations/:slug',
 		element: <OrganizationLayout />,
 		children: [
-			{ path: 'settings', element: <SettingsPage />, handle: { breadcrumb: 'Profile Settings' } },
+			{
+				path: 'settings',
+				element: <SettingsPage />,
+				handle: {
+					breadcrumbs: [
+						{ label: 'Organization' },
+						{ label: 'Profile Settings' },
+					],
+				},
+			},
 		],
 	},
 	{

@@ -1,6 +1,5 @@
 import { MapPin, Star } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import type { Court } from '@/types/court'
@@ -28,12 +27,18 @@ export function DiscoverCourtCard({ court, hasVisited = false }: DiscoverCourtCa
 			<CardContent className="flex flex-col gap-4 justify-between p-5">
 				<div className="space-y-2">
 					<div className="flex items-start justify-between gap-3">
-						<div className="min-w-0 flex-1">
-							{' '}
-							{/* ← adicione min-w-0 e flex-1 */}
+						<div className="min-w-0 flex-1 space-y-2">
 							<h1 className="text-lg font-semibold truncate">{court.name}</h1>
-							<div className="mt-1 flex items-center gap-2">
-								<Badge variant="secondary">none</Badge>
+
+							<div className="flex flex-wrap items-center gap-1">
+								{court.sportTypes.slice(0, 2).map((sport) => (
+									<span
+										key={sport}
+										className="rounded-sm bg-secondary px-3 py-0.5 text-xs text-secondary-foreground"
+									>
+										{sport}
+									</span>
+								))}
 							</div>
 						</div>
 

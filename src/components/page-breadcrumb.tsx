@@ -10,8 +10,13 @@ import {
 	BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 
+interface BreadcrumbItem {
+	label: string
+	to?: string
+}
+
 interface RouteHandle {
-	breadcrumb?: string
+	breadcrumbs?: BreadcrumbItem[]
 }
 
 interface PageBreadcrumbProps {
@@ -20,21 +25,14 @@ interface PageBreadcrumbProps {
 
 export function PageBreadcrumb({ className }: PageBreadcrumbProps) {
 	const matches = useMatches()
+	const currentMatchWithBreadcrumbs = [...matches]
+		.reverse()
+		.find((match) => (match.handle as RouteHandle | undefined)?.breadcrumbs?.length)
+	const breadcrumbs = (currentMatchWithBreadcrumbs?.handle as RouteHandle | undefined)?.breadcrumbs ?? []
 
-	const breadcrumbs = matches
-		.filter((match) => {
-			const handle = match.handle as RouteHandle | undefined
-
-			return handle?.breadcrumb
-		})
-		.map((match) => {
-			const handle = match.handle as RouteHandle
-
-			return {
-				title: handle.breadcrumb,
-				path: match.pathname,
-			}
-		})
+	if (breadcrumbs.length === 0) {
+		return null
+	}
 
 	return (
 		<Breadcrumb className={className}>
@@ -43,13 +41,15 @@ export function PageBreadcrumb({ className }: PageBreadcrumbProps) {
 					const isLast = index === breadcrumbs.length - 1
 
 					return (
-						<Fragment key={breadcrumb.path}>
+						<Fragment key={`${breadcrumb.label}-${breadcrumb.to ?? index}`}>
 							<BreadcrumbItem>
 								{isLast ? (
-									<BreadcrumbPage>{breadcrumb.title}</BreadcrumbPage>
+									<BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
+								) : !breadcrumb.to ? (
+									<span className="text-muted-foreground">{breadcrumb.label}</span>
 								) : (
 									<BreadcrumbLink asChild>
-										<Link to={breadcrumb.path}>{breadcrumb.title}</Link>
+										<Link to={breadcrumb.to}>{breadcrumb.label}</Link>
 									</BreadcrumbLink>
 								)}
 							</BreadcrumbItem>

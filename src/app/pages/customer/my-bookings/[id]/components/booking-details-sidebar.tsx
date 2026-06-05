@@ -1,5 +1,6 @@
 import { BadgeDollarSign, ChevronRight, HelpCircle, MessageCircle, Repeat2 } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import type { BookingWithCourt } from '@/types/booking'
@@ -11,30 +12,42 @@ interface BookingDetailsSidebarProps {
 }
 
 export function BookingDetailsSidebar({ booking, supportPageSearch }: BookingDetailsSidebarProps) {
+	const navigate = useNavigate()
+
+	function handlePayBooking() {
+		navigate('payment/failed')
+
+		toast.error('Failed to complete payment. You can try again at any time.', {
+			position: 'top-center',
+		})
+	}
+
 	return (
 		<aside className="flex flex-col gap-4">
 			<div className="space-y-4">
 				{['pending', 'confirmed'].includes(booking.status) && <CancelBookingModal />}
 
 				{['pending'].includes(booking.status) && (
-					<Card className="group hover:text-primary cursor-pointer transition-colors">
-						<CardContent className="flex items-center justify-between">
-							<div className="space-y-2">
-								<div className="flex items-center gap-2">
-									<BadgeDollarSign className="size-4" />
-									<CardTitle className="text-sm">Complete pending payment</CardTitle>
+					<button type="button" onClick={handlePayBooking}>
+						<Card className="group hover:text-primary cursor-pointer transition-colors">
+							<CardContent className="flex items-center justify-between">
+								<div className="space-y-2">
+									<div className="flex items-center gap-2">
+										<BadgeDollarSign className="size-4" />
+										<CardTitle className="text-sm">Pay</CardTitle>
+									</div>
+
+									<CardDescription className="text-xs">
+										Complete the payment process to confirm your booking
+									</CardDescription>
 								</div>
 
-								<CardDescription className="text-xs">
-									Adjust how much you can send from your balance
-								</CardDescription>
-							</div>
-
-							<div>
-								<ChevronRight className="size-4 text-muted-foreground group-hover:text-primary" />
-							</div>
-						</CardContent>
-					</Card>
+								<div>
+									<ChevronRight className="size-4 text-muted-foreground group-hover:text-primary" />
+								</div>
+							</CardContent>
+						</Card>
+					</button>
 				)}
 
 				{['completed'].includes(booking.status) && (
@@ -48,7 +61,7 @@ export function BookingDetailsSidebar({ booking, supportPageSearch }: BookingDet
 									</div>
 
 									<CardDescription className="text-xs">
-										Adjust how much you can send from your balance
+										You like this play? Book in this court again
 									</CardDescription>
 								</div>
 

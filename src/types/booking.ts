@@ -22,19 +22,3 @@ export interface BookingRegister extends Booking {
 	courtName: string
 	paymentStatus: PaymentStatus
 }
-
-// export interface TimeSlot {
-//   time: string;
-//   status: "available" | "booked" | "unavailable";
-// }
-
-// export interface BookingDate {
-//   date: Date;
-//   slots: TimeSlot[];
-// }
-
-// export interface BookingSelection {
-//   courtId: string;
-//   date: Date;
-//   timeSlot: TimeSlot;
-// }

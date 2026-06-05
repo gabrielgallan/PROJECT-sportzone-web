@@ -21,7 +21,7 @@ export function CourtManagementHoverCard({
 		<HoverCard openDelay={120} closeDelay={100}>
 			<HoverCardTrigger asChild>{children}</HoverCardTrigger>
 
-			<HoverCardContent className="hidden w-90 space-y-4 p-4 md:block" side="right" align="start">
+			<HoverCardContent className="hidden w-90 space-y-4 p-4 md:block" side="bottom" align="start">
 				<div className="space-y-2">
 					<div className="flex items-start justify-between gap-3">
 						<div className="space-y-1">

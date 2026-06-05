@@ -84,7 +84,7 @@ export function MembersTable() {
 						<TableHead className="w-62">Name</TableHead>
 						<TableHead className="w-78">E-mail</TableHead>
 						<TableHead className="w-54">Role</TableHead>
-						<TableHead className="w-68">Registered in</TableHead>
+						<TableHead className="w-68">Member since</TableHead>
 						<TableHead className="w-46" />
 						<TableHead className="w-24" />
 					</TableRow>

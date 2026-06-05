@@ -22,8 +22,8 @@ const courtStatusTextMap: Record<CourtStatus, string> = {
 
 export function CourtStatusBadge({ status }: CourtStatusBadgeProps) {
 	return (
-		<Badge className={cn('flex gap-2', courtStatusColorMap[status])}>
-			<span className="block h-1.5 w-1.5 rounded bg-foreground" />
+		<Badge className={cn('flex gap-2 text-white', courtStatusColorMap[status])}>
+			<span className="block h-1.5 w-1.5 rounded bg-white" />
 			{courtStatusTextMap[status]}
 		</Badge>
 	)

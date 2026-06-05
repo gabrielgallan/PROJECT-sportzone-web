@@ -1,27 +1,39 @@
-import { useLocation } from 'react-router-dom'
+import { UserRoundPlus } from 'lucide-react'
+import { useParams } from 'react-router-dom'
 import { PageTitle } from '@/components/page-title'
 import { Pagination } from '@/components/pagination'
+import TextFlip from '@/components/text-flip'
+import { Button } from '@/components/ui/button'
+import { InviteMemberDialog } from './components/invite-member-dialog'
 import { MembersTable } from './components/members-table'
 import { MembersTableFilters } from './components/members-table-filters'
 
 export function OrganizationMembersPage() {
-	const { pathname } = useLocation()
-
-	const [_, __, org] = pathname.split('/')
+	const { slug } = useParams<{ slug: string }>()
 
 	return (
 		<>
-			<PageTitle title={`Members - ${org}`} />
+			<PageTitle title={`Members • ${slug}`} />
 			<main className="space-y-6 p-6">
-				<header className="space-y-1">
-					<h1 className="text-xl font-medium">
-						Members of <span className="text-primary font-semibold">{org}</span>
-					</h1>
-					<p className="text-sm text-muted-foreground">Manage your organization memberships</p>
+				<header>
+					<TextFlip
+						title="Members of"
+						subtitle="Manage your organization memberships"
+						words={[slug!]}
+					/>
 				</header>
 
-				<div className="space-y-4">
-					<MembersTableFilters />
+				<div className="space-y-6">
+					<div className="flex justify-between">
+						<MembersTableFilters />
+
+						<InviteMemberDialog>
+							<Button>
+								<UserRoundPlus className="size-4 mr-1" />
+								Invite member
+							</Button>
+						</InviteMemberDialog>
+					</div>
 
 					<MembersTable />
 

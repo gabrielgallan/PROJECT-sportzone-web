@@ -74,7 +74,6 @@ export function MembersTableFilters() {
 									<SelectLabel>Role</SelectLabel>
 									<SelectItem value="all">All roles</SelectItem>
 									<SelectItem value="member">Member</SelectItem>
-									<SelectItem value="owner">Owner</SelectItem>
 									<SelectItem value="billing">Billing</SelectItem>
 								</SelectGroup>
 							</SelectContent>

@@ -1,7 +1,8 @@
 import { Plus } from 'lucide-react'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { PageTitle } from '@/components/page-title'
 import { Pagination } from '@/components/pagination'
+import TextFlip from '@/components/text-flip'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { getOrganizationCourtsManagement } from '@/mocks/courts'
@@ -16,21 +17,14 @@ import { CourtsPageFilters } from './components/courts-page-filters'
 const courts = getOrganizationCourtsManagement()
 
 export function OrganizationCourtsPage() {
-	const { pathname } = useLocation()
-
-	const [_, __, org] = pathname.split('/')
+	const { slug } = useParams<{ slug: string }>()
 
 	return (
 		<>
-			<PageTitle title={`Courts - ${org}`} />
+			<PageTitle title={`Courts • ${slug}`} />
 			<main className="space-y-6 p-6">
-				<header className="space-y-1">
-					<h1 className="text-xl font-medium">
-						Court management for <span className="text-primary font-semibold">{org}</span>
-					</h1>
-					<p className="text-sm text-muted-foreground">
-						Manage and configure your organization's courts
-					</p>
+				<header>
+					<TextFlip title="Court management for" words={[slug!]} />
 				</header>
 
 				<div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
@@ -49,7 +43,7 @@ export function OrganizationCourtsPage() {
 					</Button>
 				</div>
 
-				<div className="grid gap-6 md:grid-cols-3 2xl:grid-cols-4">
+				<div className="grid gap-6 md:grid-cols-3">
 					{courts.map((court) => (
 						<Dialog key={court.id}>
 							<DialogTrigger>

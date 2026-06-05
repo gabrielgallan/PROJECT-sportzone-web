@@ -11,7 +11,7 @@ export function PaymentSuccessPage() {
 			<PageTitle title="Payment failed" />
 
 			<main className="flex h-full items-center justify-center">
-				<div className="flex flex-col items-center gap-4">
+				<div className="flex flex-col w-120 items-center gap-4">
 					<CheckCircle2 className="size-16 text-teal-500" />
 
 					<div className="space-y-2 text-center">

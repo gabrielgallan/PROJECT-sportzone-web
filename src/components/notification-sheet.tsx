@@ -1,4 +1,9 @@
-import { useState, type ReactNode } from 'react'
+import { formatDistanceToNowStrict } from 'date-fns'
+import { CheckCheck } from 'lucide-react'
+import { type ReactNode, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Button } from './ui/button'
+import { Card, CardContent } from './ui/card'
 import {
 	Sheet,
 	SheetContent,
@@ -6,12 +11,8 @@ import {
 	SheetFooter,
 	SheetHeader,
 	SheetTitle,
+	SheetTrigger,
 } from './ui/sheet'
-import { Link, useNavigate } from 'react-router-dom'
-import { CheckCheck } from 'lucide-react'
-import { Button } from './ui/button'
-import { Card, CardContent } from './ui/card'
-import { formatDistanceToNowStrict } from 'date-fns'
 
 interface NotificationsSheetProps {
 	children: ReactNode
@@ -113,7 +114,7 @@ function NotificationsSheet({ children }: NotificationsSheetProps) {
 
 	return (
 		<Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-			{children}
+			<SheetTrigger asChild>{children}</SheetTrigger>
 
 			<SheetContent side="right" className="overflow-auto">
 				<SheetHeader>

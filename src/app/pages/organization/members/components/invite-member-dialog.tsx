@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AtSign, Loader2 } from 'lucide-react'
-import { type ReactNode, useState } from 'react'
+import { AtSign, CircleAlert, Loader2 } from 'lucide-react'
+import { type ReactNode, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import z from 'zod'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
 	Dialog,
@@ -31,7 +31,7 @@ interface InviteMemberDialogProps {
 const inviteFormSchema = z.object({
 	email: z.email(),
 	role: z.enum(['member', 'billing'], {
-		message: 'Please select a role',
+		message: 'Invalid role',
 	}),
 })
 
@@ -44,25 +44,43 @@ export function InviteMemberDialog({ children }: InviteMemberDialogProps) {
 		control,
 		register,
 		handleSubmit,
+		setError,
+		reset,
 		formState: { isSubmitting, errors },
 	} = useForm<InviteFormType>({
 		resolver: zodResolver(inviteFormSchema),
 		mode: 'onSubmit',
+		defaultValues: {
+			email: '',
+			role: 'member',
+		},
 	})
 
 	function handleSendInvite(data: InviteFormType) {
+		const returnSuccess = false
+
 		return new Promise((resolve) =>
 			setTimeout(() => {
-				console.log(data)
-
-				setOpen(false)
-
-				toast.success('Invitation sent. The user can join after accepting it.')
+				if (returnSuccess) {
+					console.log(data)
+					setOpen(false)
+					reset()
+				} else {
+					setError('root', {
+						message: 'Method not implemented yet!',
+					})
+				}
 
 				resolve(null)
 			}, 2000)
 		)
 	}
+
+	useEffect(() => {
+		if (open) {
+			reset()
+		}
+	}, [open, reset])
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -77,6 +95,16 @@ export function InviteMemberDialog({ children }: InviteMemberDialogProps) {
 
 				<form onSubmit={handleSubmit(handleSendInvite)}>
 					<div className="space-y-4">
+						{errors.root && (
+							<Alert className="bg-rose-600/10 border-rose-500/20">
+								<CircleAlert />
+								<AlertTitle className="font-semibold">Service Error</AlertTitle>
+								<AlertDescription>
+									<p className="text-">{errors.root.message}</p>
+								</AlertDescription>
+							</Alert>
+						)}
+
 						<div className="space-y-2 ">
 							<Label htmlFor="email">E-mail</Label>
 
@@ -92,7 +120,7 @@ export function InviteMemberDialog({ children }: InviteMemberDialogProps) {
 							)}
 						</div>
 
-						<div className="space-y-2">
+						<div className="flex flex-col gap-2">
 							<Label>Role</Label>
 
 							<Controller
@@ -100,7 +128,7 @@ export function InviteMemberDialog({ children }: InviteMemberDialogProps) {
 								name="role"
 								render={({ field }) => (
 									<Select value={field.value} onValueChange={field.onChange}>
-										<SelectTrigger>
+										<SelectTrigger className="max-w-30">
 											<SelectValue placeholder="Select a role" />
 										</SelectTrigger>
 
@@ -113,7 +141,7 @@ export function InviteMemberDialog({ children }: InviteMemberDialogProps) {
 							/>
 
 							{errors.role && (
-								<span className="text-sm font-medium text-rose-500">{errors.role.message}</span>
+								<span className="text-xs font-medium text-rose-500">{errors.role.message}</span>
 							)}
 						</div>
 					</div>

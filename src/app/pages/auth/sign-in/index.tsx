@@ -1,17 +1,16 @@
-import { useMutation } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { FaGithub, FaGoogle } from 'react-icons/fa'
 import { Link, redirect, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { authenticate } from '@/api/authenticate'
 import { PageTitle } from '@/components/page-title'
 import { Button } from '@/components/ui/button'
 import { Field, FieldSeparator } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuthProvider } from '@/hooks/use-auth-provider'
+import { usePostApiSessions } from '@/http/gen'
 
 const signInFormSchema = z.object({
 	email: z.email(),
@@ -23,8 +22,9 @@ type SignInFormType = z.infer<typeof signInFormSchema>
 export function SignInPage() {
 	const [searchParams] = useSearchParams()
 	const navigate = useNavigate()
-
 	const { link: githubRedirect } = useAuthProvider('github')
+
+	const { mutateAsync: authenticate } = usePostApiSessions()
 
 	const {
 		register,
@@ -36,13 +36,9 @@ export function SignInPage() {
 		},
 	})
 
-	const { mutateAsync: authenticateFn } = useMutation({
-		mutationFn: authenticate,
-	})
-
-	async function handleSignIn(data: SignInFormType) {
+	async function handleSignIn({ email, password }: SignInFormType) {
 		try {
-			await authenticateFn({ email: data.email, password: data.password })
+			const { token } = await authenticate({ data: { email, password } })
 
 			toast.success('Authenticate!', {
 				position: 'top-right',

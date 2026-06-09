@@ -14,6 +14,7 @@ import { DashboardPage } from '@/app/pages/organization/dashboard'
 import { AuthLayout } from './app/layouts/auth'
 import { CustomerLayout } from './app/layouts/customer'
 import { OrganizationLayout } from './app/layouts/organization'
+import { GithubCallback } from './app/pages/api/auth/github'
 import { BookingCheckoutPage } from './app/pages/customer/discover/court/[id]/checkout'
 import { PaymentFailedPage } from './app/pages/customer/my-bookings/[id]/payment/failed'
 import { PaymentSuccessPage } from './app/pages/customer/my-bookings/[id]/payment/success'
@@ -144,40 +145,28 @@ export const router = createBrowserRouter([
 				path: 'bookings',
 				element: <OrganizationBookingsPage />,
 				handle: {
-					breadcrumbs: [
-						{ label: 'Organization' },
-						{ label: 'Bookings' },
-					],
+					breadcrumbs: [{ label: 'Organization' }, { label: 'Bookings' }],
 				},
 			},
 			{
 				path: 'courts',
 				element: <OrganizationCourtsPage />,
 				handle: {
-					breadcrumbs: [
-						{ label: 'Organization' },
-						{ label: 'Courts' },
-					],
+					breadcrumbs: [{ label: 'Organization' }, { label: 'Courts' }],
 				},
 			},
 			{
 				path: 'members',
 				element: <OrganizationMembersPage />,
 				handle: {
-					breadcrumbs: [
-						{ label: 'Organization' },
-						{ label: 'Members' },
-					],
+					breadcrumbs: [{ label: 'Organization' }, { label: 'Members' }],
 				},
 			},
 			{
 				path: 'support',
 				element: <SupportPage />,
 				handle: {
-					breadcrumbs: [
-						{ label: 'Organization' },
-						{ label: 'Support' },
-					],
+					breadcrumbs: [{ label: 'Organization' }, { label: 'Support' }],
 				},
 			},
 		],
@@ -190,13 +179,14 @@ export const router = createBrowserRouter([
 				path: 'settings',
 				element: <SettingsPage />,
 				handle: {
-					breadcrumbs: [
-						{ label: 'Organization' },
-						{ label: 'Profile Settings' },
-					],
+					breadcrumbs: [{ label: 'Organization' }, { label: 'Profile Settings' }],
 				},
 			},
 		],
+	},
+	{
+		path: '/api/auth/github',
+		element: <GithubCallback />,
 	},
 	{
 		path: '*',

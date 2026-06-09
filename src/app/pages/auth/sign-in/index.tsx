@@ -1,14 +1,17 @@
+import { useMutation } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { FaGithub, FaGoogle } from 'react-icons/fa'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, redirect, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { authenticate } from '@/api/authenticate'
 import { PageTitle } from '@/components/page-title'
 import { Button } from '@/components/ui/button'
+import { Field, FieldSeparator } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Field, FieldSeparator } from '@/components/ui/field'
+import { useAuthProvider } from '@/hooks/use-auth-provider'
 
 const signInFormSchema = z.object({
 	email: z.email(),
@@ -21,6 +24,8 @@ export function SignInPage() {
 	const [searchParams] = useSearchParams()
 	const navigate = useNavigate()
 
+	const { link: githubRedirect } = useAuthProvider('github')
+
 	const {
 		register,
 		handleSubmit,
@@ -31,24 +36,22 @@ export function SignInPage() {
 		},
 	})
 
-	async function handleSignIn(_data: SignInFormType) {
-		return new Promise((resolve) => {
-			setTimeout(() => {
-				try {
-					toast.success('Authentication successfully', {
-						position: 'top-center',
-					})
+	const { mutateAsync: authenticateFn } = useMutation({
+		mutationFn: authenticate,
+	})
 
-					navigate('/')
-				} catch {
-					toast.error('Failed to sign in. Try again in a few minutes', {
-						position: 'top-center',
-					})
-				}
+	async function handleSignIn(data: SignInFormType) {
+		try {
+			await authenticateFn({ email: data.email, password: data.password })
 
-				resolve(null)
-			}, 2000)
-		})
+			toast.success('Authenticate!', {
+				position: 'top-right',
+			})
+
+			navigate('/')
+		} catch {
+			toast.error('Failed to authenticate')
+		}
 	}
 
 	return (
@@ -95,12 +98,17 @@ export function SignInPage() {
 							<div className="space-y-4">
 								<div className="grid grid-cols-2 gap-2">
 									<Button
+										onClick={() => {
+											redirect(githubRedirect.href)
+										}}
 										variant="secondary"
 										className="cursor-pointer py-5"
 										type="button"
 										disabled={isSubmitting}
 									>
-										<FaGithub className="size-4" />
+										<Link to={githubRedirect.href}>
+											<FaGithub className="size-4" />
+										</Link>
 									</Button>
 
 									<Button

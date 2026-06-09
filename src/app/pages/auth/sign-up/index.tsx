@@ -1,26 +1,29 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { FaGithub, FaGoogle } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { register as registerUser } from '@/api/register'
 import { PageTitle } from '@/components/page-title'
 import { Button } from '@/components/ui/button'
+import { Field, FieldSeparator } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Field, FieldSeparator } from '@/components/ui/field'
 
 const signUpFormSchema = z.object({
-	name: z.string().optional(),
+	name: z.string(),
 	email: z.email(),
 	password: z.string(),
-	confirmPassword: z.string(),
 })
 
 type SignUpFormType = z.infer<typeof signUpFormSchema>
 
 export function SignUpPage() {
+	const navigate = useNavigate()
+
 	const {
 		register,
 		handleSubmit,
@@ -29,18 +32,22 @@ export function SignUpPage() {
 		resolver: zodResolver(signUpFormSchema),
 	})
 
+	const { mutateAsync: registerUserFn } = useMutation({
+		mutationFn: registerUser,
+	})
+
 	async function handleSignUp(data: SignUpFormType) {
-		return new Promise((resolve) => {
-			setTimeout(() => {
-				console.log(data)
+		try {
+			await registerUserFn({ name: data.name, email: data.email, password: data.password })
 
-				toast.error('Failed to sign up. Try again in a few minutes', {
-					position: 'top-center',
-				})
+			toast.success('Register successfully', {
+				position: 'top-right',
+			})
 
-				resolve(null)
-			}, 2000)
-		})
+			navigate(`/auth/sign-in?email=${data.email}`)
+		} catch {
+			toast.error('Failed to register')
+		}
 	}
 
 	return (
@@ -65,11 +72,6 @@ export function SignUpPage() {
 							<div className="space-y-2">
 								<Label htmlFor="password">Password</Label>
 								<Input id="password" type="password" {...register('password')} />
-							</div>
-
-							<div className="space-y-2">
-								<Label htmlFor="confirmPassword">Confirm password</Label>
-								<Input id="confirmPassword" type="password" {...register('confirmPassword')} />
 							</div>
 
 							<Button

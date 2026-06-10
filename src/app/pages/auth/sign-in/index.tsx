@@ -1,16 +1,18 @@
-import { Loader2 } from 'lucide-react'
+import Cookies from 'js-cookie'
+import { Loader2, TriangleAlert } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { FaGithub, FaGoogle } from 'react-icons/fa'
-import { Link, redirect, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { usePostApiSessions } from '@/api/generated'
 import { PageTitle } from '@/components/page-title'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Field, FieldSeparator } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useAuthProvider } from '@/hooks/use-auth-provider'
-import { usePostApiSessions } from '@/http/gen'
+import { useAuthProvider } from '@/hooks/use-oauth-provider'
 
 const signInFormSchema = z.object({
 	email: z.email(),
@@ -21,10 +23,13 @@ type SignInFormType = z.infer<typeof signInFormSchema>
 
 export function SignInPage() {
 	const [searchParams] = useSearchParams()
-	const navigate = useNavigate()
-	const { link: githubRedirect } = useAuthProvider('github')
 
-	const { mutateAsync: authenticate } = usePostApiSessions()
+	const navigate = useNavigate()
+
+	const { link: githubRedirect } = useAuthProvider('github')
+	const { link: googleRedirect } = useAuthProvider('google')
+
+	const { mutateAsync: authenticate, error: apiError } = usePostApiSessions()
 
 	const {
 		register,
@@ -37,17 +42,15 @@ export function SignInPage() {
 	})
 
 	async function handleSignIn({ email, password }: SignInFormType) {
-		try {
-			const { token } = await authenticate({ data: { email, password } })
+		const { token } = await authenticate({ data: { email, password } })
 
-			toast.success('Authenticate!', {
-				position: 'top-right',
-			})
+		Cookies.set('access-token', token)
 
-			navigate('/')
-		} catch {
-			toast.error('Failed to authenticate')
-		}
+		toast.success('Signed in successfully.', {
+			position: 'top-right',
+		})
+
+		navigate('/')
 	}
 
 	return (
@@ -62,6 +65,16 @@ export function SignInPage() {
 						</p>
 
 						<form onSubmit={handleSubmit(handleSignIn)} className="space-y-6 mt-4">
+							{apiError && (
+								<Alert className="bg-rose-600/10 border-rose-500/20">
+									<TriangleAlert />
+									<AlertTitle>Sign in failed!</AlertTitle>
+									<AlertDescription>
+										<p>{apiError.response?.data.message ?? 'Internal server error'}</p>
+									</AlertDescription>
+								</Alert>
+							)}
+
 							<div className="space-y-2">
 								<Label htmlFor="email">E-mail</Label>
 								<Input id="email" type="email" {...register('email')} />
@@ -69,7 +82,7 @@ export function SignInPage() {
 							<div className="space-y-2">
 								<div className="flex items-center justify-between">
 									<Label htmlFor="password">Password</Label>
-									<Link to="#">
+									<Link to="/auth/forgot-password">
 										<span className="text-xs text-muted-foreground hover:underline">
 											Forgot your password?
 										</span>
@@ -95,19 +108,20 @@ export function SignInPage() {
 								<div className="grid grid-cols-2 gap-2">
 									<Button
 										onClick={() => {
-											redirect(githubRedirect.href)
+											window.location.href = githubRedirect.href
 										}}
 										variant="secondary"
 										className="cursor-pointer py-5"
 										type="button"
 										disabled={isSubmitting}
 									>
-										<Link to={githubRedirect.href}>
-											<FaGithub className="size-4" />
-										</Link>
+										<FaGithub className="size-4" />
 									</Button>
 
 									<Button
+										onClick={() => {
+											window.location.href = googleRedirect.href
+										}}
 										variant="secondary"
 										className="cursor-pointer py-5"
 										type="button"

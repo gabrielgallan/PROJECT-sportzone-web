@@ -53,8 +53,6 @@ const sidebarGroups = [
 export function CustomerSidebar() {
 	const { pathname } = useLocation()
 
-	console.log(pathname)
-
 	return (
 		<Sidebar>
 			<SidebarHeader className="flex pt-3">

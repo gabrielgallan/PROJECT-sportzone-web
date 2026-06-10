@@ -3,13 +3,13 @@ import { Loader2 } from 'lucide-react'
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
-import { usePostApiSessionsGithub } from '@/api/generated'
+import { usePostApiSessionsGoogle } from '@/api/generated'
 
-export function GithubCallback() {
+export function GoogleCallback() {
 	const navigate = useNavigate()
 	const [searchParams] = useSearchParams()
 
-	const { mutateAsync: authenticateWithGithub } = usePostApiSessionsGithub()
+	const { mutateAsync: authenticateWithGoogle } = usePostApiSessionsGoogle()
 
 	useEffect(() => {
 		const code = searchParams.get('code')
@@ -18,7 +18,7 @@ export function GithubCallback() {
 			throw new Error()
 		}
 
-		authenticateWithGithub({ data: { code } })
+		authenticateWithGoogle({ data: { code } })
 			.then(({ token }) => {
 				Cookies.set('access-token', token)
 
@@ -29,7 +29,7 @@ export function GithubCallback() {
 
 				navigate('/auth/sign-in')
 			})
-	}, [searchParams, authenticateWithGithub, navigate])
+	}, [searchParams, authenticateWithGoogle, navigate])
 
 	return (
 		<div className="flex h-screen items-center justify-center">

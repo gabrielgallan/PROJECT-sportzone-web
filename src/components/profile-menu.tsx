@@ -1,4 +1,7 @@
+import Cookies from 'js-cookie'
 import { ChevronDown, LogOut, Settings, User as UserIcon } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import type { GetApiProfile200 } from '@/api/generated'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
 	DropdownMenu,
@@ -7,9 +10,8 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import type { User } from '@/types/organization'
 
-function getInitials(name: string): string {
+function getInitialsFromName(name: string): string {
 	return name
 		.trim()
 		.split(' ')
@@ -19,19 +21,39 @@ function getInitials(name: string): string {
 		.join('')
 }
 
+export function getInitialsFromEmail(email: string): string {
+	return email
+		.split('@')[0]
+		.replace(/[._-]+/g, ' ')
+		.trim()
+		.split(' ')
+		.filter(Boolean)
+		.map((part) => part.charAt(0).toUpperCase())
+		.slice(0, 2)
+		.join('')
+}
+
 interface ProfileMenuProps {
-	user: User
+	user: GetApiProfile200['user']
 	organizationLayout?: boolean
 }
 
 export function ProfileMenu({ user, organizationLayout = false }: ProfileMenuProps) {
-	const initials = user.name ? getInitials(user.name) : 'U'
+	const navigate = useNavigate()
+
+	const initials = user.name ? getInitialsFromName(user.name) : getInitialsFromEmail(user.email)
+
+	function handleSignOut() {
+		Cookies.remove('access-token')
+
+		navigate('/auth/sign-in')
+	}
 
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger className="flex items-center gap-2 rounded-md outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring">
 				<Avatar className="size-8">
-					{user.avatarUrl && <AvatarImage src={user.avatarUrl} alt={user.name} />}
+					{user.avatarUrl && <AvatarImage src={user.avatarUrl} alt="" />}
 					<AvatarFallback>{initials}</AvatarFallback>
 				</Avatar>
 
@@ -73,11 +95,9 @@ export function ProfileMenu({ user, organizationLayout = false }: ProfileMenuPro
 					</>
 				)}
 
-				<DropdownMenuItem asChild>
-					<a href="/auth/sign-in">
-						<LogOut className="mr-2 size-4" />
-						Sign Out
-					</a>
+				<DropdownMenuItem onClick={handleSignOut}>
+					<LogOut className="mr-2 size-4" />
+					Sign Out
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

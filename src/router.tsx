@@ -15,6 +15,9 @@ import { AuthLayout } from './app/layouts/auth'
 import { CustomerLayout } from './app/layouts/customer'
 import { OrganizationLayout } from './app/layouts/organization'
 import { GithubCallback } from './app/pages/api/auth/github'
+import { GoogleCallback } from './app/pages/api/auth/google'
+import { ForgotPasswordPage } from './app/pages/auth/forgot-password'
+import { ResetPasswordPage } from './app/pages/auth/reset-password'
 import { BookingCheckoutPage } from './app/pages/customer/discover/court/[id]/checkout'
 import { PaymentFailedPage } from './app/pages/customer/my-bookings/[id]/payment/failed'
 import { PaymentSuccessPage } from './app/pages/customer/my-bookings/[id]/payment/success'
@@ -32,6 +35,8 @@ export const router = createBrowserRouter([
 		children: [
 			{ path: 'auth/sign-in', element: <SignInPage /> },
 			{ path: 'auth/sign-up', element: <SignUpPage /> },
+			{ path: 'auth/forgot-password', element: <ForgotPasswordPage /> },
+			{ path: 'auth/reset-password', element: <ResetPasswordPage /> },
 		],
 	},
 	{
@@ -187,6 +192,10 @@ export const router = createBrowserRouter([
 	{
 		path: '/api/auth/github',
 		element: <GithubCallback />,
+	},
+	{
+		path: '/api/auth/google',
+		element: <GoogleCallback />,
 	},
 	{
 		path: '*',

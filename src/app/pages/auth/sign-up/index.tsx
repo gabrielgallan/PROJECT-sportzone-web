@@ -1,13 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
-import { Loader2 } from 'lucide-react'
+import { Loader2, TriangleAlert } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { FaGithub, FaGoogle } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { register as registerUser } from '@/api/register'
+import { usePostApiUsers } from '@/api/generated'
 import { PageTitle } from '@/components/page-title'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Field, FieldSeparator } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
@@ -32,22 +32,16 @@ export function SignUpPage() {
 		resolver: zodResolver(signUpFormSchema),
 	})
 
-	const { mutateAsync: registerUserFn } = useMutation({
-		mutationFn: registerUser,
-	})
+	const { mutateAsync: registerUser, error: apiError } = usePostApiUsers()
 
-	async function handleSignUp(data: SignUpFormType) {
-		try {
-			await registerUserFn({ name: data.name, email: data.email, password: data.password })
+	async function handleSignUp({ name, email, password }: SignUpFormType) {
+		await registerUser({ data: { name, email, password } })
 
-			toast.success('Register successfully', {
-				position: 'top-right',
-			})
+		toast.success('Account created successfully.', {
+			position: 'top-center',
+		})
 
-			navigate(`/auth/sign-in?email=${data.email}`)
-		} catch {
-			toast.error('Failed to register')
-		}
+		navigate(`/auth/sign-in?email=${email}`)
 	}
 
 	return (
@@ -59,6 +53,16 @@ export function SignUpPage() {
 						<h1 className="text-2xl font-semibold tracking-tight">Sign Up</h1>
 
 						<form onSubmit={handleSubmit(handleSignUp)} className="space-y-6 mt-4">
+							{apiError && (
+								<Alert className="bg-rose-600/10 border-rose-500/20">
+									<TriangleAlert />
+									<AlertTitle>Sign up failed!</AlertTitle>
+									<AlertDescription>
+										<p>{apiError.response?.data.message ?? 'Internal server error'}</p>
+									</AlertDescription>
+								</Alert>
+							)}
+
 							<div className="space-y-2">
 								<Label htmlFor="name">Name</Label>
 								<Input id="name" type="text" {...register('name')} />

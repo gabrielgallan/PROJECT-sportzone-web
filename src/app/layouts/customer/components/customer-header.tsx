@@ -1,16 +1,31 @@
 import { Bell, Mail } from 'lucide-react'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useGetApiProfile } from '@/api/generated'
 import { InvitesSheet } from '@/components/invites-sheet'
 import { NotificationsSheet } from '@/components/notification-sheet'
 import { PageBreadcrumb } from '@/components/page-breadcrumb'
 import { ProfileMenu } from '@/components/profile-menu'
 import { Button } from '@/components/ui/button'
 import { SidebarTrigger } from '@/components/ui/sidebar'
-import { user } from '@/mocks/user'
 
 export function CustomerHeader() {
-	const hasNotifications = false
+	const navigate = useNavigate()
 
+	const hasNotifications = false
 	const hasInvites = true
+
+	const { data, error, isLoading } = useGetApiProfile()
+
+	useEffect(() => {
+		if (error) {
+			navigate('/auth/sign-in')
+		}
+	}, [error, navigate])
+
+	if (isLoading || !data) {
+		return null
+	}
 
 	return (
 		<header className="border-b p-4">
@@ -56,7 +71,7 @@ export function CustomerHeader() {
 						</NotificationsSheet>
 					</div>
 
-					<ProfileMenu user={user} />
+					<ProfileMenu user={data.user} />
 				</div>
 			</div>
 		</header>

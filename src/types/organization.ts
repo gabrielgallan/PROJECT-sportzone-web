@@ -1,8 +1,8 @@
 import type { Court } from './court'
 
 interface User {
-	id: string
-	name: string
+	id?: string
+	name: string | null
 	email: string
 	avatarUrl: string
 

@@ -66,6 +66,10 @@ export type GetApiOrganizationsOrganizationslugMembers200 = {
             /**
              * @type string
             */
+            id: string;
+            /**
+             * @type string
+            */
             role: MembershipRoleEnumKey;
             /**
              * @type string, date-time

@@ -1,8 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AtSign, CircleAlert, Loader2 } from 'lucide-react'
+import { AtSign, CircleAlert, Loader2, TriangleAlert } from 'lucide-react'
 import { type ReactNode, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
+import { toast } from 'sonner'
 import z from 'zod'
+import { usePostApiOrganizationsOrganizationslugInvites } from '@/api/generated'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
@@ -30,7 +33,7 @@ interface InviteMemberDialogProps {
 
 const inviteFormSchema = z.object({
 	email: z.email(),
-	role: z.enum(['member', 'billing'], {
+	role: z.enum(['MEMBER', 'BILLING'], {
 		message: 'Invalid role',
 	}),
 })
@@ -40,11 +43,16 @@ type InviteFormType = z.infer<typeof inviteFormSchema>
 export function InviteMemberDialog({ children }: InviteMemberDialogProps) {
 	const [open, setOpen] = useState(false)
 
+	const { slug: organizationSlug } = useParams<{ slug: string }>()
+
+	if (!organizationSlug) {
+		throw new Error('Organization slug is missing')
+	}
+
 	const {
 		control,
 		register,
 		handleSubmit,
-		setError,
 		reset,
 		formState: { isSubmitting, errors },
 	} = useForm<InviteFormType>({
@@ -52,28 +60,22 @@ export function InviteMemberDialog({ children }: InviteMemberDialogProps) {
 		mode: 'onSubmit',
 		defaultValues: {
 			email: '',
-			role: 'member',
+			role: 'MEMBER',
 		},
 	})
 
-	function handleSendInvite(data: InviteFormType) {
-		const returnSuccess = false
+	const {
+		mutateAsync: inviteMember,
+		error: apiError,
+		isSuccess,
+	} = usePostApiOrganizationsOrganizationslugInvites()
 
-		return new Promise((resolve) =>
-			setTimeout(() => {
-				if (returnSuccess) {
-					console.log(data)
-					setOpen(false)
-					reset()
-				} else {
-					setError('root', {
-						message: 'Method not implemented yet!',
-					})
-				}
+	async function handleSendInvite({ email, role }: InviteFormType) {
+		await inviteMember({ organizationSlug, data: { email, role } })
 
-				resolve(null)
-			}, 2000)
-		)
+		if (isSuccess) {
+			toast('User invited successfully!')
+		}
 	}
 
 	useEffect(() => {
@@ -92,6 +94,16 @@ export function InviteMemberDialog({ children }: InviteMemberDialogProps) {
 
 					<DialogDescription>Send an invitation to join this organization</DialogDescription>
 				</DialogHeader>
+
+				{apiError && (
+					<Alert className="bg-rose-600/10 border-rose-500/20">
+						<TriangleAlert />
+						<AlertTitle>Failed to invite member!</AlertTitle>
+						<AlertDescription>
+							<p>{apiError.response?.data.message ?? 'Internal server error'}</p>
+						</AlertDescription>
+					</Alert>
+				)}
 
 				<form onSubmit={handleSubmit(handleSendInvite)}>
 					<div className="space-y-4">
@@ -133,8 +145,8 @@ export function InviteMemberDialog({ children }: InviteMemberDialogProps) {
 										</SelectTrigger>
 
 										<SelectContent>
-											<SelectItem value="member">Member</SelectItem>
-											<SelectItem value="billing">Billing</SelectItem>
+											<SelectItem value="MEMBER">Member</SelectItem>
+											<SelectItem value="BILLING">Billing</SelectItem>
 										</SelectContent>
 									</Select>
 								)}

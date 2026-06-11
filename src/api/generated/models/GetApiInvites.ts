@@ -17,8 +17,8 @@ export type GetApiInvitesQueryParams = {
 
 export const dataRoleEnum = {
     MEMBER: "MEMBER",
-    OWNER: "OWNER",
-    BILLING: "BILLING"
+    BILLING: "BILLING",
+    OWNER: "OWNER"
 } as const;
 
 export type DataRoleEnumKey = (typeof dataRoleEnum)[keyof typeof dataRoleEnum];
@@ -44,9 +44,22 @@ export type GetApiInvites200 = {
         */
         id: string;
         /**
-         * @type string
+         * @type object
         */
-        email: string;
+        organization: {
+            /**
+             * @type string
+            */
+            name: string;
+            /**
+             * @type string
+            */
+            avatarUrl: string | null;
+            /**
+             * @type string
+            */
+            authorName: string | null;
+        };
         /**
          * @type string
         */

@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Field, FieldSeparator } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useAuthProvider } from '@/hooks/use-oauth-provider'
 
 const signUpFormSchema = z.object({
 	name: z.string(),
@@ -24,10 +25,13 @@ type SignUpFormType = z.infer<typeof signUpFormSchema>
 export function SignUpPage() {
 	const navigate = useNavigate()
 
+	const { link: githubRedirect } = useAuthProvider('github')
+	const { link: googleRedirect } = useAuthProvider('google')
+
 	const {
 		register,
 		handleSubmit,
-		formState: { isSubmitting },
+		formState: { isSubmitting, errors: formErrors },
 	} = useForm<SignUpFormType>({
 		resolver: zodResolver(signUpFormSchema),
 	})
@@ -63,19 +67,28 @@ export function SignUpPage() {
 								</Alert>
 							)}
 
-							<div className="space-y-2">
+							<div className="flex flex-col gap-2 items-start">
 								<Label htmlFor="name">Name</Label>
 								<Input id="name" type="text" {...register('name')} />
+								{formErrors.name && (
+									<p className="text-sm text-rose-500 font-medium">{formErrors.name.message}</p>
+								)}
 							</div>
 
-							<div className="space-y-2">
+							<div className="flex flex-col gap-2 items-start">
 								<Label htmlFor="email">E-mail</Label>
-								<Input id="email" type="email" {...register('email')} />
+								<Input id="email" type="text" {...register('email')} />
+								{formErrors.email && (
+									<p className="text-sm text-rose-500 font-medium">{formErrors.email.message}</p>
+								)}
 							</div>
 
-							<div className="space-y-2">
+							<div className="flex flex-col gap-2 items-start">
 								<Label htmlFor="password">Password</Label>
 								<Input id="password" type="password" {...register('password')} />
+								{formErrors.password && (
+									<p className="text-sm text-rose-500 font-medium">{formErrors.password.message}</p>
+								)}
 							</div>
 
 							<Button
@@ -94,6 +107,9 @@ export function SignUpPage() {
 							<div className="space-y-4">
 								<div className="grid grid-cols-2 gap-2">
 									<Button
+										onClick={() => {
+											window.location.href = githubRedirect.href
+										}}
 										variant="secondary"
 										className="cursor-pointer py-5"
 										type="button"
@@ -103,6 +119,9 @@ export function SignUpPage() {
 									</Button>
 
 									<Button
+										onClick={() => {
+											window.location.href = googleRedirect.href
+										}}
 										variant="secondary"
 										className="cursor-pointer py-5"
 										type="button"

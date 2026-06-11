@@ -1,7 +1,6 @@
 import { UserRoundPlus } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 import { PageTitle } from '@/components/page-title'
-import { Pagination } from '@/components/pagination'
 import TextFlip from '@/components/text-flip'
 import { Button } from '@/components/ui/button'
 import { InviteMemberDialog } from './components/invite-member-dialog'
@@ -36,8 +35,6 @@ export function OrganizationMembersPage() {
 					</div>
 
 					<MembersTable />
-
-					<Pagination onPageChange={() => {}} pageIndex={0} perPage={10} totalCount={12} />
 				</div>
 			</main>
 		</>

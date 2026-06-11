@@ -1,6 +1,17 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNowStrict } from 'date-fns'
-import { X } from 'lucide-react'
+import { Check, Loader2, TriangleAlert, X } from 'lucide-react'
 import { type ReactNode, useState } from 'react'
+import { toast } from 'sonner'
+import {
+	type DataRoleEnumKey,
+	type GetApiInvites200,
+	getApiInvitesQueryKey,
+	useGetApiInvites,
+	usePatchApiInvitesInviteidAccept,
+	usePatchApiInvitesInviteidDecline,
+} from '@/api/generated'
+import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 import { Button } from './ui/button'
 import { Card, CardContent, CardHeader } from './ui/card'
 import {
@@ -12,69 +23,54 @@ import {
 	SheetTrigger,
 } from './ui/sheet'
 
-interface InvitesSheetProps {
-	children: ReactNode
-}
+type Invite = GetApiInvites200['data'][0]
 
-interface Invite {
-	id: string
-	role: 'member' | 'billing'
-	status: 'pending' | 'declined'
-	organization: {
-		id: string
-		name: string
-		logoUrl: string
-	}
-	invitedBy: {
-		name: string
-	}
-
-	createdAt: Date
-}
-
-export const invitesMock: Invite[] = [
-	{
-		id: 'inv-1',
-		role: 'member',
-		status: 'pending',
-		organization: {
-			id: 'org-1',
-			name: 'Rocketseat',
-			logoUrl: 'https://github.com/rocketseat.png',
-		},
-		invitedBy: {
-			name: 'Gabriel Gallan',
-		},
-		createdAt: new Date(2026, 4, 5),
-	},
-	{
-		id: 'inv-2',
-		role: 'billing',
-		status: 'declined',
-		organization: {
-			id: 'org-2',
-			name: 'ISS Brasil',
-			logoUrl: 'https://github.com/iss-brazil.png',
-		},
-		invitedBy: {
-			name: 'Lucas Mendes',
-		},
-		createdAt: new Date(),
-	},
-]
-
-const inviteRoleMap = {
-	member: 'Member',
-	billing: 'Billing',
+const inviteRoleMap: Record<DataRoleEnumKey, string> = {
+	MEMBER: 'Member',
+	BILLING: 'Billing',
+	OWNER: 'Owner',
 }
 
 const InviteCard = ({ invite }: { invite: Invite }) => {
+	const queryClient = useQueryClient()
+
+	const { mutateAsync: acceptInvite, isPending: isAccepting } = usePatchApiInvitesInviteidAccept()
+	const { mutateAsync: declineInvite, isPending: isDeclining } = usePatchApiInvitesInviteidDecline()
+
+	async function handleAcceptInvite() {
+		try {
+			await acceptInvite({ inviteId: invite.id })
+
+			toast.success('Invite accepted')
+
+			await queryClient.invalidateQueries({
+				queryKey: getApiInvitesQueryKey(),
+			})
+		} catch {
+			toast.error('Failed to accept invite')
+		}
+	}
+
+	async function handleDeclineInvite() {
+		try {
+			await declineInvite({ inviteId: invite.id })
+
+			toast.success('Invite declined')
+
+			await queryClient.invalidateQueries({
+				queryKey: getApiInvitesQueryKey(),
+			})
+		} catch {
+			toast.error('Failed to decline invite')
+		}
+	}
+
 	return (
 		<Card>
 			<CardHeader className="flex flex-row items-start justify-between gap-4">
 				<div className="flex items-center gap-3">
 					<img
-						src={invite.organization.logoUrl}
+						src={invite.organization.avatarUrl ?? undefined}
 						className="size-9 rounded-full object-cover"
 						alt={invite.organization.name}
 					/>
@@ -82,7 +78,9 @@ const InviteCard = ({ invite }: { invite: Invite }) => {
 					<div>
 						<p className="text-sm font-semibold">{invite.organization.name}</p>
 
-						<p className="text-xs text-muted-foreground">Invited by {invite.invitedBy.name}</p>
+						<p className="text-xs text-muted-foreground">
+							Invited by {invite.organization.authorName}
+						</p>
 					</div>
 				</div>
 
@@ -99,19 +97,41 @@ const InviteCard = ({ invite }: { invite: Invite }) => {
 					</p>
 				</div>
 
-				{invite.status === 'declined' ? (
+				{invite.status === 'DECLINED' && (
 					<span className="flex items-center justify-center w-full gap-2 py-2 border border-muted bg-muted/20 text-xs text-muted-foreground">
 						<X className="size-4" />
 						Invite declined
 					</span>
-				) : (
+				)}
+
+				{invite.status === 'ACCEPTED' && (
+					<span className="flex items-center justify-center w-full gap-2 py-2 border border-muted bg-muted/20 text-xs text-muted-foreground">
+						<Check className="size-4" />
+						Invite accepted
+					</span>
+				)}
+
+				{invite.status === 'PENDING' && (
 					<div className="flex gap-2">
-						<Button size="sm" className="flex-1">
-							Accept
+						<Button
+							onClick={handleAcceptInvite}
+							type="button"
+							size="sm"
+							className="flex-1"
+							disabled={isAccepting || isDeclining}
+						>
+							{isAccepting ? <Loader2 className="size-4 animate-spin" /> : 'Accept'}
 						</Button>
 
-						<Button size="sm" variant="outline" className="flex-1">
-							Decline
+						<Button
+							onClick={handleDeclineInvite}
+							type="button"
+							size="sm"
+							variant="outline"
+							className="flex-1"
+							disabled={isAccepting || isDeclining}
+						>
+							{isDeclining ? <Loader2 className="size-4 animate-spin" /> : 'Decline'}
 						</Button>
 					</div>
 				)}
@@ -120,27 +140,52 @@ const InviteCard = ({ invite }: { invite: Invite }) => {
 	)
 }
 
+interface InvitesSheetProps {
+	children: ReactNode
+}
+
 function InvitesSheet({ children }: InvitesSheetProps) {
 	const [isSheetOpen, setIsSheetOpen] = useState(false)
+
+	let pendingInvites: number | null = null
+
+	const { data: list, error } = useGetApiInvites()
+
+	if (list) {
+		pendingInvites = list.data.filter((invite) => invite.status === 'PENDING').length
+	}
 
 	return (
 		<Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
 			<SheetTrigger asChild>{children}</SheetTrigger>
 
-			<SheetContent side="right" className="overflow-auto">
-				<SheetHeader>
-					<SheetTitle>Invites</SheetTitle>
-					<SheetDescription>
-						You have <span className="text-primary font-medium">{1}</span> pending invite(s)
-					</SheetDescription>
-				</SheetHeader>
+			{error && (
+				<Alert className="bg-rose-600/10 border-rose-500/20">
+					<TriangleAlert />
+					<AlertTitle>Sign up failed!</AlertTitle>
+					<AlertDescription>
+						<p>{error.response?.data.message ?? 'Internal server error'}</p>
+					</AlertDescription>
+				</Alert>
+			)}
 
-				<div className="space-y-4 px-4">
-					{invitesMock.map((invite) => (
-						<InviteCard key={invite.id} invite={invite} />
-					))}
-				</div>
-			</SheetContent>
+			{list && (
+				<SheetContent side="right" className="overflow-auto">
+					<SheetHeader>
+						<SheetTitle>Invites</SheetTitle>
+						<SheetDescription>
+							You have <span className="text-primary font-medium">{pendingInvites}</span> pending
+							invite(s)
+						</SheetDescription>
+					</SheetHeader>
+
+					<div className="space-y-4 px-4">
+						{list.data.map((invite) => (
+							<InviteCard key={invite.id} invite={invite} />
+						))}
+					</div>
+				</SheetContent>
+			)}
 		</Sheet>
 	)
 }

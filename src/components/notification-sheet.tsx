@@ -1,148 +1,150 @@
-import { formatDistanceToNowStrict } from "date-fns";
-import { CheckCheck, Loader2, TriangleAlert } from "lucide-react";
-import { type ReactNode, useState } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
-import { Card, CardContent } from "./ui/card";
+import { useQueryClient } from '@tanstack/react-query'
+import { formatDistanceToNowStrict } from 'date-fns'
+import { CheckCheck, Loader2, TriangleAlert } from 'lucide-react'
+import { type ReactNode, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { toast } from 'sonner'
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "./ui/sheet";
+	type GetApiNotifications200,
+	getApiNotificationsQueryKey,
+	useGetApiNotifications,
+	usePostApiNotificationsReadAll,
+} from '@/api/generated'
+import { Alert, AlertDescription, AlertTitle } from './ui/alert'
+import { Button } from './ui/button'
+import { Card, CardContent } from './ui/card'
 import {
-  postApiNotificationsReadAll,
-  useGetApiNotifications,
-  type GetApiNotifications200,
-} from "@/api/generated";
-import { toast } from "sonner";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+	Sheet,
+	SheetContent,
+	SheetDescription,
+	SheetFooter,
+	SheetHeader,
+	SheetTitle,
+	SheetTrigger,
+} from './ui/sheet'
 
 interface NotificationsSheetProps {
-  children: ReactNode;
+	children: ReactNode
 }
 
 interface NotificationCardProps {
-  notification: GetApiNotifications200["data"][0];
+	notification: GetApiNotifications200['data'][0]
 }
 
 function NotificationCard({ notification }: NotificationCardProps) {
-  return (
-    <Card className=" hover:bg-muted/5 cursor-pointer">
-      <CardContent>
-        <div className="flex flex-col gap-1">
-          <div className="flex justify-between">
-            <div className="flex items-center gap-2">
-              {notification.readAt === null && (
-                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-              )}
-              <span className="text-sm font-medium">{notification.title}</span>
-            </div>
+	return (
+		<Card className=" hover:bg-muted/5 cursor-pointer">
+			<CardContent>
+				<div className="flex flex-col gap-1">
+					<div className="flex justify-between">
+						<div className="flex items-center gap-2">
+							{notification.readAt === null && (
+								<span className="h-1.5 w-1.5 rounded-full bg-primary" />
+							)}
+							<span className="text-sm font-medium">{notification.title}</span>
+						</div>
 
-            <div>
-              <span className="text-xs text-muted-foreground/45">
-                {formatDistanceToNowStrict(notification.createdAt, {
-                  addSuffix: true,
-                })}
-              </span>
-            </div>
-          </div>
+						<div>
+							<span className="text-xs text-muted-foreground/45">
+								{formatDistanceToNowStrict(notification.createdAt, {
+									addSuffix: true,
+								})}
+							</span>
+						</div>
+					</div>
 
-          <span className="text-xs text-muted-foreground mt-2">
-            {notification.content}
-          </span>
-        </div>
-      </CardContent>
-    </Card>
-  );
+					<span className="text-xs text-muted-foreground mt-2">{notification.content}</span>
+				</div>
+			</CardContent>
+		</Card>
+	)
 }
 
 function NotificationsSheet({ children }: NotificationsSheetProps) {
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
+	const [isSheetOpen, setIsSheetOpen] = useState(false)
+	const queryClient = useQueryClient()
 
-  const { data, error: apiError, isLoading } = useGetApiNotifications();
+	let unreadNotifications: number | null = null
 
-  const notifications = data?.data ?? [];
+	const { data: notificationsList, error: apiError } = useGetApiNotifications()
 
-  const unreadNotifications = notifications.filter(
-    (n) => n.readAt === null,
-  ).length;
+	const { mutateAsync: readAllNotifications, isPending } = usePostApiNotificationsReadAll()
 
-  async function handleMarkAllAsRead() {
-    const { error } = await postApiNotificationsReadAll();
+	if (notificationsList) {
+		unreadNotifications = notificationsList.data.filter((n) => n.readAt === null).length
+	}
 
-    if (error) {
-      toast.error("Failed to mark all notifications as read. Try again later.");
-    }
-  }
+	async function handleMarkAllAsRead() {
+		try {
+			await readAllNotifications()
 
-  return (
-    <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-      <SheetTrigger asChild>{children}</SheetTrigger>
+			await queryClient.invalidateQueries({
+				queryKey: getApiNotificationsQueryKey(),
+			})
+		} catch {
+			toast.error('Failed to mark all as read! Try again later.')
+		}
+	}
 
-      <SheetContent side="right" className="overflow-auto">
-        <SheetHeader>
-          <SheetTitle>Notifications</SheetTitle>
-          <SheetDescription>
-            You have{" "}
-            <span className="text-primary font-medium">
-              {unreadNotifications}
-            </span>{" "}
-            unread notification(s)
-          </SheetDescription>
-        </SheetHeader>
+	return (
+		<Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+			<SheetTrigger asChild>{children}</SheetTrigger>
 
-        {apiError && (
-          <Alert className="bg-rose-600/10 border-rose-500/20">
-            <TriangleAlert />
-            <AlertTitle>Request failed!</AlertTitle>
-            <AlertDescription>
-              <p>
-                {apiError.response?.data.message ?? "Internal server error"}
-              </p>
-            </AlertDescription>
-          </Alert>
-        )}
+			<SheetContent side="right" className="overflow-auto">
+				<SheetHeader>
+					<SheetTitle>Notifications</SheetTitle>
+					<SheetDescription>
+						You have <span className="text-primary font-medium">{unreadNotifications}</span> unread
+						notification(s)
+					</SheetDescription>
+				</SheetHeader>
 
-        {isLoading ? (
-          <Loader2 className="size-4 text-muted-foreground animate-spin" />
-        ) : (
-          <div className="flex flex-col px-4 gap-4">
-            <div className="ml-auto">
-              <Button
-                onClick={handleMarkAllAsRead}
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground hover:text-primary"
-              >
-                <CheckCheck className="size-4" />
+				{apiError && (
+					<Alert className="bg-rose-600/10 border-rose-500/20">
+						<TriangleAlert />
+						<AlertTitle>Request failed!</AlertTitle>
+						<AlertDescription>
+							<p>{apiError.response?.data.message ?? 'Internal server error'}</p>
+						</AlertDescription>
+					</Alert>
+				)}
 
-                <span>Mark all as read</span>
-              </Button>
-            </div>
+				{notificationsList && (
+					<div className="flex flex-col px-4 gap-4">
+						<div className="ml-auto">
+							<Button
+								disabled={isPending}
+								onClick={handleMarkAllAsRead}
+								variant="ghost"
+								size="sm"
+								className="text-muted-foreground hover:text-primary"
+							>
+								{isPending ? (
+									<Loader2 className="size-4 animate-spin mx-auto" />
+								) : (
+									<>
+										<CheckCheck className="size-4" /> Mark all as read
+									</>
+								)}
+							</Button>
+						</div>
 
-            {notifications.map((notification) => (
-              <NotificationCard
-                key={notification.id}
-                notification={notification}
-              />
-            ))}
-          </div>
-        )}
+						{notificationsList.data.map((notification) => (
+							<NotificationCard key={notification.id} notification={notification} />
+						))}
+					</div>
+				)}
 
-        <SheetFooter>
-          <Link to="#">
-            <span className="text-xs text-primary font-medium hover:text-primary/85">
-              View all notifications
-            </span>
-          </Link>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
-  );
+				<SheetFooter>
+					<Link to="#">
+						<span className="text-xs text-primary font-medium hover:text-primary/85">
+							View all notifications
+						</span>
+					</Link>
+				</SheetFooter>
+			</SheetContent>
+		</Sheet>
+	)
 }
 
-export { NotificationsSheet };
+export { NotificationsSheet }
